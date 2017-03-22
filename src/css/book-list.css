@@ -1,0 +1,18 @@
+.book-list {
+  width: 1000px;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #ddd
+}
+
+.book-img img {
+  width: 250px;
+}
+
+.book-img {
+  width: 250px;
+}
+
+.book-infor {
+  width: 700px;
+}

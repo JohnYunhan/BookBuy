@@ -1,0 +1,195 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+/*登录框*/
+
+#loginbox {
+  display: none;
+  padding: 0 20px 20px;
+}
+
+#loginbox .login-item {
+  margin-top: 20px;
+}
+
+#loginbox .error-infor {
+  color: red;
+  height: 20px;
+  line-height: 20px;
+  margin: 5px 0;
+}
+
+#loginbox .login-title {
+  height: 30px;
+  line-height: 30px;
+  font-size: 18px;
+  border-bottom: solid 1px #CAD2E1;
+  margin-bottom: 17px;
+  text-align: left;
+}
+
+#loginbox .login-btn {
+  background-color: #f86d0d;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 20px;
+  height: 40px;
+  width: 100%;
+  outline: none;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+#loginbox .login-btn:hover {
+  opacity: .8;
+}
+
+#loginbox .other-item {
+  margin-top: 10px;
+}
+
+
+/*顶部*/
+
+header {
+  height: 34px;
+  line-height: 34px;
+  background-color: #f9f9f9;
+}
+
+.header,
+.wrap {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+.head_right {
+  color: #000!important;
+}
+
+.head_right a {
+  display: inline-block;
+  height: 34px;
+  line-height: 34px;
+}
+
+
+/*搜索、导航*/
+
+.wraps {
+  width: 100%;
+  border-bottom: 3px solid #f86d0d;
+}
+
+.wrap .seach-bar {
+  height: 80px;
+  line-height: 80px;
+}
+
+.wrap .seach-bar .seach {
+  width: 250px;
+  display: inline-block;
+}
+
+.wrap nav {
+  height: 30px;
+  line-height: 30px;
+  width: 1000px;
+  margin-top: 10px;
+}
+
+.wrap nav ul {
+  padding-left: 0;
+}
+
+.wrap nav li {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.wrap nav li:hover {
+  color: #f86d0d;
+}
+
+.wrap nav li.selected {
+  background-color: #f86d0d;
+}
+
+.wrap nav li.selected:hover {
+  color: #fff;
+  opacity: .8;
+}
+
+.wrap .seach-bar .search-box {
+  margin-top: 20px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.wrap .seach-bar .hot-search {
+  color: #969696;
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+  text-align: left;
+}
+
+.wrap .seach-bar .hot-search span {
+  margin-left: 15px;
+}
+
+.wrap .seach-bar .hot-search span:hover {
+  color: #f86d0d;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+/*购物车*/
+
+.cart-order a {
+  display: inline-block;
+  height: 36px;
+  line-height: 32px;
+  text-decoration: none;
+  padding: 0 10px;
+}
+
+.cart-order a.cart {
+  background-color: #f86d0d;
+  color: #fff;
+  border: 2px solid #f86d0d;
+}
+
+.cart-order a.myorder {
+  color: #555;
+  background-color: #f6f6f6;
+  border: 2px solid #dcdcdc;
+  border-left: 0;
+}
+
+.cart-order a.cart:hover {
+  background-color: #f6f6f6;
+  color: #f86d0d;
+  border: 2px solid #dcdcdc;
+}
+
+.cart-order a.myorder:hover {
+  color: #f86d0d;
+}
+
+footer {
+  width: 1000px;
+  height: 40px;
+  margin: 10px auto 0;
+}

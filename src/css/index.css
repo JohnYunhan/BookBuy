@@ -1,0 +1,110 @@
+/*轮播图*/
+
+.carousel {
+  width: 1000px;
+  height: 300px;
+  margin: 5px auto 10px;
+  overflow: hidden;
+}
+
+.book-list {
+  width: 1000px;
+  margin: 0 auto 10px;
+}
+
+.new-book,
+.hot-book {
+  width: 200px;
+  border: 1px solid #8E8E8E;
+}
+
+.new-book p,
+.hot-book p {
+  margin: 5px 5px 5px 20px;
+}
+
+.new-book span:first-child,
+.hot-book span:first-child {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f86d0d;
+}
+
+.new-book ul,
+.hot-book ul {
+  list-style: none;
+  border-top: 2px solid #8E8E8E;
+}
+
+.new-book li {
+  background: url(../img/list.jpg) no-repeat;
+  padding-left: 10px;
+  line-height: 17px;
+  border-bottom: 1px dotted #CCC;
+  margin: 5px 0px 5px 10px;
+}
+
+.hot-book li {
+  margin: 2px 0 5px 5px;
+}
+
+.hot-book li i {
+  display: inline-block;
+  margin-right: 4px;
+  font-size: 16px;
+}
+
+.more:hover,
+.hot-book li:hover,
+.new-book li:hover {
+  color: #f86d0d;
+  cursor: pointer;
+}
+
+.hot-book li:hover {
+  color: #f86d0d;
+  cursor: pointer;
+  border-color: #f86d0d;
+}
+
+.recommend-book {
+  margin-left: 8px;
+  width: 600px;
+}
+
+.recommend-book ul {
+  padding: 0 10px;
+}
+
+.recommend-book li {
+  width: 190px;
+  float: left;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.recommend-book li:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 8px #555;
+}
+
+.recommend-book img {
+  width: 160px;
+}
+
+.recommend-book p {
+  margin-top: 10px;
+}
+
+.recommend-book p span:first-child {
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 10px;
+  display: inline-block;
+  color: #f86d0d;
+}
+
+.recommend-book p span:last-child {
+  margin-right: 20px;
+  display: inline-block;
+}
