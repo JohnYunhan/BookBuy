@@ -1,18 +1,61 @@
 .book-list {
   width: 1000px;
-  margin: 10px auto;
+  margin: 15px auto;
   padding: 20px;
-  background-color: #ddd
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  transition: all 1s ease 0s;
+}
+
+.book-list:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .book-img img {
-  width: 250px;
-}
-
-.book-img {
-  width: 250px;
+  width: 200px;
 }
 
 .book-infor {
   width: 700px;
+}
+
+.book-infor .mgb {
+  margin-bottom: 10px;
+}
+
+.book-infor a {
+  color: rgb(26, 102, 179);
+}
+
+.book-infor .self-sold,
+.book-infor a:hover {
+  color: #f86d0d;
+}
+
+.book-infor .price b {
+  color: #f86d0d;
+  font-size: 18px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.book-infor .price del,
+.book-infor .price span {
+  color: #969696;
+  font-size: 12px;
+}
+
+.book-infor .cart-btn {
+  background-color: #f86d0d;
+  color: #fff;
+}
+
+.book-infor .buy-btn {
+  background-color: #ffedee;
+  color: #f86d0d;
+  border: 1px solid #f86d0d;
+}
+
+.book-infor .btn:hover {
+  opacity: .8;
 }

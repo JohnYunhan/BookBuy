@@ -61,19 +61,20 @@
         </nav>
       </div>
     </div>
+    <!-- 图书列表 -->
     <div class="book-list" v-for="item in bookItem" flex="dir:left">
       <div class="book-img"><img :src="item.Image[0]" :alt="item.Name"></div>
       <div class="book-infor" flex="dir:top">
-        <div class="title"><a href="javascript:;">{{item.Name}}</a></div>
-        <div class="price"><b>￥{{item.SellPrice}}</b>
-          <del>￥{{item.ListPrice}}</del>
+        <div class="title mgb"><a href="javascript:;">{{item.Name}}</a></div>
+        <div class="price mgb"><b>￥{{item.SellPrice}} </b><span> 定价:</span>
+          <del>￥{{item.ListPrice}}</del><span>({{(parseFloat(item.SellPrice)*10/parseFloat(item.ListPrice)).toFixed(2)}}折)</span>
         </div>
-        <div class="app"><span class="author">{{item.Author}}著</span>/<span class="date">{{item.PublishDate}}</span>/<span class="press">{{item.Press}}</span></div>
-        <div class="self-sold">BookBuy自营</div>
-        <div class="abstract">{{item.Abstract}}</div>
+        <div class="app mgb"><a href="javascript:;">{{item.Author}}</a> 著 <span class="date">/{{item.PublishDate.slice(0,10)}}/</span> <a href="javascript:;">{{item.Press}}</a></div>
+        <div class="self-sold mgb">BookBuy自营</div>
+        <div class="abstract mgb">{{item.Abstract.slice(0,100)}}</div>
         <div class="book-btn">
-          <button type="button" class="btn">加入购物车</button>
-          <button type="button" class="btn">立即购买</button>
+          <button type="button" class="cart-btn btn">加入购物车</button>
+          <button type="button" class="buy-btn btn">立即购买</button>
         </div>
       </div>
     </div>

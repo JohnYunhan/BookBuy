@@ -79,6 +79,7 @@ router.get('/getCategory', function(req, res, next) {
 });
 //获取图书列表
 router.post('/getBookList', function(req, res, next) {
+  // console.log(req.UserInfo.Id)
   let json = new Books({
     Name: req.body.Name,
     Author: req.body.Author,
