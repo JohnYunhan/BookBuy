@@ -61,7 +61,61 @@
         </nav>
       </div>
     </div>
-    <div class="book-detail"></div>
+    <div class="main">
+      <div class="book-infor">
+        <div class="bread-crumbs"><a href="javascript:;" @click="toIndex">首页</a> &gt; <a href="javascript:;" @click="toCategory">{{bookItem.Category}}</a> &gt; <a href="javascript:;">{{bookItem.Name}}</a></div>
+        <div class="infor">
+          <div class="book_img">
+            <div class="tb-booth tb-pic tb-s310">
+              <a href="img/JavaScript-Dom-L.jpg">
+                <img src="img/JavaScript-Dom-M.jpg" alt="" rel="img/JavaScript-Dom-L.jpg" class="jqzoom" id="img_mid" /></a>
+            </div>
+            <ul class="tb-thumb" id="thumblist">
+              <li class="tb-selected">
+                <img src="img/JavaScript-Dom-S.jpg" mid="img/JavaScript-Dom-M.jpg" big="img/JavaScript-Dom-L.jpg" /></li>
+              <li>
+                <img src="img/JavaScript-Dom-S.jpg" mid="img/JavaScript-Dom-M.jpg" big="img/JavaScript-Dom-L.jpg" /></li>
+            </ul>
+          </div>
+          <div class="infor-item">
+            <h3>{{bookItem.Name}}</h3>
+            <div class="author">
+              <span>作者：{{bookItem.Author}}</span>
+              <span>出版社：{{bookItem.Press}}</span>
+              <span>出版日期：{{bookItem.PublishDate}}</span>
+              <span>ISBN：{{bookItem.PublishDate}}</span>
+            </div>
+            <div class="price">
+              <div class="list-price">定价
+                <del>￥{{bookItem.ListPrice}}</del>
+              </div>
+              <div class="sell-price">售价
+                <del>￥{{bookItem.SellPrice}}</del>
+              </div>
+            </div>
+            <div class="sent">
+              配送至
+              <select>
+                <option v-for="arae in areaItem" :key="arae">{{arae}}</option>
+              </select>
+              <b>有货</b>满59元免运费<b>货到付款</b>
+            </div>
+            <div class="sell">
+              销售配送<span>由<b>BookBuy图书网</b>直接销售和发货</span>
+            </div>
+            <div class="promise">
+              退换承诺<span>此图书支持<b>七天免费退换</b></span>
+            </div>
+            <div class="buy-num">
+              选购数量
+              <input class="number" type="text" value="1" />
+              <span class="add_minus"><a class="add">+</a><a class="minus">-</a></span>库存数量
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="book-detail"></div>
+    </div>
     <!-- 登录 -->
     <div id="loginbox">
       <div class="login-item login-title">欢迎登录BookBuy图书网</div>
@@ -85,6 +139,7 @@
     </footer>
   </div>
   <script src="/lib/jquery-1.10.2.min.js"></script>
+  <script src="/lib/js/jquery.imagezoom.min.js"></script>
   <script src="/lib/js/bootstrap.min.js"></script>
   <script src="lib/layer/layer.js"></script>
   <script src="//cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
