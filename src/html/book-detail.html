@@ -63,8 +63,8 @@
     </div>
     <div class="main">
       <div class="book-infor">
-        <div class="bread-crumbs"><a href="javascript:;" @click="toIndex">首页</a> &gt; <a href="javascript:;" @click="toCategory">{{bookItem.Category}}</a> &gt; <a href="javascript:;">{{bookItem.Name}}</a></div>
-        <div class="infor">
+        <div class="bread-crumbs"><a href="javascript:;" @click="toIndex">首页</a> &gt; <a href="javascript:;" @click="toCategory">{{bookItem.Category}}</a> &gt; {{bookItem.Name}}</div>
+        <div class="infor" flex="dir:left">
           <div class="book_img">
             <div class="tb-booth tb-pic tb-s310">
               <a href="img/JavaScript-Dom-L.jpg">
@@ -72,8 +72,6 @@
             </div>
             <ul class="tb-thumb" id="thumblist">
               <li class="tb-selected">
-                <img src="img/JavaScript-Dom-S.jpg" mid="img/JavaScript-Dom-M.jpg" big="img/JavaScript-Dom-L.jpg" /></li>
-              <li>
                 <img src="img/JavaScript-Dom-S.jpg" mid="img/JavaScript-Dom-M.jpg" big="img/JavaScript-Dom-L.jpg" /></li>
             </ul>
           </div>
@@ -83,7 +81,7 @@
               <span>作者：{{bookItem.Author}}</span>
               <span>出版社：{{bookItem.Press}}</span>
               <span>出版日期：{{bookItem.PublishDate}}</span>
-              <span>ISBN：{{bookItem.PublishDate}}</span>
+              <span>ISBN：{{bookItem.ISBN}}</span>
             </div>
             <div class="price">
               <div class="list-price">定价

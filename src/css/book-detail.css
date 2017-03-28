@@ -1,3 +1,12 @@
+.main {
+  width: 1000px;
+  margin: 10px auto 20px;
+}
+
+.bread-crumbs {
+  margin-bottom: 10px;
+}
+
 .tb-pic a {
   display: table-cell;
   text-align: center;
@@ -6,32 +15,28 @@
 
 .tb-pic a img {
   vertical-align: middle;
+  width: 250px;
 }
 
 .tb-pic a {
-  *display: block;
-  *font-family: Arial;
-  *line-height: 1;
+  display: block;
 }
 
 .tb-thumb {
   margin: 10px 0 10px 0;
-  overflow: hidden;
+  list-style: none;
 }
 
 .tb-thumb li {
   background: none repeat scroll 0 0 transparent;
   float: left;
-  height: 50px;
-  width: 50px;
   margin: 0 10px 0 0;
-  overflow: hidden;
-  padding: 1px;
+  border: 1px solid #fff;
 }
 
 .tb-s310 {
-  height: 330px;
-  width: 290px;
+  height: 250px;
+  width: 250px;
   text-align: center;
 }
 
@@ -41,16 +46,14 @@
 }
 
 .tb-thumb li:hover {
-  border: 1px solid orange;
-  text-align: center;
-  padding-top: 5px;
+  border: 1px solid #f86d0d;
 }
 
 .zoomDiv {
   z-index: 999;
   position: absolute;
   top: 0px;
-  left: 0px;
+  left: -10px;
   width: 250px;
   height: 250px;
   background: #ffffff;
