@@ -64,8 +64,8 @@
     <div class="main">
       <div class="book-infor">
         <div class="bread-crumbs"><a href="javascript:;" @click="toIndex">首页</a> &gt; <a href="javascript:;" @click="toCategory">{{bookItem.Category}}</a> &gt; {{bookItem.Name}}</div>
-        <div class="infor" flex="dir:left">
-          <div class="book_img">
+        <div class="infor" class="box" flex="dir:left">
+          <div flex-box="0" class="book_img">
             <div class="tb-booth tb-pic tb-s310">
               <a href="img/JavaScript-Dom-L.jpg">
                 <img src="img/JavaScript-Dom-M.jpg" alt="" rel="img/JavaScript-Dom-L.jpg" class="jqzoom" id="img_mid" /></a>
@@ -75,22 +75,22 @@
                 <img src="img/JavaScript-Dom-S.jpg" mid="img/JavaScript-Dom-M.jpg" big="img/JavaScript-Dom-L.jpg" /></li>
             </ul>
           </div>
-          <div class="infor-item">
+          <div flex-box="1" class="infor-item">
             <h3 class="margin-b">{{bookItem.Name}}</h3>
             <div class="author margin-b">
-              <span>作者:{{bookItem.Author}}</span>
-              <span>出版社:{{bookItem.Press}}</span>
+              <span>作者: {{bookItem.Author}}</span>
+              <span>出版社: {{bookItem.Press}}</span>
             </div>
             <div class="publish margin-b">
-              <span>出版日期:{{bookItem.PublishDate}}</span>
-              <span>ISBN:{{bookItem.ISBN}}</span>
+              <span>出版日期: {{bookItem.PublishDate}}</span>
+              <span>ISBN: {{bookItem.ISBN}}</span>
             </div>
-            <div class="price margin-b" flex="main:left">
-              <div class="sell-price">售价
-                <del>￥{{bookItem.SellPrice}}</del>
-              </div>
+            <div class="price margin-b" flex="dir:top">
               <div class="list-price">定价
                 <del>￥{{bookItem.ListPrice}}</del>
+              </div>
+              <div class="sell-price">促销价
+                <b>￥{{bookItem.SellPrice}}</b>
               </div>
             </div>
             <div class="sent margin-b">
