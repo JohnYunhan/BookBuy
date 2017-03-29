@@ -76,35 +76,37 @@
             </ul>
           </div>
           <div class="infor-item">
-            <h3>{{bookItem.Name}}</h3>
-            <div class="author">
-              <span>作者：{{bookItem.Author}}</span>
-              <span>出版社：{{bookItem.Press}}</span>
-              <span>出版日期：{{bookItem.PublishDate}}</span>
-              <span>ISBN：{{bookItem.ISBN}}</span>
+            <h3 class="margin-b">{{bookItem.Name}}</h3>
+            <div class="author margin-b">
+              <span>作者:{{bookItem.Author}}</span>
+              <span>出版社:{{bookItem.Press}}</span>
             </div>
-            <div class="price">
-              <div class="list-price">定价
-                <del>￥{{bookItem.ListPrice}}</del>
-              </div>
+            <div class="publish margin-b">
+              <span>出版日期:{{bookItem.PublishDate}}</span>
+              <span>ISBN:{{bookItem.ISBN}}</span>
+            </div>
+            <div class="price margin-b" flex="main:left">
               <div class="sell-price">售价
                 <del>￥{{bookItem.SellPrice}}</del>
               </div>
+              <div class="list-price">定价
+                <del>￥{{bookItem.ListPrice}}</del>
+              </div>
             </div>
-            <div class="sent">
+            <div class="sent margin-b">
               配送至
               <select>
                 <option v-for="arae in areaItem" :key="arae">{{arae}}</option>
               </select>
               <b>有货</b>满59元免运费<b>货到付款</b>
             </div>
-            <div class="sell">
+            <div class="sell margin-b">
               销售配送<span>由<b>BookBuy图书网</b>直接销售和发货</span>
             </div>
-            <div class="promise">
+            <div class="promise margin-b">
               退换承诺<span>此图书支持<b>七天免费退换</b></span>
             </div>
-            <div class="buy-num">
+            <div class="buy-num margin-b">
               选购数量
               <input class="number" type="text" value="1" />
               <span class="add_minus"><a class="add">+</a><a class="minus">-</a></span>库存数量

@@ -69,3 +69,27 @@
   cursor: move;
   z-index: 1;
 }
+
+.margin-b {
+  margin-bottom: 15px;
+}
+
+.author span,
+.publish span {
+  margin-right: 20px;
+}
+
+.price {
+  height: 60px;
+  line-height: 60px;
+  background-color: #ebebeb;
+}
+
+.price .list-price {
+  color: #969696;
+}
+
+.price .sell-price del {
+  color: #f86d0d;
+  font-size: 26px;
+}

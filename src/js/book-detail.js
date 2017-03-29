@@ -11,7 +11,7 @@ new Vue({
     isValid: true,
     carNum: 0, //用户购物车中图书的数量
     categoryItem: [],
-    bookId: "book2ds5a53sizg6jaux",
+    bookId: "book1sh5kqf7gaizjld9he",
     bookItem: [],
     areaItem: ["1栋", "2栋", "3栋", "4栋", "5栋", "6栋", "7栋", "8栋", "9栋", "10栋", "11栋", "12栋", "13栋", "14栋", "15栋", "16栋"],
   },
