@@ -40,7 +40,7 @@
           <div class="logo"><img src="img/logo.png" alt="BookBuy图书网"></div>
           <div style="width: 385px;" flex="dir:top cross:center" class="input-group">
             <div class="search-box" flex="cross:center">
-              <input style="display: inline;width: 340px;" type="text" class="form-control search" placeholder="图书名称">
+              <input style="display: inline;width: 340px;" v-model.trim="searchKey" type="text" class="form-control search" placeholder="图书名称">
               <span style="width: 45px" class="input-group-btn">
         <button class="btn btn-default btn-search" type="button"><span style="font-size: 16px;" class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </span>
@@ -63,7 +63,7 @@
     </div>
     <div class="main">
       <div class="book-infor">
-        <div class="bread-crumbs"><a href="javascript:;" @click="toIndex">首页</a> &gt; <a href="javascript:;" @click="toCategory">{{bookItem.Category}}</a> &gt; {{bookItem.Name}}</div>
+        <div class="bread-crumbs"><a href="javascript:;" @click="toHome">首页</a> &gt; <a href="javascript:;" @click="toCategory">{{bookItem.Category}}</a> &gt; {{bookItem.Name}}</div>
         <div class="infor" class="box" flex="dir:left">
           <div flex-box="0" class="book_img">
             <div class="tb-booth tb-pic tb-s310">
@@ -78,8 +78,8 @@
           <div flex-box="1" class="infor-item">
             <h3 class="margin-b">{{bookItem.Name}}</h3>
             <div class="author margin-b">
-              <span>作者: {{bookItem.Author}}</span>
-              <span>出版社: {{bookItem.Press}}</span>
+              <span>作者: <a href="javascript:;">{{bookItem.Author}}</a></span>
+              <span>出版社: <a href="javascript:;">{{bookItem.Press}}</a></span>
             </div>
             <div class="publish margin-b">
               <span>出版日期: {{bookItem.PublishDate}}</span>
@@ -87,10 +87,11 @@
             </div>
             <div class="price margin-b" flex="dir:top">
               <div class="list-price">定价
-                <del>￥{{bookItem.ListPrice}}</del>
+                <del>￥{{bookItem.ListPrice}}.00</del>
               </div>
               <div class="sell-price">促销价
-                <b>￥{{bookItem.SellPrice}}</b>
+                <b>￥{{bookItem.SellPrice}}0</b>
+                <span>({{(parseFloat(bookItem.SellPrice)*10/parseFloat(bookItem.ListPrice)).toFixed(2)}}折)</span>
               </div>
             </div>
             <div class="sent margin-b">
@@ -98,23 +99,63 @@
               <select>
                 <option v-for="arae in areaItem" :key="arae">{{arae}}</option>
               </select>
-              <b>有货</b>满59元免运费<b>货到付款</b>
+              <b>有货</b> 满59元免运费 <b>货到付款</b>
             </div>
             <div class="sell margin-b">
-              销售配送<span>由<b>BookBuy图书网</b>直接销售和发货</span>
+              销售配送<span>由 <b>BookBuy图书网</b> 直接销售和发货</span>
             </div>
             <div class="promise margin-b">
-              退换承诺<span>此图书支持<b>七天免费退换</b></span>
+              退换承诺<span>此图书支持 <b>七天免费退换</b></span>
             </div>
             <div class="buy-num margin-b">
               选购数量
-              <input class="number" type="text" value="1" />
-              <span class="add_minus"><a class="add">+</a><a class="minus">-</a></span>库存数量
+              <input class="form-control" v-model.number="selectNum" type="text" value="1" />
+              <span class="add-minus"><a :disabled="addFalse" class="add" @click="addNum">+</a><a class="minus" :disabled="minusFalse" @click="minusNum">-</a></span>
+              <span class="storage">库存数量 {{bookItem.Count}}</span>
+            </div>
+            <div class="book-btn">
+              <button type="button" @click="addToCart(bookItem.Id)" class="cart-btn btn"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 加入购物车</button>
+              <button type="button" class="buy-btn btn" @click="purchase()">立即购买</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="book-detail"></div>
+      <div class="book-detail">
+        <ul class="nav nav-tabs">
+          <li role="presentation" class="active"><a href="javascript:;">图书详情</a>
+          </li>
+          <li role="presentation"><a href="javascript:;">图书评论</a></li>
+          <li role="presentation"><a href="javascript:;">图书问答</a></li>
+        </ul>
+        <div class="book-base-infor">
+          <div class="base-infor">
+            <ul>
+              <li>版 次: {{bookItem.Edition}}</li>
+              <li>出版日期: {{bookItem.PublishDate}}</li>
+              <li>ISBN: {{bookItem.ISBN}}</li>
+              <li>类 别: {{bookItem.Category}}</li>
+            </ul>
+            <ul>
+              <li>页 数: </li>
+              <li>开 本: 12k</li>
+              <li>包 装: 平装</li>
+            </ul>
+            <ul>
+              <li>字 数: {{bookItem.WordsCount}}</li>
+              <li>纸 张: 胶版纸</li>
+              <li>是否套装: 否</li>
+            </ul>
+          </div>
+          <div class="book-abstract">
+            <div class="title">
+              <span>图书简介</span>
+            </div>
+            <p>
+              {{bookItem.Abstract}}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- 登录 -->
     <div id="loginbox">

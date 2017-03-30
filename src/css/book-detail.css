@@ -25,6 +25,7 @@
 .tb-pic a img {
   vertical-align: middle;
   width: 250px;
+  height: 300px;
 }
 
 .tb-pic a {
@@ -44,9 +45,10 @@
 }
 
 .tb-s310 {
-  height: 250px;
   width: 250px;
+  height: 300px;
   text-align: center;
+  margin-top: 20px;
 }
 
 .tb-booth {
@@ -63,8 +65,8 @@
   position: absolute;
   top: 0px;
   left: -10px;
-  width: 250px;
-  height: 250px;
+  width: 300px;
+  height: 300px;
   background: #ffffff;
   border: 1px solid #CCCCCC;
   display: none;
@@ -89,36 +91,156 @@
   margin-right: 20px;
 }
 
+.author a {
+  color: #06c;
+}
+
+.author a:hover {
+  color: #f86d0d;
+}
+
 .price {
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: #ebebeb;
 }
 
-.price .list-price {
+.price .list-price del {
   color: #969696;
 }
 
 .price .list-price del {
   display: inline-block;
-  margin-left: 42px;
+  margin-left: 46px;
 }
 
 .price .sell-price b {
   color: #f86d0d;
   font-size: 26px;
   display: inline-block;
-  margin-left: 38px;
+  margin-left: 28px;
+}
+
+.price .sell-price span {
+  color: #f86d0d;
 }
 
 .sent select {
   display: inline-block;
-  margin-left: 30px;
+  margin-left: 32px;
+  outline: none;
 }
 
 .sell span,
-.promise span,
-.buy-num input {
+.promise span {
   display: inline-block;
   margin-left: 20px;
+}
+
+.buy-num {
+  position: relative;
+}
+
+.buy-num input {
+  margin-left: 17px;
+  width: 45px;
+  height: 42px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 0;
+}
+
+.add-minus {
+  display: inline-block;
+  width: 20px;
+  position: absolute;
+  top: 0;
+  left: 132px;
+}
+
+.add-minus .add {
+  margin-bottom: 1px;
+  height: 21px;
+}
+
+.add-minus a {
+  text-decoration: none;
+  background-color: #ebebeb;
+  text-align: center;
+  width: 25px;
+  height: 20px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.buy-num .storage {
+  display: inline-block;
+  margin-left: 40px;
+}
+
+.book-btn {
+  margin-top: 20px;
+  padding-left: 10px;
+}
+
+.book-btn .cart-btn {
+  background-color: #f86d0d;
+  color: #fff;
+}
+
+.book-btn .buy-btn {
+  background-color: #ffedee;
+  color: #f86d0d;
+  border: 1px solid #f86d0d;
+  margin-left: 5px;
+}
+
+.book-btn .btn {
+  outline: none;
+}
+
+.book-btn .btn:hover {
+  opacity: .8;
+}
+
+.book-detail {
+  margin: 20px 0;
+}
+
+.book-detail .nav .active a {
+  color: #f86d0d;
+}
+
+.book-detail .base-infor {
+  height: 120px;
+}
+
+.book-detail .base-infor ul {
+  list-style: none;
+  float: left;
+  margin: 10px 200px 10px 15px;
+}
+
+.book-detail .base-infor li {
+  height: 25px;
+  line-height: 25px;
+}
+
+.book-detail .book-abstract {}
+
+.book-detail .book-abstract .title {
+  border-bottom: 2px solid #f86d0d;
+  height: 22px;
+}
+
+.book-detail .book-abstract .title span {
+  border-radius: 4px;
+  padding: 5px 40px 12px 15px;
+  background: url(../img/title.png) no-repeat right -13px;
+  color: #fff;
+}
+
+.book-detail .book-abstract p {
+  text-indent: 2em;
+  margin: 10px 0 0 15px;
 }

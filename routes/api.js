@@ -174,9 +174,10 @@ router.get('/getCarList', function(req, res, next) {
 
 //新增购物车
 router.post('/addCar', function(req, res, next) {
+  // console.log(req.UserInfo.Id)
   let json = new Cars({
     BookId: req.body.BookId,
-    UserId: req.UserInfo.UserId,
+    UserId: req.UserInfo.Id,
     Count: req.body.Count,
   });
   Cars.addCar(json).then(result => {
@@ -240,7 +241,7 @@ router.post('/getOrderById', function(req, res, next) {
 router.post('/addOrder', function(req, res, next) {
   let json = new Orders({
     BookId: req.body.BookId,
-    UserId: req.UserInfo.UserId,
+    UserId: req.UserInfo.Id,
     Count: req.body.Count,
     Total: req.body.Total,
     Name: req.body.Name,
