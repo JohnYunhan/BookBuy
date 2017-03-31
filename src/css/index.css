@@ -86,7 +86,10 @@
 .recommend-book li:hover {
   cursor: pointer;
   box-shadow: 0px 0px 8px #555;
-  /*box-shadow: 0 34px 47px 0 rgba(0,0,0,0.06);*/
+  -webkit-transform: translateY(-4px);
+  transform: translateY(-4px);
+  /*box-shadow: 0 10px 12px 0 rgba(0,0,0,0.1);*/
+  /*box-shadow: 0 0px 0px 0 rgba(0,0,0,0.06);*/
 }
 
 .recommend-book img {
