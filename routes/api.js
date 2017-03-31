@@ -187,6 +187,15 @@ router.post('/addCar', function(req, res, next) {
   })
 });
 
+//根据BookId查询用户购物车中是否已经存在此图书
+router.get('/getCarByBookId', function(req, res, next) {
+  Users.getCarByBookId(req.body.BookId).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
 //删除购物车
 router.post('/delCar', function(req, res, next) {
   let Id = req.body.Id;
@@ -200,8 +209,9 @@ router.post('/delCar', function(req, res, next) {
 //修改购物车
 router.post('/editCar', function(req, res, next) {
   let json = new Cars({
-    Id: req.body.Id,
-    Count: req.body.Count
+    BookId: req.body.BookId,
+    UserId: req.UserInfo.Id,
+    Count: req.body.Count,
   });
   Cars.editCar(json).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });

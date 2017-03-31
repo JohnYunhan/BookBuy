@@ -11,7 +11,7 @@ let Car = mongoose.Schema({
     unique: true,
     index: true,
     required: true,
-  }, //订单id
+  }, //购物车id
   BookId: {
     type: String,
     required: true,
@@ -39,6 +39,7 @@ Car.statics.getCarList = function(userid) {
   return new Promise((resolve, reject) => {
     let query = this.find({ UserId: userid });
     query.sort({ UpdateDate: -1 }); //根据日期倒序
+    query.select("Id BookId Count");
     query.exec((error, result) => {
       if (result) {
         resolve(result);
@@ -65,10 +66,25 @@ Car.statics.addCar = function(json) {
   })
 }
 
+//根据BookId查询用户购物车中是否已经存在此图书
+Car.statics.getCarByBookId = function(bookid) {
+  return new Promise((resolve, reject) => {
+    let query = this.findOne({ BookId: bookid });
+    // let count = this.count();
+    query.exec((error, result) => {
+      if (result) {
+        resolve(result);
+      } else {
+        reject(error);
+      }
+    })
+  })
+}
+
 //修改购物车
 Car.statics.editCar = function(json) {
   return new Promise((resolve, reject) => {
-    let query = this.findOne({ Id: json.Id });
+    let query = this.findOne({ UserId: json.UserId, BookId: json.BookId });
     query.exec((error, result) => {
       if (result) {
         result.Count = json.Count;

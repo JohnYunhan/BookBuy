@@ -5,8 +5,7 @@ const jwtSecret = "zcvaetmbnhgpwegdfvcmghsdpdj"; //jwt密钥
 
 //验证cookie头部信息,并取出来提供后续路由使用
 function AuthCookie(req, res, next) {
-  console.log(233333)
-    //如果有cookie就解密
+  //如果有cookie就解密
   if (req.cookies.token) {
     jwt.verify(req.cookies.token, jwtSecret, (error, decoded) => {
       if (!error) {

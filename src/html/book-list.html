@@ -40,9 +40,9 @@
           <div class="logo"><img src="img/logo.png" alt="BookBuy图书网"></div>
           <div style="width: 385px;" flex="dir:top cross:center" class="input-group">
             <div class="search-box" flex="cross:center">
-              <input style="display: inline;width: 340px;" type="text" class="form-control search" placeholder="图书名称">
+              <input @keyup.enter="search" v-model="searchKey" style="display: inline;width: 340px;" type="text" class="form-control search" placeholder="图书名称">
               <span style="width: 45px" class="input-group-btn">
-        <button class="btn btn-default btn-search" type="button"><span style="font-size: 16px;" class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+        <button @click="search" class="btn btn-default btn-search" type="button"><span style="font-size: 16px;" class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </span>
             </div>
             <div class="hot-search">热搜:<span>平凡的世界</span><span>零售管理</span><span>Nodejs开发指南</span><span>百变马丁</span></div>
@@ -62,7 +62,7 @@
       </div>
     </div>
     <!-- 图书列表 -->
-    <div class="book-list" v-for="item in bookItem" flex="dir:left">
+    <div class="book-list" @click="lookDetail(item.Id)" v-for="item in bookItem" flex="dir:left">
       <div class="book-img"><img :src="item.Image[0]" :alt="item.Name"></div>
       <div class="book-infor" flex="dir:top">
         <div class="title mgb"><a href="javascript:;">{{item.Name}}</a></div>

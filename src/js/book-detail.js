@@ -13,8 +13,9 @@ new Vue({
     carNum: 0, //用户购物车中图书的数量
     categoryItem: [],
     // bookId: "book2ds5a53sizg6jaux",
-    bookId: "book1sh5kqf7gaizjld9he",
+    bookId: sessionStorage.lookBookId,
     bookItem: [],
+    cartItem: [],
     areaItem: ["1栋", "2栋", "3栋", "4栋", "5栋", "6栋", "7栋", "8栋", "9栋", "10栋", "11栋", "12栋", "13栋", "14栋", "15栋", "16栋"],
     selectNum: 1, //用户选购数量
     addFalse: false,
@@ -67,52 +68,96 @@ new Vue({
     },
     // 立即购买
     purchase() {
-      //保存购书信息
-      sessionStorage.setItem("buyBookId", this.bookItem.Id);
-      sessionStorage.setItem("buyCount", this.selectNum);
-      //跳转到结算页
-      // location.href = "/settlement";
-      var value = sessionStorage.getItem("buyCount");
-      console.log(value)
+      if (this.UsrName !== "") {
+        //保存购书信息
+        sessionStorage.setItem("buyBookId", this.bookItem.Id);
+        sessionStorage.setItem("buyCount", this.selectNum);
+        //跳转到结算页
+        // location.href = "/settlement";
+      } else {
+        this.showLoginBox();
+      }
     },
     // 加入购物车
-    addToCart(id) {
-      console.log(id)
-      var data = {
-        BookId: id,
-        Count: parseInt(this.selectNum)
-      };
-      data = JSON.stringify(data);
-      fetch("/api/addCar", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: data,
-      }).then((result) => result.json()).then(function(res) {
-        if (res.Code === 200) {
-          layer.msg('成功加入购物车', { icon: 1, time: 2500 });
-        } else {
-          layer.msg('加入失败，请稍后再试', { icon: 0, time: 2500 });
-          console.log(res.Message)
+    addToCart(bookid) {
+      if (this.UsrName !== "") {
+        var type = "addCar"; //提交类型
+        var count = parseInt(this.selectNum);
+        var _this = this;
+        //用户购物车中不存在当前图书时就添加，否则增加数量
+        for (var item of this.cartItem) {
+          if (item.BookId === bookid) {
+            type = "editCar";
+            count += item.Count;
+          }
         }
-      }).catch(function(error) {
-        layer.msg("服务器错误，请稍后再试")
-        console.log(error)
-      })
+        var data = {
+          BookId: bookid,
+          Count: count
+        };
+        data = JSON.stringify(data);
+        fetch("/api/" + type, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          },
+          body: data,
+        }).then((result) => result.json()).then(function(res) {
+          if (res.Code === 200) {
+            layer.msg('成功加入购物车', { icon: 1, time: 3000 });
+            _this.getCart();
+          } else {
+            layer.msg('加入失败，请稍后再试', { icon: 0, time: 2500 });
+            console.log(res.Message)
+          }
+        }).catch(function(error) {
+          layer.msg("服务器错误，请稍后再试")
+          console.log(error)
+        })
+      } else {
+        this.showLoginBox();
+      }
     },
     //跳到首页
-    toHome() {},
+    toHome() {
+      location.href = "/index";
+    },
     //跳到指定图书类别
     toCategory() {},
     //验证是否登录
     checkLogin() {
-      if (localStorage.nick !== "" || typeof localStorage.nick !== "undefined") {
-        this.UsrName = localStorage.nick;
-      } else {
+      if (!localStorage.nick) {
         this.UsrName = "";
+      } else {
+        this.UsrName = localStorage.nick;
+        this.getCart();
       }
+    },
+    // 获取用户的购物车
+    getCart() {
+      fetch("/api/getCarList", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.cartItem = res.Data;
+          //获取购物车图书总数
+          var count = 0;
+          if (this.cartItem.length !== 0) {
+            for (var item of this.cartItem) {
+              count += item.Count;
+            }
+          }
+          this.carNum = count;
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
     },
     // 获取图书分类
     getCategory() {

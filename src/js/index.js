@@ -15,6 +15,8 @@ new Vue({
     hotBook: [],
     recommendBook: [],
     categoryItem: [],
+    searchKey: "",
+    cartItem: [],
   },
   created() {
     this.getCarousel();
@@ -35,12 +37,18 @@ new Vue({
     this.checkLogin();
   },
   methods: {
+    //搜索图书
+    search() {
+      sessionStorage.setItem("searchKey", this.searchKey);
+      location.href = "/book-list";
+    },
     //验证是否登录
     checkLogin() {
-      if (localStorage.nick !== "" || typeof localStorage.nick !== "undefined") {
-        this.UsrName = localStorage.nick;
-      } else {
+      if (!localStorage.nick) {
         this.UsrName = "";
+      } else {
+        this.UsrName = localStorage.nick;
+        this.getCart();
       }
     },
     // 获取轮播图
@@ -77,6 +85,31 @@ new Vue({
       }).then(result => result.json()).then(res => {
         if (res.Code === 200) {
           this.categoryItem = res.Data;
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
+    },
+    // 获取用户的购物车
+    getCart() {
+      fetch("/api/getCarList", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.cartItem = res.Data;
+          //获取购物车图书总数
+          var count = 0;
+          if (this.cartItem.length !== 0) {
+            for (var item of this.cartItem) {
+              count += item.Count;
+            }
+          }
+          this.carNum = count;
         }
       }).catch(error => {
         layer.msg("服务器错误，请稍后再试")

@@ -89,6 +89,10 @@ header {
   border-bottom: 3px solid #f86d0d;
 }
 
+.wraps .logo {
+  cursor: pointer;
+}
+
 .wrap .seach-bar {
   height: 80px;
   line-height: 80px;
@@ -127,7 +131,7 @@ header {
 
 .wrap nav li.selected:hover {
   color: #fff;
-  opacity: .8;
+  opacity: .9;
 }
 
 .wrap .seach-bar .search-box {

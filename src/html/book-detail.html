@@ -37,7 +37,7 @@
     <div class="wraps">
       <div class="wrap">
         <div class="seach-bar" flex="main:justify">
-          <div class="logo"><img src="img/logo.png" alt="BookBuy图书网"></div>
+          <div @click="toHome" class="logo"><img src="img/logo.png" alt="BookBuy图书网"></div>
           <div style="width: 385px;" flex="dir:top cross:center" class="input-group">
             <div class="search-box" flex="cross:center">
               <input style="display: inline;width: 340px;" v-model.trim="searchKey" type="text" class="form-control search" placeholder="图书名称">
@@ -53,7 +53,7 @@
         </div>
         <nav>
           <ul flex="box:mean">
-            <li class="selected">首页</li>
+            <li @click="toHome" class="selected">首页</li>
             <li>畅销榜</li>
             <li v-for="item in categoryItem">{{item.Name}}</li>
             <li>更多</li>
