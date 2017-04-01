@@ -1,5 +1,5 @@
 new Vue({
-  el: "#book",
+  el: "#cart",
   data: {
     layer: null,
     Nick: "",
@@ -11,139 +11,13 @@ new Vue({
     isValid: true,
     carNum: 0, //用户购物车中图书的数量
     categoryItem: [],
-    bookItem: [],
     cartItem: [],
-    searchKey: sessionStorage.searchKey,
+    searchKey: "",
   },
   created() {
-    this.getCategory();
     this.checkLogin();
-    this.getBook();
   },
   methods: {
-    //获取图书列表
-    getBook() {
-      var data = {
-        Index: 0,
-        Size: 10,
-        Name: this.searchKey,
-        Author: "",
-        Press: "",
-        Category: "",
-      };
-      data = JSON.stringify(data);
-      fetch("/api/getBookList", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: data
-      }).then(result => result.json()).then(res => {
-        if (res.Code === 200) {
-          this.bookItem = res.Data;
-        } else {
-          layer.msg("服务器错误，请稍后再试")
-          console.log(res.Message)
-        }
-      }).catch(error => {
-        layer.msg("服务器错误，请稍后再试")
-        console.log(error)
-      })
-    },
-    //跳转到图书详情页，查看详情
-    lookDetail(id) {
-      sessionStorage.setItem("lookBookId", id);
-      location.href = "/book-detail";
-    },
-    //搜索图书
-    search() {
-      sessionStorage.setItem("searchKey", this.searchKey);
-      this.getBook();
-    },
-    // 获取图书分类
-    getCategory() {
-      fetch("/api/getCategory", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          'Content-Type': "application/json"
-        },
-      }).then(result => result.json()).then(res => {
-        if (res.Code === 200) {
-          this.categoryItem = res.Data;
-        }
-      }).catch(error => {
-        layer.msg("服务器错误，请稍后再试")
-        console.log(error)
-      })
-    },
-    // 立即购买
-    purchase() {
-      if (this.UsrName !== "") {
-        //保存购书信息
-        sessionStorage.setItem("buyBookId", this.bookItem.Id);
-        sessionStorage.setItem("buyCount", this.selectNum);
-        //跳转到结算页
-        // location.href = "/settlement";
-      } else {
-        this.showLoginBox();
-      }
-    },
-    // 加入购物车
-    addToCart(bookid) {
-      if (this.UsrName !== "") {
-        var type = "addCar"; //提交类型
-        var count = parseInt(this.selectNum);
-        var _this = this;
-        //用户购物车中不存在当前图书时就添加，否则增加数量
-        for (var item of this.cartItem) {
-          if (item.BookId === bookid) {
-            type = "editCar";
-            count += item.Count;
-          }
-        }
-        var data = {
-          BookId: bookid,
-          Count: count
-        };
-        data = JSON.stringify(data);
-        fetch("/api/" + type, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            'Content-Type': "application/json"
-          },
-          body: data,
-        }).then((result) => result.json()).then(function(res) {
-          if (res.Code === 200) {
-            layer.msg('成功加入购物车', { icon: 1, time: 3000 });
-            _this.getCart();
-          } else {
-            layer.msg('加入失败，请稍后再试', { icon: 0, time: 2500 });
-            console.log(res.Message)
-          }
-        }).catch(function(error) {
-          layer.msg("服务器错误，请稍后再试")
-          console.log(error)
-        })
-      } else {
-        this.showLoginBox();
-      }
-    },
-    //跳到首页
-    toHome() {
-      location.href = "/index";
-    },
-    //验证是否登录
-    checkLogin() {
-      if (!localStorage.nick) {
-        this.UsrName = "";
-      } else {
-        this.UsrName = localStorage.nick;
-        this.getCart();
-      }
-    },
     // 获取用户的购物车
     getCart() {
       fetch("/api/getCarList", {
@@ -168,6 +42,45 @@ new Vue({
         layer.msg("服务器错误，请稍后再试")
         console.log(error)
       })
+    },
+    //跳转到图书详情页，查看详情
+    lookDetail(id) {
+      sessionStorage.setItem("lookBookId", id);
+      location.href = "/book-detail";
+    },
+    //搜索购物车中的指定图书
+    search() {
+
+    },
+    // 获取图书分类
+    getCategory() {
+      fetch("/api/getCategory", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.categoryItem = res.Data;
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
+    },
+    //跳到首页
+    toHome() {
+      location.href = "/index";
+    },
+    //验证是否登录
+    checkLogin() {
+      if (!localStorage.nick) {
+        this.UsrName = "";
+      } else {
+        this.UsrName = localStorage.nick;
+        this.getCart();
+      }
     },
     // 显示登录框
     showLoginBox() {

@@ -126,6 +126,11 @@ new Vue({
     },
     //跳到指定图书类别
     toCategory() {},
+    //搜索图书
+    search() {
+      sessionStorage.setItem("searchKey", this.searchKey);
+      location.href = "/book-list";
+    },
     //验证是否登录
     checkLogin() {
       if (!localStorage.nick) {

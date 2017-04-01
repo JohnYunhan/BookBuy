@@ -16,9 +16,11 @@ gulp.task('sass', function() {
       cascade: true,
       remove: true
     }))
-    .pipe(gulp.dest('./html/css'));
+    .pipe(gulp.dest('./html/new-css'));
 });
 
 gulp.task('sass:watch', function() {
   gulp.watch('./html/sass/*.scss', ['sass']);
 });
+
+gulp.task('default', ['sass', 'sass:watch']);

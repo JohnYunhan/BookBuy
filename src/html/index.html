@@ -41,7 +41,7 @@
     <div class="wraps">
       <div class="wrap">
         <div class="seach-bar" flex="main:justify">
-          <div class="logo"><img src="img/logo.png" alt="BookBuy图书网"></div>
+          <div class="logo" @click="toHome"><img src="img/logo.png" alt="BookBuy图书网"></div>
           <div style="width: 385px;" flex="dir:top cross:center" class="input-group">
             <div class="search-box" flex="cross:center">
               <input @keyup.enter="search" v-model="searchKey" style="display: inline;width: 340px;" type="text" class="form-control search" placeholder="图书名称">
@@ -49,96 +49,96 @@
         <button @click="search" class="btn btn-default btn-search" type="button"><span style="font-size: 16px;" class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </span>
             </div>
-            <div class="hot-search">热搜:<span v-for="item in recommendBook"><a href="javascript:;" @click="lookDetail(item.Id)">{{item.Name}}</a></div>
+            <div class="hot-search">热搜:<span>平凡的世界</span><span>零售管理</span><span>Nodejs开发指南</span><span>百变马丁</span></div>
           </div>
           <div class="cart-order">
             <a href="javascript:;" class="cart"><span style="font-size: 18px;" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车 <b>{{carNum}}</b></a><a href="javascript:;" class="myorder">我的订单</a>
-            </div>
-          </div>
-          <nav>
-            <ul flex="box:mean">
-              <li class="selected">首页</li>
-              <li>畅销榜</li>
-              <li v-for="item in categoryItem">{{item.Name}}</li>
-              <li>更多</li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-      <!-- 轮播图 -->
-      <div class="carousel">
-        <div id="carousel">
-          <div class="loading">
-            <img src="img/loading.gif" />
-          </div>
-          <div class="pic">
-            <ul>
-              <li v-for="item in picItem">
-                <a href="javascript:;">
-                  <img :src="item.Url" /></a>
-              </li>
-              <li><img src="https://images-cn.ssl-images-amazon.com/images/G/28/peishcai/2017/Promo/MarB200G50/ATF-1500300-1._CB533151943_.jpg" alt=""></li>
-            </ul>
           </div>
         </div>
-      </div>
-      <!-- 图书展示 -->
-      <div class="book-list" flex="main:justify">
-        <!-- 新到图书 -->
-        <div class="new-book">
-          <p flex="main:justify cross:center"><span>新书上架</span><span class="more">More &gt;&gt;</span></p>
-          <ul>
-            <li v-for="item in newBook"><a href="javascript:;" @click="lookDetail(item.Id)">{{item.Name}}</a></li>
+        <nav>
+          <ul flex="box:mean">
+            <li class="selected">首页</li>
+            <li>畅销榜</li>
+            <li v-for="item in categoryItem">{{item.Name}}</li>
+            <li>更多</li>
           </ul>
-        </div>
-        <!-- 推荐图书 -->
-        <div class="recommend-book">
-          <p flex="main:justify cross:center"><span>主打推荐</span><span class="more">More &gt;&gt;</span></p>
-          <ul>
-            <li flex="dir:top cross:center" v-for="item in recommendBook">
-              <img :src="item.Image[0]" :alt="item.Name">
-              <a href="javascript:;" @click="lookDetail(item.Id)">{{item.Name}}</a>
-              <span>定价：￥<del>{{item.ListPrice}}</del></span>
-              <span>售价：￥<b>{{item.SellPrice}}</b></span>
-            </li>
-          </ul>
-        </div>
-        <!-- 畅销榜 -->
-        <div class="hot-book">
-          <p flex="main:justify cross:center"><span>畅销榜</span><span class="more">More &gt;&gt;</span></p>
-          <ul>
-            <li v-for="(item,index) in hotBook"><i :style="{'color': index<3 ?'#f86d0d':'#555'}">{{index+1}}</i><a href="javascript:;" @click="lookDetail(item.Id)">{{item.Name}}</a></li>
-          </ul>
-        </div>
+        </nav>
       </div>
-      <!-- 登录 -->
-      <div id="loginbox">
-        <div class="login-item login-title">欢迎登录BookBuy图书网</div>
-        <div class="input-group login-item">
-          <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-          <input type="text" class="form-control" placeholder="昵称或手机号" v-model="Account" autofocus @input="checkAccount" @keyup.enter="login" />
-        </div>
-        <div class="input-group login-item">
-          <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-          <input type="password" class="form-control" placeholder="密码" @input="checkPassword" @keyup.enter="login" v-model="Password" />
-        </div>
-        <p class="error-infor">{{errorInfor}}</p>
-        <div>
-          <button class="login-btn" type="button" @click="login">登 录</button>
-        </div>
-        <div class="other-item" flex="main:justify"><span>没有账号？<a href="javascript:;">注册</a></span><a href="javascript:;">忘记密码</a></div>
-      </div>
-      <!-- 底部 -->
-      <footer flex="main:center cross:center">
-        <small>Copyright &copy; BookBuy图书网 2017, All Rights Reserved</small>
-      </footer>
     </div>
-    <script src="/lib/jquery-1.10.2.min.js"></script>
-    <script src="/lib/js/bootstrap.min.js"></script>
-    <script src="lib/layer/layer.js"></script>
-    <script src="//cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
-    <script src="//cdn.bootcss.com/fetch/2.0.2/fetch.min.js"></script>
-    <script src="js/index.js"></script>
+    <!-- 轮播图 -->
+    <div class="carousel">
+      <div id="carousel">
+        <div class="loading">
+          <img src="img/loading.gif" />
+        </div>
+        <div class="pic">
+          <ul>
+            <li v-for="item in picItem">
+              <a href="javascript:;">
+                <img :src="item.Url" /></a>
+            </li>
+            <li><img src="https://images-cn.ssl-images-amazon.com/images/G/28/peishcai/2017/Promo/MarB200G50/ATF-1500300-1._CB533151943_.jpg" alt=""></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- 图书展示 -->
+    <div class="book-list" flex="main:justify">
+      <!-- 新到图书 -->
+      <div class="new-book">
+        <p flex="main:justify cross:center"><span>新书上架</span><span class="more">More &gt;&gt;</span></p>
+        <ul>
+          <li v-for="item in newBook"><a href="javascript:;" @click="lookDetail(item.Id)">{{item.Name}}</a></li>
+        </ul>
+      </div>
+      <!-- 推荐图书 -->
+      <div class="recommend-book">
+        <p flex="main:justify cross:center"><span>主打推荐</span><span class="more">More &gt;&gt;</span></p>
+        <ul>
+          <li flex="dir:top cross:center" v-for="item in recommendBook">
+            <img :src="item.Image[0]" :alt="item.Name">
+            <a href="javascript:;" @click="lookDetail(item.Id)">{{item.Name}}</a>
+            <span>定价：￥<del>{{item.ListPrice}}</del></span>
+            <span>售价：￥<b>{{item.SellPrice}}</b></span>
+          </li>
+        </ul>
+      </div>
+      <!-- 畅销榜 -->
+      <div class="hot-book">
+        <p flex="main:justify cross:center"><span>畅销榜</span><span class="more">More &gt;&gt;</span></p>
+        <ul>
+          <li v-for="(item,index) in hotBook"><i :style="{'color': index<3 ?'#f86d0d':'#555'}">{{index+1}}</i><a href="javascript:;" @click="lookDetail(item.Id)">{{item.Name}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- 登录 -->
+    <div id="loginbox">
+      <div class="login-item login-title">欢迎登录BookBuy图书网</div>
+      <div class="input-group login-item">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+        <input type="text" class="form-control" placeholder="昵称或手机号" v-model="Account" autofocus @input="checkAccount" @keyup.enter="login" />
+      </div>
+      <div class="input-group login-item">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+        <input type="password" class="form-control" placeholder="密码" @input="checkPassword" @keyup.enter="login" v-model="Password" />
+      </div>
+      <p class="error-infor">{{errorInfor}}</p>
+      <div>
+        <button class="login-btn" type="button" @click="login">登 录</button>
+      </div>
+      <div class="other-item" flex="main:justify"><span>没有账号？<a href="javascript:;">注册</a></span><a href="javascript:;">忘记密码</a></div>
+    </div>
+    <!-- 底部 -->
+    <footer flex="main:center cross:center">
+      <small>Copyright &copy; BookBuy图书网 2017, All Rights Reserved</small>
+    </footer>
+  </div>
+  <script src="/lib/jquery-1.10.2.min.js"></script>
+  <script src="/lib/js/bootstrap.min.js"></script>
+  <script src="lib/layer/layer.js"></script>
+  <script src="//cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
+  <script src="//cdn.bootcss.com/fetch/2.0.2/fetch.min.js"></script>
+  <script src="js/index.js"></script>
 </body>
 
 </html>

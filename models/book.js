@@ -151,7 +151,7 @@ Book.statics.getBookList = function(index, size, json) {
     let total = 0;
     if (json.Name !== "") {
       //根据图书名称搜索
-      let name = new RegExp(json.Name); //创建正则表达式
+      let name = new RegExp(json.Name); //创建正则表达式,i代表不区分大小写匹配
       query = this.find({ Name: { $regex: name } });
       total = this.find({ Name: { $regex: name } }).count();
     } else if (json.Author !== "") {
