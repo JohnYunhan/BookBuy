@@ -111,7 +111,7 @@
               选购数量
               <input class="form-control" v-model.number="selectNum" type="text" value="1" />
               <span class="add-minus"><a :disabled="addFalse" class="add" @click="addNum">+</a><a class="minus" :disabled="minusFalse" @click="minusNum">-</a></span>
-              <span class="storage">库存数量 {{bookItem.Count}}</span>
+              <span class="storage">库存数量 <b>{{bookItem.Count}}</b></span>
             </div>
             <div class="book-btn">
               <button type="button" @click="addToCart(bookItem.Id)" class="cart-btn btn"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 加入购物车</button>

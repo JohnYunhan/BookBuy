@@ -16,7 +16,7 @@ gulp.task('sass', function() {
       cascade: true,
       remove: true
     }))
-    .pipe(gulp.dest('./src/new-css'));
+    .pipe(gulp.dest('./src/css'));
 });
 
 gulp.task('sass:watch', function() {
