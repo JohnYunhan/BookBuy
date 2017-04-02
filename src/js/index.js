@@ -116,6 +116,9 @@ new Vue({
         console.log(error)
       })
     },
+    toHome() {
+      location.href = "/index";
+    },
     //跳转到图书详情页，查看详情
     lookDetail(id) {
       sessionStorage.setItem("lookBookId", id);

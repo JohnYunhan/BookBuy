@@ -1,0 +1,226 @@
+$color: #f86d0d;
+.main {
+  width: 1000px;
+  margin: 10px auto 20px;
+  .book-infor {
+    .bread-crumbs {
+      margin-bottom: 10px;
+    }
+    .infor {
+      .book_img {
+        .tb-pic {
+          >a {
+            display: block;
+            text-align: center;
+            vertical-align: middle;
+            img {
+              vertical-align: middle;
+              width: 250px;
+              height: 300px;
+            }
+          }
+        }
+        .tb-booth {
+          position: relative;
+          z-index: 1;
+        }
+        .tb-s310 {
+          width: 250px;
+          height: 300px;
+          text-align: center;
+          margin-top: 20px;
+        }
+        ul.tb-thumb {
+          margin: 10px 0 10px 0;
+          list-style: none;
+          li {
+            background: none repeat scroll 0 0 transparent;
+            float: left;
+            margin: 0 10px 0 0;
+            border: 1px solid #fff;
+          }
+        }
+      }
+      .infor-item {
+        margin-left: 10px;
+        .margin-b {
+          margin-bottom: 10px;
+          padding-left: 10px;
+        }
+        >h3 {
+          border-bottom: 3px solid #ebebeb;
+          padding-bottom: 6px;
+        }
+        .author {
+          span {
+            margin-right: 20px;
+            a {
+              color: #3194d0;
+              &:hover {
+                color: #f86d0d;
+              }
+            }
+          }
+        }
+        .publish {
+          span {
+            margin-right: 20px;
+          }
+        }
+        .price {
+          padding-top: 5px;
+          padding-bottom: 5px;
+          background-color: #ebebeb;
+          .list-price {
+            del {
+              color: #969696;
+              display: inline-block;
+              margin-left: 46px;
+            }
+          }
+          .sell-price {
+            b {
+              color: #f86d0d;
+              font-size: 26px;
+              display: inline-block;
+              margin-left: 28px;
+            }
+            span {
+              color: #f86d0d;
+            }
+          }
+        }
+        .sent {
+          select {
+            display: inline-block;
+            margin-left: 32px;
+            outline: none;
+          }
+        }
+        .sell,
+        .promise {
+          span {
+            display: inline-block;
+            margin-left: 20px;
+          }
+        }
+        .buy-num {
+          position: relative;
+          input {
+            margin-left: 17px;
+            width: 45px;
+            height: 42px;
+            text-align: center;
+            display: inline-block;
+            border-radius: 0;
+          }
+          .add-minus {
+            display: inline-block;
+            width: 20px;
+            position: absolute;
+            top: 0;
+            left: 132px;
+            a {
+              text-decoration: none;
+              background-color: #ebebeb;
+              text-align: center;
+              width: 25px;
+              height: 20px;
+              display: inline-block;
+              cursor: pointer;
+            }
+            .add {
+              margin-bottom: 1px;
+              height: 21px;
+            }
+          }
+          .storage {
+            display: inline-block;
+            margin-left: 40px;
+          }
+        }
+        .book-btn {
+          margin-top: 20px;
+          padding-left: 10px;
+          .cart-btn {
+            background-color: #f86d0d;
+            color: #fff;
+          }
+          .buy-btn {
+            background-color: #ffedee;
+            color: #f86d0d;
+            border: 1px solid #f86d0d;
+            margin-left: 5px;
+          }
+          .btn {
+            outline: none;
+            &:hover {
+              opacity: .8;
+            }
+          }
+        }
+      }
+    }
+  }
+  .book-detail {
+    margin: 20px 0;
+    .nav {
+      .active {
+        a {
+          color: $color;
+        }
+      }
+    }
+    .book-base-infor {
+      .base-infor {
+        height: 120px;
+        ul {
+          list-style: none;
+          float: left;
+          margin: 10px 200px 10px 15px;
+          li {
+            height: 25px;
+            line-height: 25px;
+          }
+        }
+      }
+      .book-abstract {
+        .title {
+          border-bottom: 2px solid #f86d0d;
+          height: 22px;
+          span {
+            border-radius: 4px;
+            padding: 5px 40px 12px 15px;
+            background: url(../img/title.png) no-repeat right -13px;
+            color: #fff;
+          }
+        }
+        p {
+          text-indent: 2em;
+          margin: 10px 0 0 15px;
+        }
+      }
+    }
+  }
+}
+
+.zoomDiv {
+  z-index: 999;
+  position: absolute;
+  top: 0px;
+  left: -10px;
+  width: 300px;
+  height: 300px;
+  background: #ffffff;
+  border: 1px solid #CCCCCC;
+  display: none;
+  text-align: center;
+  overflow: hidden;
+}
+
+.zoomMask {
+  position: absolute;
+  background: url("../img/mask.png") repeat scroll 0 0 transparent;
+  cursor: move;
+  z-index: 1;
+}

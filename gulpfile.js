@@ -9,18 +9,18 @@ var autoprefixer = require('gulp-autoprefixer');
 var html2jade = require('gulp-html2jade');
 
 gulp.task('sass', function() {
-  return gulp.src('./html/sass/*.scss')
+  return gulp.src('./src/sass/*.scss')
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(autoprefixer({
       browsers: ['last 2 versions', 'last 3 Safari versions'],
       cascade: true,
       remove: true
     }))
-    .pipe(gulp.dest('./html/new-css'));
+    .pipe(gulp.dest('./src/new-css'));
 });
 
 gulp.task('sass:watch', function() {
-  gulp.watch('./html/sass/*.scss', ['sass']);
+  gulp.watch('./src/sass/*.scss', ['sass']);
 });
 
 gulp.task('default', ['sass', 'sass:watch']);

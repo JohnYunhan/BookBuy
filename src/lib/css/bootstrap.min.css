@@ -2372,9 +2372,10 @@ select[multiple].input-lg {
 .btn:focus,
 .btn:active:focus,
 .btn.active:focus {
-  outline: thin dotted;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px
+  /*outline: thin dotted;*/
+  /*outline: 5px auto -webkit-focus-ring-color;*/
+  /*outline-offset: -2px*/
+  outline: none;
 }
 
 .btn:hover,
@@ -2385,7 +2386,7 @@ select[multiple].input-lg {
 
 .btn:active,
 .btn.active {
-  outline: 0;
+  outline: none;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125)
