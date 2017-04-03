@@ -14,11 +14,14 @@ new Vue({
     bookItem: [],
     cartItem: [],
     searchKey: sessionStorage.searchKey,
+    hotSearch: "",
+    hotBook: [],
   },
   created() {
     this.getCategory();
     this.checkLogin();
     this.getBook();
+    this.getHotBook();
   },
   methods: {
     //获取图书列表
@@ -177,6 +180,31 @@ new Vue({
             }
           }
           this.carNum = count;
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
+    },
+    getHotBook() {
+      var data = {
+        Index: 0,
+        Size: 3
+      };
+      data = JSON.stringify(data);
+      fetch("/api/getHotBook", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.hotBook = res.Data;
+          this.hotSearch = this.hotBook[0].Name;
+        } else {
+          layer.msg(res.Message)
         }
       }).catch(error => {
         layer.msg("服务器错误，请稍后再试")

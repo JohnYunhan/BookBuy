@@ -18,7 +18,7 @@
         color: #f86d0d; }
     .book-list .new-book > ul {
       list-style: none;
-      border-top: 2px solid #8E8E8E; }
+      border-top: 1px solid #8E8E8E; }
       .book-list .new-book > ul li {
         background: url(../img/list.jpg) no-repeat;
         padding-left: 10px;
@@ -39,7 +39,7 @@
         color: #f86d0d; }
     .book-list .hot-book > ul {
       list-style: none;
-      border-top: 2px solid #8E8E8E; }
+      border-top: 1px solid #8E8E8E; }
       .book-list .hot-book > ul li {
         margin: 2px 0 5px 5px; }
         .book-list .hot-book > ul li i {

@@ -22,11 +22,14 @@ new Vue({
     minusFalse: true,
     storage: 1,
     selestIndex: 1,
+    hotBook: [],
+    hotSearch: "",
   },
   created() {
     this.getCategory();
     this.checkLogin();
     this.getBookDetail();
+    this.getHotBook();
   },
   methods: {
     getBookDetail() {
@@ -74,6 +77,9 @@ new Vue({
         sessionStorage.setItem("buyBookId", this.bookItem.Id);
         sessionStorage.setItem("buyCount", this.selectNum);
         //跳转到结算页
+        // sessionStorage.setItem("cartId", cartId.toString());
+        // sessionStorage.setItem("selectedNum", selectedNum.toString());
+        // sessionStorage.setItem("totalPrice", this.totalPrice.toString());
         // location.href = "/settlement";
       } else {
         this.showLoginBox();
@@ -191,6 +197,31 @@ new Vue({
       }).then(result => result.json()).then(res => {
         if (res.Code === 200) {
           this.categoryItem = res.Data;
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
+    },
+    getHotBook() {
+      var data = {
+        Index: 0,
+        Size: 3
+      };
+      data = JSON.stringify(data);
+      fetch("/api/getHotBook", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.hotBook = res.Data;
+          this.hotSearch = this.hotBook[0].Name;
+        } else {
+          layer.msg(res.Message)
         }
       }).catch(error => {
         layer.msg("服务器错误，请稍后再试")

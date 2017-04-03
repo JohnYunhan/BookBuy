@@ -38,14 +38,14 @@
       <div class="wrap">
         <div class="seach-bar" flex="main:justify">
           <div class="logo" @click="toHome"><img src="img/logo.png" alt="BookBuy图书网"></div>
-          <div style="width: 385px;" flex="dir:top cross:center" class="input-group">
+          <div style="width: 420px;" flex="dir:top cross:center" class="input-group">
             <div class="search-box" flex="cross:center">
-              <input @keyup.enter="search" v-model="searchKey" style="display: inline;width: 340px;" type="text" class="form-control search" placeholder="图书名称">
+              <input @keyup.enter="search" v-model="searchKey" style="display: inline;width: 340px;" type="text" class="form-control search" :placeholder="hotSearch">
               <span style="width: 45px" class="input-group-btn">
-        <button @click="search" class="btn btn-default btn-search" type="button"><span style="font-size: 16px;" class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+        <button @click="search" class="btn btn-default" type="button"><span style="font-size: 16px;" class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </span>
             </div>
-            <div class="hot-search">热搜:<span>平凡的世界</span><span>零售管理</span><span>Nodejs开发指南</span><span>百变马丁</span></div>
+            <div class="hot-search">热搜:<a href="javascript:;" @click="lookDetail(item.Id)" v-for="(item,index) in hotBook">{{item.Name}}</a></div>
           </div>
           <div class="cart-order">
             <a @click="toCart" href="javascript:;" class="cart"><span style="font-size: 18px;" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车 <b>{{carNum}}</b></a><a href="javascript:;" class="myorder">我的订单</a>

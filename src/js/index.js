@@ -17,6 +17,7 @@ new Vue({
     categoryItem: [],
     searchKey: "",
     cartItem: [],
+    hotSearch: "",
   },
   created() {
     this.getCarousel();
@@ -279,6 +280,7 @@ new Vue({
       }).then(result => result.json()).then(res => {
         if (res.Code === 200) {
           this.hotBook = res.Data;
+          this.hotSearch = this.hotBook[0].Name;
         } else {
           layer.msg(res.Message)
         }

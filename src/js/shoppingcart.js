@@ -18,7 +18,7 @@ new Vue({
     allCheck: false,
     isChecked: [],
     sumPrice: [],
-    delValid: true,
+    Valid: true,
   },
   created() {
     this.checkLogin();
@@ -78,8 +78,10 @@ new Vue({
       //选中时加上背景色
       if (this.isChecked[index]) {
         Vue.set(this.isChecked, index, false);
+        Vue.set(this.checkedItem, index, false);
       } else {
         Vue.set(this.isChecked, index, true);
+        Vue.set(this.checkedItem, index, true);
       }
     },
     //全选
@@ -184,9 +186,9 @@ new Vue({
     },
     //批量删除
     batchDel() {
-      this.delValid = true;
+      this.Valid = true;
       this.judgeChecked();
-      if (this.delValid) {
+      if (this.Valid) {
         var _this = this;
         var id = "";
         var confirm = layer.confirm('确定要删除吗？', {
@@ -206,6 +208,7 @@ new Vue({
       }
     },
     //批量删除之前判断是否选中了要删除的项
+    //或者是结算之前是否选中了要结算的项
     judgeChecked() {
       var count = 0; //选中的删除项的数目
       for (var item of this.checkedItem) {
@@ -214,29 +217,29 @@ new Vue({
         }
       }
       if (count === 0) {
-        this.delValid = false;
+        this.Valid = false;
       }
     },
     //跳到结算页结算
     settleCart() {
-
-    },
-    // 获取图书分类
-    getCategory() {
-      fetch("/api/getCategory", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          'Content-Type': "application/json"
-        },
-      }).then(result => result.json()).then(res => {
-        if (res.Code === 200) {
-          this.categoryItem = res.Data;
+      this.Valid = true;
+      this.judgeChecked();
+      if (this.Valid) {
+        var cartId = []; //要结算的购物车ID集合
+        var selectedNum = []; //要结算的购物车ID所对应的数量集合
+        for (var i = 0; i < this.checkedItem.length; i++) {
+          if (this.checkedItem[i]) {
+            cartId.push(this.cartItem[i].Id);
+            selectedNum.push(this.selectNum[i]);
+          }
         }
-      }).catch(error => {
-        layer.msg("服务器错误，请稍后再试")
-        console.log(error)
-      })
+        sessionStorage.setItem("cartId", cartId.toString());
+        sessionStorage.setItem("selectedNum", selectedNum.toString());
+        sessionStorage.setItem("totalPrice", this.totalPrice.toString());
+        location.href = "/settlement";
+      } else {
+        layer.msg('请选择要结算的图书', { icon: 0, time: 2500 });
+      }
     },
     //跳到首页
     toHome() {
@@ -345,8 +348,10 @@ new Vue({
     //选购的图书总额
     totalPrice() {
       var total = 0;
-      for (var sum of this.sumPrice) {
-        total += parseFloat(sum);
+      for (var i = 0; i < this.sumPrice.length; i++) {
+        if (this.checkedItem[i]) {
+          total += parseFloat(this.sumPrice[i]);
+        }
       }
       return total;;
     },
