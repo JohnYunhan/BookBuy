@@ -119,6 +119,15 @@ new Vue({
     toHome() {
       location.href = "/index";
     },
+    //跳到购物车页
+    toCart() {
+      if (!localStorage.nick) {
+        this.UsrName = "";
+        this.showLoginBox();
+      } else {
+        location.href = "/shoppingcart";
+      }
+    },
     //跳转到图书详情页，查看详情
     lookDetail(id) {
       sessionStorage.setItem("lookBookId", id);

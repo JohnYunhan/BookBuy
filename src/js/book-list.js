@@ -79,10 +79,10 @@ new Vue({
       })
     },
     // 立即购买
-    purchase() {
+    purchase(index) {
       if (this.UsrName !== "") {
         //保存购书信息
-        sessionStorage.setItem("buyBookId", this.bookItem.Id);
+        sessionStorage.setItem("buyBookId", this.bookItem[index].Id);
         sessionStorage.setItem("buyCount", this.selectNum);
         //跳转到结算页
         // location.href = "/settlement";
@@ -91,20 +91,25 @@ new Vue({
       }
     },
     // 加入购物车
-    addToCart(bookid) {
+    addToCart(index) {
       if (this.UsrName !== "") {
         var type = "addCar"; //提交类型
-        var count = parseInt(this.selectNum);
+        var count = 1;
         var _this = this;
         //用户购物车中不存在当前图书时就添加，否则增加数量
         for (var item of this.cartItem) {
-          if (item.BookId === bookid) {
+          if (item.BookId === this.bookItem[index].Id) {
             type = "editCar";
             count += item.Count;
           }
         }
         var data = {
-          BookId: bookid,
+          BookId: this.bookItem[index].Id,
+          BookName: this.bookItem[index].Name,
+          Author: this.bookItem[index].Author,
+          Image: this.bookItem[index].Image,
+          Storage: this.bookItem[index].Count,
+          SellPrice: this.bookItem[index].SellPrice,
           Count: count
         };
         data = JSON.stringify(data);
@@ -134,6 +139,15 @@ new Vue({
     //跳到首页
     toHome() {
       location.href = "/index";
+    },
+    //跳到购物车页
+    toCart() {
+      if (!localStorage.nick) {
+        this.UsrName = "";
+        this.showLoginBox();
+      } else {
+        location.href = "/shoppingcart";
+      }
     },
     //验证是否登录
     checkLogin() {

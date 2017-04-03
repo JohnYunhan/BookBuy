@@ -176,8 +176,13 @@ router.get('/getCarList', function(req, res, next) {
 router.post('/addCar', function(req, res, next) {
   // console.log(req.UserInfo.Id)
   let json = new Cars({
-    BookId: req.body.BookId,
     UserId: req.UserInfo.Id,
+    BookId: req.body.BookId,
+    BookName: req.body.BookName,
+    Author: req.body.Author,
+    Image: req.body.Image,
+    Storage: req.body.Storage,
+    SellPrice: req.body.SellPrice,
     Count: req.body.Count,
   });
   Cars.addCar(json).then(result => {

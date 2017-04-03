@@ -1,4 +1,6 @@
 body {
+  min-height: 100%;
+  position: absolute;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 * {
@@ -126,4 +128,6 @@ header {
 footer {
   width: 1000px;
   height: 40px;
-  margin: 10px auto 0; }
+  margin: 30px auto 0;
+  position: absolute;
+  bottom: 0; }

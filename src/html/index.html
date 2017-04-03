@@ -27,7 +27,7 @@
           <a href="javascript:;" @click="loginOut"> [ 退出 ]</a>
         </div>
         <div class="head_right">
-          <a href="javascript:;"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车&nbsp;<b>{{carNum}}</b></a>
+          <a @click="toCart" href="javascript:;"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车&nbsp;<b>{{carNum}}</b></a>
           <span>|</span>
           <a href="javascript:;"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 我的订单</a>
           <span>|</span>
@@ -52,7 +52,7 @@
             <div class="hot-search">热搜:<span>平凡的世界</span><span>零售管理</span><span>Nodejs开发指南</span><span>百变马丁</span></div>
           </div>
           <div class="cart-order">
-            <a href="javascript:;" class="cart"><span style="font-size: 18px;" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车 <b>{{carNum}}</b></a><a href="javascript:;" class="myorder">我的订单</a>
+            <a @click="toCart" href="javascript:;" class="cart"><span style="font-size: 18px;" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车 <b>{{carNum}}</b></a><a href="javascript:;" class="myorder">我的订单</a>
           </div>
         </div>
         <nav>

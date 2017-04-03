@@ -1,0 +1,164 @@
+$color: #f86d0d;
+.wraps {
+  .wrap {
+    .seach-bar {
+      .logo {
+        span {
+          display: inline-block;
+          margin-left: 10px;
+          font-size: 26px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+
+#cart-item {
+  width: 1000px;
+  margin: 10px auto;
+  .cart-title,
+  .cart-item {
+    background-color: #fafafa;
+    padding: 10px;
+    .all-check,
+    .item-check {
+      width: 80px;
+    }
+    .book-name {
+      width: 240px;
+      text-align: center;
+    }
+    .book-storage {
+      width: 80px;
+      text-align: center;
+    }
+    .book-price {
+      width: 160px;
+      text-align: center;
+    }
+    .book-num {
+      width: 160px;
+      text-align: center;
+    }
+    .book-total {
+      width: 200px;
+      text-align: center;
+    }
+    .book-manage {
+      width: 80px;
+      text-align: center;
+    }
+  }
+  .cart-item {
+    margin-top: 10px;
+    .book-name {
+      >img {
+        cursor: pointer;
+      }
+    }
+    .book-num {
+      position: relative;
+      a {
+        text-decoration: none;
+        background-color: #ebebeb;
+        text-align: center;
+        width: 25px;
+        height: 25px;
+        line-height: 24px;
+        font-size: 16px;
+        display: inline-block;
+        cursor: pointer;
+        margin: 0;
+        position: absolute;
+        &:hover {
+          opacity: .8;
+        }
+      }
+      a.minus {
+        left: 23px;
+      }
+      input {
+        display: inline;
+        border-radius: 0;
+        width: 60px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+      }
+    }
+    .book-total {
+      color: $color;
+      font-size: 18px;
+    }
+    &:hover {
+      background-color: #FEF8E0;
+    }
+  }
+  .checked {
+    background-color: #FEF8E0;
+  }
+  .cart-ending {
+    background-color: #fafafa;
+    margin-top: 10px;
+    padding: 10px;
+    .all-check {
+      width: 80px;
+    }
+    .cart-del {
+      width: 480px;
+      text-align: left;
+    }
+    .cart-selected {
+      width: 160px;
+      text-align: center;
+      >b {
+        color: $color;
+        display: inline-block;
+        width: 20px;
+      }
+    }
+    .cart-text {
+      width: 120px;
+      text-align: right;
+    }
+    .cart-total-price {
+      width: 80px;
+      text-align: right;
+      b {
+        color: $color;
+        font-size: 22px;
+        display: inline-block;
+        width: 80px;
+        text-align: center;
+      }
+    }
+    .cart-settle-btn {
+      width: 80px;
+      text-align: center;
+      .btn {
+        background-color: $color;
+        color: #fff;
+        &:hover {
+          opacity: .8;
+        }
+      }
+    }
+  }
+}
+
+#cart-empty {
+  width: 1000px;
+  margin: 60px auto;
+  .empty-tip {
+    margin-left: 30px;
+    button {
+      background-color: $color;
+      color: #fff;
+      width: 70px;
+      &:hover {
+        opacity: .8;
+      }
+    }
+  }
+}

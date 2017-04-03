@@ -6,13 +6,13 @@ $color: #f86d0d;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
   transition: all 1s ease 0s;
-  cursor: pointer;
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
   .book-img {
     >img {
       width: 200px;
+      cursor: pointer;
     }
   }
   .book-infor {

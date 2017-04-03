@@ -94,6 +94,12 @@ new Vue({
         }
         var data = {
           BookId: bookid,
+          BookId: this.bookItem.Id,
+          BookName: this.bookItem.Name,
+          Author: this.bookItem.Author,
+          Image: this.bookItem.Image,
+          Storage: this.bookItem.Count,
+          SellPrice: this.bookItem.SellPrice,
           Count: count
         };
         data = JSON.stringify(data);
@@ -123,6 +129,15 @@ new Vue({
     //跳到首页
     toHome() {
       location.href = "/index";
+    },
+    //跳到购物车页
+    toCart() {
+      if (!localStorage.nick) {
+        this.UsrName = "";
+        this.showLoginBox();
+      } else {
+        location.href = "/shoppingcart";
+      }
     },
     //跳到指定图书类别
     toCategory() {},

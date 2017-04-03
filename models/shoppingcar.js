@@ -12,14 +12,34 @@ let Car = mongoose.Schema({
     index: true,
     required: true,
   }, //购物车id
-  BookId: {
-    type: String,
-    required: true,
-  }, //图书Id
   UserId: {
     type: String,
     required: true,
   }, //会员Id
+  BookId: {
+    type: String,
+    required: true,
+  }, //图书Id
+  BookName: {
+    type: String,
+    required: true,
+  }, //图书名称
+  Author: {
+    type: String,
+    required: true
+  },
+  Image: {
+    type: Array,
+    default: [],
+  },
+  Storage: {
+    type: Number,
+    required: true,
+  }, //库存
+  SellPrice: {
+    type: Number,
+    required: true,
+  }, //售价
   Count: {
     type: Number,
     required: true,
@@ -39,7 +59,7 @@ Car.statics.getCarList = function(userid) {
   return new Promise((resolve, reject) => {
     let query = this.find({ UserId: userid });
     query.sort({ UpdateDate: -1 }); //根据日期倒序
-    query.select("Id BookId Count");
+    query.select("Id BookId BookName Author Storage SellPrice Image Count");
     query.exec((error, result) => {
       if (result) {
         resolve(result);
@@ -104,9 +124,9 @@ Car.statics.editCar = function(json) {
 }
 
 //删除购物车
-Car.statics.delCar = function(json) {
+Car.statics.delCar = function(id) {
   return new Promise((resolve, reject) => {
-    let query = this.findOne({ Id: Id });
+    let query = this.findOne({ Id: id });
     query.exec((error, result) => {
       if (result) {
         result.remove((err, res) => {
