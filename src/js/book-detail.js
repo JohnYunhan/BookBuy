@@ -14,7 +14,7 @@ new Vue({
     categoryItem: [],
     // bookId: "book1sh5kqf7gaizjld9he",
     bookId: sessionStorage.lookBookId,
-    bookItem: [],
+    bookItem: {},
     cartItem: [],
     areaItem: ["1栋", "2栋", "3栋", "4栋", "5栋", "6栋", "7栋", "8栋", "9栋", "10栋", "11栋", "12栋", "13栋", "14栋", "15栋", "16栋"],
     selectNum: 1, //用户选购数量
@@ -24,6 +24,9 @@ new Vue({
     selestIndex: 1,
     hotBook: [],
     hotSearch: "",
+    imageL: "",
+    imageM: "",
+    imageS: "",
   },
   created() {
     this.getCategory();
@@ -44,8 +47,11 @@ new Vue({
           this.bookItem = res.Data;
           this.searchKey = this.bookItem.Name;
           this.storage = this.bookItem.Count;
+          this.imageS = this.bookItem.Image[0];
+          this.imageM = this.bookItem.Image[1];
+          this.imageL = this.bookItem.Image[2];
         } else {
-          this.bookItem = [];
+          this.bookItem = {};
         }
       }).catch(error => {
         layer.msg("服务器错误，请稍后再试")
@@ -74,20 +80,29 @@ new Vue({
     purchase() {
       if (this.UsrName !== "") {
         //保存购书信息
-        sessionStorage.setItem("buyBookId", this.bookItem.Id);
-        sessionStorage.setItem("buyCount", this.selectNum);
+        var totalPrice = (parseFloat(this.bookItem.SellPrice) * parseInt(this.selectNum)).toFixed(1);
+        var buyInfor = {
+          "BookId": this.bookItem.Id,
+          "BookName": this.bookItem.Name,
+          "Image": this.imageS,
+          "SellPrice": this.bookItem.SellPrice,
+          "count": this.selectNum,
+          "sumPrice": totalPrice,
+          "Author": this.bookItem.Author,
+          "Storage": this.storage
+        };
+        sessionStorage.setItem("buyInfor", JSON.stringify(buyInfor));
+        sessionStorage.setItem("source", "book-detail");
         //跳转到结算页
-        // sessionStorage.setItem("cartId", cartId.toString());
-        // sessionStorage.setItem("selectedNum", selectedNum.toString());
-        // sessionStorage.setItem("totalPrice", this.totalPrice.toString());
-        // location.href = "/settlement";
+        location.href = "/settlement";
       } else {
         this.showLoginBox();
       }
     },
     // 加入购物车
-    addToCart(bookid) {
+    addToCart() {
       if (this.UsrName !== "") {
+        var bookid = this.bookItem.Id;
         var type = "addCar"; //提交类型
         var count = parseInt(this.selectNum);
         var _this = this;
@@ -100,10 +115,9 @@ new Vue({
         }
         var data = {
           BookId: bookid,
-          BookId: this.bookItem.Id,
           BookName: this.bookItem.Name,
           Author: this.bookItem.Author,
-          Image: this.bookItem.Image,
+          Image: this.imageS,
           Storage: this.bookItem.Count,
           SellPrice: this.bookItem.SellPrice,
           Count: count

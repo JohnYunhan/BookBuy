@@ -3,7 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/lib/css/bootstrap.min.css">
+  <!-- <script src="lib/mzp-packed.js"></script> -->
+  <!-- <link href="lib/magiczoomplus.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="lib/css/bootstrap.min.css">
   <link href="lib/flex.css" rel="stylesheet">
   <link href="css/base.css" rel="stylesheet">
   <link href="css/book-detail.css" rel="stylesheet">
@@ -67,12 +69,12 @@
         <div class="infor" class="box" flex="dir:left">
           <div flex-box="0" class="book_img">
             <div class="tb-booth tb-pic tb-s310">
-              <a href="img/JavaScript-Dom-L.jpg">
-                <img src="img/JavaScript-Dom-M.jpg" alt="" rel="img/JavaScript-Dom-L.jpg" class="jqzoom" id="img_mid" /></a>
+              <a :href="imageL">
+                <img :src="imageM" alt="" :rel="imageL" class="jqzoom" id="img_mid" /></a>
             </div>
             <ul class="tb-thumb" id="thumblist">
               <li class="tb-selected">
-                <img src="img/JavaScript-Dom-S.jpg" mid="img/JavaScript-Dom-M.jpg" big="img/JavaScript-Dom-L.jpg" /></li>
+                <img :src="imageS" :mid="imageM" :big="imageL" /></li>
             </ul>
           </div>
           <div flex-box="1" class="infor-item">
@@ -97,7 +99,7 @@
             <div class="sent margin-b">
               配送至
               <select>
-                <option v-for="arae in areaItem" :key="arae">{{arae}}</option>
+                <option v-for="area in areaItem" :key="area">{{area}}</option>
               </select>
               <b>有货</b> 满59元免运费 <b>货到付款</b>
             </div>
@@ -114,7 +116,7 @@
               <span class="storage">库存数量 <b>{{bookItem.Count}}</b></span>
             </div>
             <div class="book-btn">
-              <button type="button" @click="addToCart(bookItem.Id)" class="cart-btn btn"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 加入购物车</button>
+              <button type="button" @click="addToCart" class="cart-btn btn"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 加入购物车</button>
               <button type="button" class="buy-btn btn" @click="purchase">立即购买</button>
             </div>
           </div>
@@ -179,9 +181,9 @@
       <small>Copyright &copy; BookBuy图书网 2017, All Rights Reserved</small>
     </footer>
   </div>
-  <script src="/lib/jquery-1.10.2.min.js"></script>
-  <script src="/lib/js/jquery.imagezoom.min.js"></script>
-  <script src="/lib/js/bootstrap.min.js"></script>
+  <script src="lib/jquery-1.10.2.min.js"></script>
+  <script src="lib/js/jquery.imagezoom.min.js"></script>
+  <script src="lib/js/bootstrap.min.js"></script>
   <script src="lib/layer/layer.js"></script>
   <script src="//cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
   <script src="//cdn.bootcss.com/fetch/2.0.2/fetch.min.js"></script>

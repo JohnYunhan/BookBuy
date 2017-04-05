@@ -12,12 +12,20 @@ let Order = mongoose.Schema({
     index: true
   }, //订单id
   BookId: {
-    type: String,
+    type: Array,
     required: true,
   }, //图书Id
   BookName: {
-    type: String,
+    type: Array,
     required: true,
+  },
+  Price: {
+    type: Array,
+    required: true
+  },
+  Image: {
+    type: Array,
+    required: true
   },
   UserId: {
     type: String,
@@ -28,7 +36,7 @@ let Order = mongoose.Schema({
     required: true,
   }, //昵称
   Count: {
-    type: Number,
+    type: Array,
     required: true,
   }, //订单数量
   Freight: {
@@ -51,6 +59,18 @@ let Order = mongoose.Schema({
     type: String,
     default: "",
   }, //收货地址
+  Note: {
+    type: String,
+    default: "",
+  },
+  DeliveryTime: {
+    type: String,
+    default: ""
+  }, //配送时间
+  InvoiceInfor: {
+    type: String,
+    default: ""
+  }, //发票信息
   CreateDate: {
     type: Number,
     required: true,
@@ -147,12 +167,16 @@ Order.statics.editOrder = function(json) {
       if (result) {
         result.BookId = json.BookId;
         result.BookName = json.BookName;
+        result.Image = json.Image;
         result.Count = json.Count;
         result.Freight = json.Freight;
         result.Total = json.Total;
         result.Name = json.Name;
         result.Mobile = json.Mobile;
         result.Address = json.Address;
+        result.Note = json.Note;
+        result.DeliveryTime = json.DeliveryTime;
+        result.InvoiceInfor = json.InvoiceInfor;
         result.Status = json.Status;
         result.UpdateDate = Date.now();
         result.save((err, res) => {

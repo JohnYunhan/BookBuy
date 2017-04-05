@@ -41,11 +41,8 @@
             <img @click="toHome" src="img/logo.png" alt="BookBuy图书网">
             <span>购物车</span>
           </div>
-          <div style="width: 385px;" flex="cross:center" class="input-group">
-            <input @keyup.enter="search" v-model="searchKey" style="display: inline;width: 340px;" type="text" class="form-control search" placeholder="图书名称">
-            <span style="width: 45px" class="input-group-btn">
-        <button @click="search" class="btn btn-default btn-search" type="button"><span style="font-size: 16px;" class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </span>
+          <div class="process">
+            <img src="img/cart1.png" alt="购书流程">
           </div>
         </div>
       </div>
@@ -67,11 +64,11 @@
         <div class="item-check">
           <input type="checkbox" v-model="checkedItem[index]" @click="checkedBook(index)" />
         </div>
-        <div class="book-name" flex="main:center">
-          <img @click="lookDetail(item.BookId)" src="img/JavaScript-Dom-S.jpg" :alt="item.BookName">
+        <div class="book-name" flex="main:left">
+          <img @click="lookDetail(item.BookId)" :src="item.Image" :alt="item.BookName">
           <span flex="dir:top">
           <a @click="lookDetail(item.BookId)" href="javascript:;">{{item.BookName}}</a>
-          <span><a href="javascript:;">{{item.Author}}</a> 著</span>
+          <span flex="main:left"><a href="javascript:;">{{item.Author}}</a>&nbsp; 著</span>
           </span>
         </div>
         <div class="book-storage">
@@ -88,14 +85,14 @@
         <div class="book-total">
           <b>￥{{sumPrice[index]}}</b>
         </div>
-        <div class="book-manage"><a href="javascript:;" @click="delCart(item.Id)">删除</a></div>
+        <div class="book-manage"><a href="javascript:;" @click="delCart(index)">删除</a></div>
       </div>
       <div class="cart-ending" flex="dir:left cross:center">
         <div class="all-check">
           <input type="checkbox" @click="checkedAll" v-model="allCheck" id="check-all" />
           <label for="check-all">全选</label>
         </div>
-        <div class="cart-del"><a @click="batchDel" href="javascript:;">删除</a></div>
+        <div class="cart-del"><a @click="batchDel" href="javascript:;">批量删除</a></div>
         <div class="cart-selected">已选图书 <b>{{selectedNum}}</b> 本</div>
         <div class="cart-text"><span>合计(不含运费): </span></div>
         <div class="cart-total-price">

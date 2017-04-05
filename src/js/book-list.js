@@ -82,17 +82,17 @@ new Vue({
       })
     },
     // 立即购买
-    purchase(index) {
-      if (this.UsrName !== "") {
-        //保存购书信息
-        sessionStorage.setItem("buyBookId", this.bookItem[index].Id);
-        sessionStorage.setItem("buyCount", this.selectNum);
-        //跳转到结算页
-        // location.href = "/settlement";
-      } else {
-        this.showLoginBox();
-      }
-    },
+    // purchase(index) {
+    //   if (this.UsrName !== "") {
+    //     //保存购书信息
+    //     sessionStorage.setItem("buyBookId", this.bookItem[index].Id);
+    //     sessionStorage.setItem("buyCount", this.selectNum);
+    //     //跳转到结算页
+    //     // location.href = "/settlement";
+    //   } else {
+    //     this.showLoginBox();
+    //   }
+    // },
     // 加入购物车
     addToCart(index) {
       if (this.UsrName !== "") {
@@ -110,7 +110,7 @@ new Vue({
           BookId: this.bookItem[index].Id,
           BookName: this.bookItem[index].Name,
           Author: this.bookItem[index].Author,
-          Image: this.bookItem[index].Image,
+          Image: this.bookItem[index].Image[0],
           Storage: this.bookItem[index].Count,
           SellPrice: this.bookItem[index].SellPrice,
           Count: count

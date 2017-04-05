@@ -38,6 +38,10 @@ $color: #f86d0d;
             float: left;
             margin: 0 10px 0 0;
             border: 1px solid #fff;
+            &:hover {
+              border-color: $color;
+              cursor: pointer;
+            }
           }
         }
       }

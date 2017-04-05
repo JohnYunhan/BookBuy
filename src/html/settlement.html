@@ -41,11 +41,126 @@
             <img @click="toHome" src="img/logo.png" alt="BookBuy图书网">
             <span>填写订单</span>
           </div>
-          <div style="width: 385px;" flex="cross:center" class="input-group">
-            <input @keyup.enter="search" v-model="searchKey" style="display: inline;width: 340px;" type="text" class="form-control search" placeholder="图书名称">
-            <span style="width: 45px" class="input-group-btn">
-        <button @click="search" class="btn btn-default btn-search" type="button"><span style="font-size: 16px;" class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </span>
+          <div class="process">
+            <img src="img/cart2.png" alt="购书流程">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="settle-infor">
+      <div class="settle-title" flex="dir:left cross:center main:center">
+        <div class="book-name">图书名称</div>
+        <div class="book-storage">库存(本)</div>
+        <div class="book-price">单价</div>
+        <div class="book-num">数量</div>
+        <div class="book-rebate">优惠方式</div>
+        <div class="book-sum">合计(元)</div>
+      </div>
+      <div v-for="(item,index) in settleItem" class="settle-item" flex="dir:left cross:center">
+        <div class="book-name" flex="main:left">
+          <img @click="lookDetail(item.BookId)" :src="imageS[index]" :alt="item.BookName">
+          <span flex="dir:top">
+          <a @click="lookDetail(item.BookId)" href="javascript:;">{{item.BookName}}</a>
+          <span flex="main:left"><a href="javascript:;">{{item.Author}}</a>&nbsp; 著</span>
+          <span flex="main:left"><img src="img/eleven.png"><img src="img/privoid.png"><img src="img/product.png"></span>
+          </span>
+        </div>
+        <div class="book-storage">
+          {{item.Storage}}
+        </div>
+        <div class="book-price">￥{{item.SellPrice}}</div>
+        <div class="book-num">
+          <a @click="minusNum(index)" href="javascript:;" class="minus">-</a>
+          <input @keyup="ensureNum(index)" class="form-control" type="text" v-model.number="selectNum[index]" :value="item.Count" class="num">
+          <a @click="addNum(index)" href="javascript:;" class="add">+</a>
+        </div>
+        <div class="book-rebate">无</div>
+        <div class="book-sum"><b>￥{{sumPrice[index]}}</b></div>
+      </div>
+      <div class="settle-detail">
+        <div class="detail-top" flex="main:justify">
+          <div class="invoice">
+            <input type="checkbox" v-model="invoice" id="invoice" />
+            <label for="invoice">开具发票</label>
+          </div>
+          <div class="delivery-time">
+            <span>配送时间：</span>
+            <select class="form-control" v-model="deliveryDay" id="day">
+              <option value="今天">今天</option>
+              <option value="明天">明天</option>
+              <option value="后天">后天</option>
+            </select>
+            <select class="form-control" v-model="deliveryTime" id="time">
+              <option value="尽快配送">尽快配送</option>
+              <option value="09:00~12:00">9:00~12:00</option>
+              <option value="12:00~14:00">12:00~14:00</option>
+              <option value="14:00~16:00">14:00~16:00</option>
+              <option value="16:00~18:00">16:00~18:00</option>
+              <option value="18:00~20:00">18:00~20:00</option>
+              <option value="20:00~22:00">20:00~22:00</option>
+            </select>
+          </div>
+          <div class="delivery-freight">
+            配送费：<b>￥{{freight}}</b>
+          </div>
+        </div>
+        <div v-show="invoice" class="detail-middle">
+          <div class="invoice-infor">
+            <span>发票信息：</span>
+            <select class="form-control" v-model="invoiceInfor">
+              <option value="图书">图书</option>
+              <option value="办公用品">办公用品</option>
+            </select>
+          </div>
+          <div class="invoice-header">
+            发票抬头：<span v-if="!isUpdate">&nbsp;{{invoiceName}}</span>
+            <input placeholder="姓名" @keyup.enter="updateInvoice" v-else @blur="updateInvoice" class="form-control" type="text" v-model="invoiceName">&nbsp;
+            <a href="javascript:;" @click="updateInvoice">{{updateText}}</a>
+          </div>
+        </div>
+        <div class="detail-bottom" flex="main:justify cross:center">
+          <div class="note">
+            <textarea class="form-control" placeholder="给卖家留言" v-model="note" cols="30" rows="3"></textarea>
+            <span>还能输入{{noteCount}}字</span>
+          </div>
+          <div class="total-price">
+            总计(含配送费)<b>￥{{totalPrice}}</b>
+          </div>
+        </div>
+      </div>
+      <div class="delivery-order-infor" flex="main:justify">
+        <div class="delivery-infor">
+          <div class="input-group name">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+            <input @blur="checkName" v-model="Name" type="text" class="form-control" placeholder="收货人" />
+          </div>
+          <div class="error-infor">{{nameError}}</div>
+          <div class="input-group mobile">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+            <input @blur="checkMobile" v-model="Mobile" type="text" class="form-control" placeholder="手机号" />
+          </div>
+          <div class="error-infor">{{mobileError}}</div>
+          <div class="input-group address">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
+            <input @blur="checkAddress" v-model="Address" type="text" class="form-control" placeholder="收货地址(楼栋、寝室号)" />
+          </div>
+          <div class="error-infor">{{addressError}}</div>
+        </div>
+        <div class="order-infor">
+          <div class="order-total">
+            <b>实付款：<span>￥{{totalPrice}}</span></b>
+          </div>
+          <div class="order-address">
+            <b>配送至：</b>
+            <span>{{Address}}</span>
+          </div>
+          <div class="order-delivery">
+            <b>收货人：</b>
+            <span>{{Name}}</span>
+            <span>{{Mobile}}</span>
+          </div>
+          <div class="submit-order-btn">
+            <button class="btn" @click="submitOrder">提交订单</button>
           </div>
         </div>
       </div>

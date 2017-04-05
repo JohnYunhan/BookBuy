@@ -123,6 +123,7 @@ header {
           background-color: $color;
           color: #fff;
           border: 2px solid $color;
+          border-radius: 4px 0 0 4px;
           &:hover {
             background-color: #f6f6f6;
             color: #f86d0d;
@@ -133,6 +134,7 @@ header {
           color: #555;
           background-color: #f6f6f6;
           border: 2px solid #dcdcdc;
+          border-radius: 0 4px 4px 0;
           border-left: 0;
           &:hover {
             color: $color;
@@ -158,6 +160,7 @@ header {
         }
         li.selected {
           background-color: #f86d0d;
+          border-radius: 4px 4px 0 0;
           &:hover {
             color: #fff;
             opacity: .9;

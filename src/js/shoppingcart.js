@@ -38,6 +38,10 @@ new Vue({
           //获取购物车图书总数
           var count = 0;
           var sum = 0; //购物车中没件商品的合计价格
+          this.selectNum = [];
+          this.checkedItem = [];
+          this.isChecked = [];
+          this.sumPrice = [];
           if (this.cartItem.length !== 0) {
             for (var item of this.cartItem) {
               count += item.Count;
@@ -143,14 +147,15 @@ new Vue({
         Vue.set(this.selectNum, index, num + 1);
       } else {
         Vue.set(this.selectNum, index, storage);
+        layer.msg("已超库存", { icon: 0, time: 2500 })
       }
       //合计
       var sum = (this.cartItem[index].SellPrice * this.selectNum[index]).toFixed(1);
       Vue.set(this.sumPrice, index, sum);
     },
-    del(id) {
+    del(index) {
       var _this = this;
-      var data = { Id: id };
+      var data = { Id: this.cartItem[index].Id };
       data = JSON.stringify(data);
       fetch("/api/delCar", {
         method: "POST",
@@ -162,6 +167,7 @@ new Vue({
       }).then((result) => result.json()).then(function(res) {
         if (res.Code === 200) {
           layer.msg('删除成功', { icon: 1, time: 3000 });
+          Vue.set(_this.sumPrice, index, 0);
           _this.getCart();
         } else {
           layer.msg('删除失败，请稍后再试', { icon: 0, time: 2500 });
@@ -173,12 +179,12 @@ new Vue({
       });
     },
     //删除购物车中的某一件商品
-    delCart(id) {
+    delCart(index) {
       var _this = this;
       var confirm = layer.confirm('确定要删除吗？', {
         btn: ['确定', '取消'] //按钮
       }, function() {
-        _this.del(id);
+        _this.del(index);
         layer.close(confirm)
       }, function() {
         layer.close(confirm)
@@ -186,9 +192,7 @@ new Vue({
     },
     //批量删除
     batchDel() {
-      this.Valid = true;
-      this.judgeChecked();
-      if (this.Valid) {
+      if (this.totalPrice !== 0) {
         var _this = this;
         var id = "";
         var confirm = layer.confirm('确定要删除吗？', {
@@ -196,8 +200,7 @@ new Vue({
         }, function() {
           for (var i = 0; i < _this.checkedItem.length; i++) {
             if (_this.checkedItem[i]) {
-              id = _this.cartItem[i].Id;
-              _this.del(id);
+              _this.del(i);
             }
           }
         }, function() {
@@ -222,20 +225,27 @@ new Vue({
     },
     //跳到结算页结算
     settleCart() {
-      this.Valid = true;
-      this.judgeChecked();
-      if (this.Valid) {
-        var cartId = []; //要结算的购物车ID集合
-        var selectedNum = []; //要结算的购物车ID所对应的数量集合
+      if (this.totalPrice !== 0) {
+        var buyInfor = [];
         for (var i = 0; i < this.checkedItem.length; i++) {
           if (this.checkedItem[i]) {
-            cartId.push(this.cartItem[i].Id);
-            selectedNum.push(this.selectNum[i]);
+            buyInfor.push({
+              "cartId": this.cartItem[i].Id,
+              "BookId": this.cartItem[i].BookId,
+              "BookName": this.cartItem[i].BookName,
+              "Image": this.cartItem[i].Image,
+              "Author": this.cartItem[i].Author,
+              "SellPrice": this.cartItem[i].SellPrice,
+              "count": this.selectNum[i],
+              "sumPrice": parseFloat(this.sumPrice[i]),
+              "Storage": this.cartItem[i].Storage
+            });
           }
-        }
-        sessionStorage.setItem("cartId", cartId.toString());
-        sessionStorage.setItem("selectedNum", selectedNum.toString());
-        sessionStorage.setItem("totalPrice", this.totalPrice.toString());
+        };
+        //保存购书信息
+        sessionStorage.setItem("buyInfor", JSON.stringify(buyInfor));
+        sessionStorage.setItem("source", "shoppingcart");
+        //跳转到结算页
         location.href = "/settlement";
       } else {
         layer.msg('请选择要结算的图书', { icon: 0, time: 2500 });
@@ -264,7 +274,6 @@ new Vue({
         shadeClose: false,
         closeBtn: 1,
       });
-      // console.log(2333)
     },
     // 验证账号
     checkAccount() {
@@ -340,8 +349,10 @@ new Vue({
     //选购的图书总数
     selectedNum() {
       var count = 0;
-      for (var num of this.selectNum) {
-        count += num;
+      for (var j = 0; j < this.selectNum.length; j++) {
+        if (this.checkedItem[j]) {
+          count += this.selectNum[j];
+        }
       }
       return count;
     },
@@ -353,7 +364,7 @@ new Vue({
           total += parseFloat(this.sumPrice[i]);
         }
       }
-      return total;;
+      return total;
     },
   },
 })

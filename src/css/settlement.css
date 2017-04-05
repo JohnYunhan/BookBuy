@@ -3,3 +3,126 @@
   margin-left: 10px;
   font-size: 26px;
   font-weight: 700; }
+
+.settle-infor {
+  width: 1000px;
+  margin: 10px auto; }
+  .settle-infor .settle-title,
+  .settle-infor .settle-item {
+    background-color: #fafafa;
+    padding: 10px; }
+    .settle-infor .settle-title .book-name,
+    .settle-infor .settle-item .book-name {
+      width: 220px;
+      text-align: center; }
+    .settle-infor .settle-title .book-storage,
+    .settle-infor .settle-item .book-storage {
+      width: 80px;
+      text-align: center; }
+    .settle-infor .settle-title .book-price,
+    .settle-infor .settle-item .book-price {
+      width: 160px;
+      text-align: center; }
+    .settle-infor .settle-title .book-num,
+    .settle-infor .settle-item .book-num {
+      width: 160px;
+      text-align: center; }
+    .settle-infor .settle-title .book-rebate,
+    .settle-infor .settle-item .book-rebate {
+      width: 160px;
+      text-align: center; }
+    .settle-infor .settle-title .book-sum,
+    .settle-infor .settle-item .book-sum {
+      width: 200px;
+      text-align: center; }
+  .settle-infor .settle-item {
+    margin-top: 10px; }
+    .settle-infor .settle-item .book-name > img {
+      cursor: pointer; }
+    .settle-infor .settle-item .book-name span img {
+      display: inline-block;
+      margin-right: 10px; }
+    .settle-infor .settle-item .book-num {
+      position: relative; }
+      .settle-infor .settle-item .book-num a {
+        text-decoration: none;
+        background-color: #ebebeb;
+        text-align: center;
+        width: 25px;
+        height: 25px;
+        line-height: 24px;
+        font-size: 16px;
+        display: inline-block;
+        cursor: pointer;
+        margin: 0;
+        position: absolute; }
+        .settle-infor .settle-item .book-num a:hover {
+          opacity: .8; }
+      .settle-infor .settle-item .book-num a.minus {
+        left: 25px; }
+      .settle-infor .settle-item .book-num input {
+        display: inline;
+        border-radius: 0;
+        width: 60px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center; }
+    .settle-infor .settle-item .book-sum {
+      color: #f86d0d; }
+  .settle-infor .settle-detail {
+    background-color: #fafafa;
+    margin-top: 10px;
+    padding: 10px; }
+    .settle-infor .settle-detail .detail-top {
+      margin-top: 10px; }
+      .settle-infor .settle-detail .detail-top .delivery-time {
+        margin-left: 50px; }
+      .settle-infor .settle-detail .detail-top .delivery-freight {
+        margin-right: 50px; }
+        .settle-infor .settle-detail .detail-top .delivery-freight > b {
+          color: #f86d0d; }
+    .settle-infor .settle-detail .detail-middle {
+      margin-bottom: 10px; }
+      .settle-infor .settle-detail .detail-middle .invoice-header {
+        margin-top: 5px; }
+        .settle-infor .settle-detail .detail-middle .invoice-header input {
+          width: 104px;
+          display: inline-block;
+          margin-left: 4px; }
+    .settle-infor .settle-detail .detail-bottom .total-price b {
+      color: #f86d0d;
+      font-size: 20px;
+      display: inline-block;
+      width: 80px;
+      text-align: center; }
+  .settle-infor .delivery-order-infor {
+    margin-top: 10px;
+    padding: 10px; }
+    .settle-infor .delivery-order-infor .delivery-infor {
+      width: 260px; }
+      .settle-infor .delivery-order-infor .delivery-infor .error-infor {
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+        color: red; }
+    .settle-infor .delivery-order-infor .order-infor {
+      width: 340px;
+      height: 142px;
+      border: 1px solid #f86d0d;
+      border-radius: 4px;
+      text-align: left;
+      padding: 10px;
+      padding-top: 5px; }
+      .settle-infor .delivery-order-infor .order-infor .order-total,
+      .settle-infor .delivery-order-infor .order-infor .order-address {
+        margin-bottom: 10px; }
+      .settle-infor .delivery-order-infor .order-infor .order-total span {
+        font-size: 26px;
+        color: #f86d0d; }
+      .settle-infor .delivery-order-infor .order-infor .submit-order-btn {
+        text-align: right; }
+        .settle-infor .delivery-order-infor .order-infor .submit-order-btn button {
+          background-color: #f86d0d;
+          color: #fff; }
+          .settle-infor .delivery-order-infor .order-infor .submit-order-btn button:hover {
+            opacity: .8; }

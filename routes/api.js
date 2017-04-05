@@ -138,8 +138,7 @@ router.post('/editUser', function(req, res, next) {
     Mobile: req.body.Mobile,
     Email: req.body.Email,
     Address: req.body.Address,
-    UpdateDate: Date.now(),
-    Valid: req.body.Valid
+    UpdateDate: Date.now()
   });
   Users.editUser(json).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
@@ -255,13 +254,21 @@ router.post('/getOrderById', function(req, res, next) {
 //新增订单
 router.post('/addOrder', function(req, res, next) {
   let json = new Orders({
-    BookId: req.body.BookId,
     UserId: req.UserInfo.Id,
+    Nick: req.body.Nick,
+    BookId: req.body.BookId,
+    BookName: req.body.BookName,
+    Price: req.body.Price,
+    Image: req.body.Image,
     Count: req.body.Count,
+    Freight: req.body.Freight,
     Total: req.body.Total,
     Name: req.body.Name,
     Mobile: req.body.Mobile,
-    Address: req.body.Address
+    Address: req.body.Address,
+    Note: req.body.Note,
+    DeliveryTime: req.body.DeliveryTime,
+    InvoiceInfor: req.body.InvoiceInfor
   });
   Orders.addOrder(json).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
@@ -275,11 +282,18 @@ router.post('/editOrder', function(req, res, next) {
   let json = new Orders({
     Id: req.body.Id,
     BookId: req.body.BookId,
+    BookName: req.body.BookName,
+    Image: req.body.Image,
     Count: req.body.Count,
+    Price: req.body.Price,
+    Freight: req.body.Freight,
     Total: req.body.Total,
     Name: req.body.Name,
     Mobile: req.body.Mobile,
     Address: req.body.Address,
+    Note: req.body.Note,
+    DeliveryTime: req.body.DeliveryTime,
+    InvoiceInfor: req.body.InvoiceInfor,
     Status: req.body.Status
   });
   Orders.editOrder(json).then(result => {

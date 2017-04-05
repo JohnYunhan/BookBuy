@@ -169,7 +169,6 @@ User.statics.editUser = function(json) {
         result.Mobile = json.Mobile;
         result.Email = json.Email;
         result.Address = json.Address;
-        result.Valid = json.Valid;
         result.UpdateDate = json.UpdateDate;
         result.save((err, res) => {
           if (res) {

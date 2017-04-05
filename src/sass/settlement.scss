@@ -13,3 +13,170 @@ $color: #f86d0d;
     }
   }
 }
+
+.settle-infor {
+  width: 1000px;
+  margin: 10px auto;
+  .settle-title,
+  .settle-item {
+    background-color: #fafafa;
+    padding: 10px;
+    .book-name {
+      width: 220px;
+      text-align: center;
+    }
+    .book-storage {
+      width: 80px;
+      text-align: center;
+    }
+    .book-price {
+      width: 160px;
+      text-align: center;
+    }
+    .book-num {
+      width: 160px;
+      text-align: center;
+    }
+    .book-rebate {
+      width: 160px;
+      text-align: center;
+    }
+    .book-sum {
+      width: 200p text-align: center;
+    }
+  }
+  .settle-item {
+    margin-top: 10px;
+    .book-name {
+      >img {
+        cursor: pointer;
+      }
+      span {
+        img {
+          display: inline-block;
+          margin-right: 10px;
+        }
+      }
+    }
+    .book-num {
+      position: relative;
+      a {
+        text-decoration: none;
+        background-color: #ebebeb;
+        text-align: center;
+        width: 25px;
+        height: 25px;
+        line-height: 24px;
+        font-size: 16px;
+        display: inline-block;
+        cursor: pointer;
+        margin: 0;
+        position: absolute;
+        &:hover {
+          opacity: .8;
+        }
+      }
+      a.minus {
+        left: 25px;
+      }
+      input {
+        display: inline;
+        border-radius: 0;
+        width: 60px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+      }
+    }
+    .book-sum {
+      color: $color;
+    }
+  }
+  .settle-detail {
+    background-color: #fafafa;
+    margin-top: 10px;
+    padding: 10px;
+    .detail-top {
+      margin-top: 10px;
+      .delivery-time {
+        margin-left: 50px;
+      }
+      .delivery-freight {
+        margin-right: 50px;
+        >b {
+          color: $color;
+        }
+      }
+    }
+    .detail-middle {
+      margin-bottom: 10px;
+      .invoice-header {
+        margin-top: 5px;
+        input {
+          width: 104px;
+          display: inline-block;
+          margin-left: 4px;
+        }
+      }
+    }
+    .detail-bottom {
+      .note {
+        textarea {
+          // padding: 10px;
+        }
+      }
+      .total-price {
+        b {
+          color: $color;
+          font-size: 20px;
+          display: inline-block;
+          width: 80px;
+          text-align: center;
+        }
+      }
+    }
+  }
+  .delivery-order-infor {
+    margin-top: 10px;
+    padding: 10px;
+    .delivery-infor {
+      width: 283px;
+      .input-group {}
+      .error-infor {
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+        color: red;
+      }
+    }
+    .order-infor {
+      width: 340px;
+      height: 142px;
+      border: 1px solid $color;
+      border-radius: 4px;
+      text-align: left;
+      padding: 10px;
+      padding-top: 5px;
+      .order-total,
+      .order-address {
+        margin-bottom: 10px;
+      }
+      .order-total {
+        span {
+          font-size: 26px;
+          color: $color;
+        }
+      }
+      .submit-order-btn {
+        text-align: right;
+        button {
+          background-color: $color;
+          color: #fff;
+          &:hover {
+            opacity: .8;
+          }
+        }
+      }
+    }
+  }
+}
