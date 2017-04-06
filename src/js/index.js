@@ -131,8 +131,25 @@ new Vue({
     },
     //跳转到图书详情页，查看详情
     lookDetail(id) {
+      this.addClickCount();
       sessionStorage.setItem("lookBookId", id);
       location.href = "/book-detail";
+    },
+    //增加图书的点击次数
+    addClickCount() {
+      fetch("/api/addClickCount", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then(result => result.json()).then(res => {
+        if (res.Code !== 200) {
+          console.log(res.Message);
+        }
+      }).catch(function(error) {
+        console.log(error)
+      })
     },
     // 显示登录框
     showLoginBox() {

@@ -95,9 +95,9 @@
       <div class="recommend-book">
         <p flex="main:justify cross:center"><span>主打推荐</span><span class="more">More &gt;&gt;</span></p>
         <ul>
-          <li flex="dir:top cross:center" v-for="item in recommendBook">
+          <li flex="dir:top cross:center" @click="lookDetail(item.Id)" v-for="item in recommendBook">
             <img :src="item.Image[1]" :alt="item.Name">
-            <a href="javascript:;" @click="lookDetail(item.Id)">{{item.Name}}</a>
+            <a href="javascript:;">{{item.Name}}</a>
             <span>定价：￥<del>{{item.ListPrice}}</del></span>
             <span>售价：￥<b>{{item.SellPrice}}</b></span>
           </li>

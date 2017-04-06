@@ -103,6 +103,16 @@ router.get('/getBookById', function(req, res, next) {
   })
 });
 
+//增加图书的点击次数
+router.get('/addClickCount', function(req, res, next) {
+  let Id = req.query.Id;
+  Books.addClickCount(Id).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
 //根据Id获取会员
 router.get('/getUserById', function(req, res, next) {
   let Id = req.UserInfo.Id;
