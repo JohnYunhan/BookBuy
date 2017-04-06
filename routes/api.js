@@ -188,6 +188,7 @@ router.post('/addCar', function(req, res, next) {
     UserId: req.UserInfo.Id,
     BookId: req.body.BookId,
     BookName: req.body.BookName,
+    Category: req.body.Category,
     Author: req.body.Author,
     Image: req.body.Image,
     Storage: req.body.Storage,

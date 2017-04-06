@@ -84,6 +84,7 @@ new Vue({
         var buyInfor = {
           "BookId": this.bookItem.Id,
           "BookName": this.bookItem.Name,
+          "Category": this.bookItem.Category,
           "Image": this.imageS,
           "SellPrice": this.bookItem.SellPrice,
           "count": this.selectNum,
@@ -116,6 +117,7 @@ new Vue({
         var data = {
           BookId: bookid,
           BookName: this.bookItem.Name,
+          Category: this.bookItem.Category,
           Author: this.bookItem.Author,
           Image: this.imageS,
           Storage: this.bookItem.Count,

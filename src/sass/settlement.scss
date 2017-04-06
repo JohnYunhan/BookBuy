@@ -1,19 +1,4 @@
 $color: #f86d0d;
-.wraps {
-  .wrap {
-    .seach-bar {
-      .logo {
-        span {
-          display: inline-block;
-          margin-left: 10px;
-          font-size: 26px;
-          font-weight: 700;
-        }
-      }
-    }
-  }
-}
-
 .settle-infor {
   width: 1000px;
   margin: 10px auto;
@@ -42,7 +27,8 @@ $color: #f86d0d;
       text-align: center;
     }
     .book-sum {
-      width: 200p text-align: center;
+      width: 200px;
+      text-align: center;
     }
   }
   .settle-item {

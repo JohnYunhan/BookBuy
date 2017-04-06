@@ -39,7 +39,7 @@
         <div class="seach-bar" flex="main:justify">
           <div class="logo">
             <img @click="toHome" src="img/logo.png" alt="BookBuy图书网">
-            <span>填写订单</span>
+            <span>完成订单</span>
           </div>
           <div class="process">
             <img src="img/cart3.png" alt="完成订单">
@@ -47,7 +47,16 @@
         </div>
       </div>
     </div>
-    <div class="finish-order"></div>
+    <div class="finish-order">
+      <div class="finish-submit" flex="dir:left main:center cross:center">
+        <img src="img/success.png" alt="提交成功">
+        <div class="finish-hint" flex="dir:top">
+          <span>订单已成功提交</span>
+          <p>您还可以<a href="javascript:;" @click="toHome">继续购书</a><a href="javascript:;" @click="toMyorder">查看订单</a>
+          </p>
+        </div>
+      </div>
+    </div>
     <footer flex="main:center cross:center">
       <small>Copyright &copy; BookBuy图书网 2017, All Rights Reserved</small>
     </footer>

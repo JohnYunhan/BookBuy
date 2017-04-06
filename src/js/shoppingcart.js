@@ -53,6 +53,7 @@ new Vue({
             }
           }
           this.carNum = count;
+          // console.log(this.cartItem)
         }
       }).catch(error => {
         layer.msg("服务器错误，请稍后再试")
@@ -61,13 +62,13 @@ new Vue({
     },
     //跳转到图书详情页，查看详情
     lookDetail(id) {
-      this.addClickCount();
+      this.addClickCount(id);
       sessionStorage.setItem("lookBookId", id);
       location.href = "/book-detail";
     },
     //增加图书的点击次数
-    addClickCount() {
-      fetch("/api/addClickCount", {
+    addClickCount(id) {
+      fetch("/api/addClickCount?Id=" + id, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -77,6 +78,7 @@ new Vue({
         if (res.Code !== 200) {
           console.log(res.Message);
         }
+        console.log(res);
       }).catch(function(error) {
         console.log(error)
       })
@@ -250,6 +252,7 @@ new Vue({
               "cartId": this.cartItem[i].Id,
               "BookId": this.cartItem[i].BookId,
               "BookName": this.cartItem[i].BookName,
+              "Category": this.cartItem[i].Category,
               "Image": this.cartItem[i].Image,
               "Author": this.cartItem[i].Author,
               "SellPrice": this.cartItem[i].SellPrice,

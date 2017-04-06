@@ -65,7 +65,7 @@ header {
     .wraps div.wrap .seach-bar {
       height: 80px;
       line-height: 80px; }
-      .wraps div.wrap .seach-bar .logo {
+      .wraps div.wrap .seach-bar .logo > img {
         cursor: pointer; }
       .wraps div.wrap .seach-bar .input-group .search-box {
         margin-top: 20px;
@@ -129,6 +129,12 @@ header {
           .wraps div.wrap nav > ul li.selected:hover {
             color: #fff;
             opacity: .9; }
+
+.wraps .wrap .seach-bar .logo span {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 26px;
+  font-weight: 700; }
 
 footer {
   width: 100%;

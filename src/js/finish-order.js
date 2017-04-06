@@ -15,6 +15,31 @@ new Vue({
     this.checkLogin();
   },
   methods: {
+    // 获取用户的购物车
+    getCart() {
+      fetch("/api/getCarList", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.cartItem = res.Data;
+          //获取购物车图书总数
+          var count = 0;
+          if (this.cartItem.length !== 0) {
+            for (var item of this.cartItem) {
+              count += item.Count;
+            }
+          }
+          this.carNum = count;
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
+    },
     //跳到首页
     toHome() {
       location.href = "/index";
@@ -22,6 +47,8 @@ new Vue({
     toCart() {
       location.href = "/shoppingcart";
     },
+    //跳到我的订单
+    toMyorder() {},
     //验证是否登录
     checkLogin() {
       if (!localStorage.nick) {
@@ -29,7 +56,6 @@ new Vue({
       } else {
         this.UsrName = localStorage.nick;
         this.getCart();
-        this.getUserInfor();
       }
     },
     // 显示登录框

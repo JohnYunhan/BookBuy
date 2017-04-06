@@ -288,7 +288,8 @@ Book.statics.addClickCount = function(Id) {
     let query = this.findOne({ Id: Id });
     query.exec((error, result) => {
       if (result) {
-        result.ClickCount = result.ClickCount++;
+        let count = result.ClickCount;
+        result.ClickCount = count + 1;
         result.save((err, res) => {
           if (res) {
             resolve(res);

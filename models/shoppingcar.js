@@ -24,6 +24,10 @@ let Car = mongoose.Schema({
     type: String,
     required: true,
   }, //图书名称
+  Category: {
+    type: String,
+    required: true,
+  }, //图书类别
   Author: {
     type: String,
     required: true
@@ -59,7 +63,7 @@ Car.statics.getCarList = function(userid) {
   return new Promise((resolve, reject) => {
     let query = this.find({ UserId: userid });
     query.sort({ UpdateDate: -1 }); //根据日期倒序
-    query.select("Id BookId BookName Author Storage SellPrice Image Count");
+    query.select("Id BookId BookName Category Author Storage SellPrice Image Count");
     query.exec((error, result) => {
       if (result) {
         resolve(result);

@@ -57,13 +57,13 @@ new Vue({
     },
     //跳转到图书详情页，查看详情
     lookDetail(id) {
-      this.addClickCount();
+      this.addClickCount(id);
       sessionStorage.setItem("lookBookId", id);
       location.href = "/book-detail";
     },
     //增加图书的点击次数
-    addClickCount() {
-      fetch("/api/addClickCount", {
+    addClickCount(id) {
+      fetch("/api/addClickCount?Id=" + id, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -73,6 +73,7 @@ new Vue({
         if (res.Code !== 200) {
           console.log(res.Message);
         }
+        console.log(res);
       }).catch(function(error) {
         console.log(error)
       })
@@ -170,6 +171,7 @@ new Vue({
         var image = [];
         var count = [];
         var price = [];
+        var category = [];
         var invoiceInfor = "";
         for (var i = 0; i < this.settleItem.length; i++) {
           bookid.push(this.settleItem[i].BookId);
@@ -177,6 +179,7 @@ new Vue({
           image.push(this.settleItem[i].Image);
           count.push(this.selectNum[i]);
           price.push(this.settleItem[i].SellPrice);
+          category.push(this.settleItem[i].Category);
         };
         //选择了开具发票
         if (invoice) {
@@ -217,8 +220,9 @@ new Vue({
             sessionStorage.setItem("buyInfor", "");
             sessionStorage.setItem("totalPrice", "");
             sessionStorage.setItem("source", "");
-            // location.href = "/finish-order";
-            layer.msg(66666)
+            sessionStorage.setItem("category", category.toString());
+            sessionStorage.setItem("bookid", bookid.toString());
+            location.href = "/finish-order";
           } else {
             layer.msg("服务器错误，请稍后再试");
             console.log(res.Message);

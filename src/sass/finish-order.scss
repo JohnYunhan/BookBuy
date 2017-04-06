@@ -1,1 +1,24 @@
-
+$color: #f86d0d;
+.finish-order {
+  width: 1000px;
+  margin: 10px auto;
+  .finish-submit {
+    width: 100%;
+    background-color: #F8F9FB;
+    .finish-hint {
+      margin-left: 20px;
+      span {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      p {
+        a {
+          font-weight: 700;
+          display: inline-block;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

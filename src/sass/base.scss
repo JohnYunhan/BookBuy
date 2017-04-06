@@ -83,7 +83,9 @@ header {
       height: 80px;
       line-height: 80px;
       .logo {
-        cursor: pointer;
+        >img {
+          cursor: pointer;
+        }
       }
       .input-group {
         .search-box {
@@ -165,6 +167,21 @@ header {
             color: #fff;
             opacity: .9;
           }
+        }
+      }
+    }
+  }
+}
+
+.wraps {
+  .wrap {
+    .seach-bar {
+      .logo {
+        span {
+          display: inline-block;
+          margin-left: 10px;
+          font-size: 26px;
+          font-weight: 700;
         }
       }
     }
