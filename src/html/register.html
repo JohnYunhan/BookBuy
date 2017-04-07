@@ -3,37 +3,37 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="/lib/css/bootstrap.min.css">
+  <link href="lib/flex.css" rel="stylesheet">
+  <link href="css/base.css" rel="stylesheet">
   <link href="css/register.css" rel="stylesheet">
   <title>会员注册</title>
 </head>
 
 <body>
-  <div id="right">
-    <div id="register">
-      <div class="input-group regitem">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-        <input type="text" class="form-control" placeholder="2~6位字母或汉字" v-model="Nick" autofocus/>
-      </div>
-      <p class="inforerror regitem"></p>
-      <div class="input-group regitem">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-        <input type="password" class="form-control" placeholder="6~16位数字和字母" v-model="Password" />
-      </div>
-      <p class="inforerror regitem"></p>
-      <div class="input-group regitem">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-        <input type="password" class="form-control" placeholder="确认密码" v-model="confirmPassword" />
-      </div>
-      <p class="inforerror regitem"></p>
-      <div class="input-group regitem">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
-        <input type="text" class="form-control" placeholder="11位手机号" v-model="Mobile" autofocus/>
-      </div>
-      <p class="inforerror regitem"></p>
-      <div>
-        <button @click="save">立即注册</button>
-      </div>
+  <div id="register">
+    <div class="input-group regitem">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+      <input type="text" class="form-control" placeholder="2~6位字母或汉字" v-model="Nick" autofocus/>
+    </div>
+    <p class="inforerror regitem"></p>
+    <div class="input-group regitem">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+      <input type="password" class="form-control" placeholder="6~16位数字和字母" v-model="Password" />
+    </div>
+    <p class="inforerror regitem"></p>
+    <div class="input-group regitem">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+      <input type="password" class="form-control" placeholder="确认密码" v-model="confirmPassword" />
+    </div>
+    <p class="inforerror regitem"></p>
+    <div class="input-group regitem">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+      <input type="text" class="form-control" placeholder="11位手机号" v-model="Mobile" autofocus/>
+    </div>
+    <p class="inforerror regitem"></p>
+    <div>
+      <button @click="register">立即注册</button>
     </div>
   </div>
   <script src="/lib/jquery-1.10.2.min.js"></script>

@@ -25,7 +25,7 @@ body {
     color: red;
     height: 20px;
     line-height: 20px;
-    margin: 5px 0; }
+    font-size: 12px; }
   #loginbox button.login-btn {
     background-color: #f86d0d;
     border: none;
