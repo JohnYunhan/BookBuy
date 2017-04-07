@@ -5,42 +5,85 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/lib/css/bootstrap.min.css">
   <link href="lib/flex.css" rel="stylesheet">
-  <link href="css/base.css" rel="stylesheet">
   <link href="css/register.css" rel="stylesheet">
   <title>会员注册</title>
 </head>
 
 <body>
   <div id="register">
-    <div class="input-group regitem">
-      <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      <input type="text" class="form-control" placeholder="2~6位字母或汉字" v-model="Nick" autofocus/>
+    <header>
+      <div class="header" flex="main:justify">
+        <div class="header-left-logo">
+          <img src="img/logo.png" alt="BookBuy图书网">
+        </div>
+        <div class="header-right-manage">
+          <div class="manage-left">
+            <a href="javascript:;"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车&nbsp;<b>0</b></a>
+            <span>|</span>
+            <a href="javascript:;"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 我的订单</a>
+            <span>|</span>
+            <a href="javascript:;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 我的账户</a>
+            <span>|</span>
+            <a href="javascript:;"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> 留言</a>
+          </div>
+          <div class="manage-right">
+            欢迎光临<b>BookBuy</b>图书网，<a href="javascript:;" @click="showLoginBox">[请登录]</a>
+            <a href="javascript:;">[免费注册]</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="register" flex="dir:left main:justify">
+      <div class="register-slogan">
+        <div><img src="img/register.png" alt="注册"></div>
+        <h4>注册BookBuy账号</h4>
+        <p>简单几步，即可开启您的购书之旅</p>
+      </div>
+      <div class="register-form">
+        <div class="title">快来开启您的购书之旅吧~</div>
+        <div class="input-group">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+          <input type="text" class="form-control" placeholder="昵称，2~6位字母或汉字" v-model="Nick" autofocus/>
+        </div>
+        <p>{{nickError}}</p>
+        <div class="input-group">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+          <input type="text" class="form-control" placeholder="11位手机号" v-model="Mobile" />
+        </div>
+        <p>{{mobileError}}</p>
+        <div class="input-group">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+          <input type="password" class="form-control" placeholder="密码，6~16位数字和字母" v-model="Password" />
+        </div>
+        <p>{{pwdError}}</p>
+        <div class="input-group">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+          <input type="password" class="form-control" placeholder="确认密码" v-model="confirmPassword" />
+        </div>
+        <p>{{confirmPwdError}}</p>
+        <div class="input-group register-drag">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-check"></span></span>
+          <div id="drag">
+            <div class="drag_bg"></div>
+            <div class="drag_text" onselectstart="return false;" unselectable="on">拖动滑块验证</div>
+            <div class="handler handler_bg"></div>
+          </div>
+        </div>
+        <p>{{handlerError}}</p>
+        <div class="register-btn">
+          <button class="btn" @click="register">立即注册</button>
+        </div>
+      </div>
     </div>
-    <p class="inforerror regitem"></p>
-    <div class="input-group regitem">
-      <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-      <input type="password" class="form-control" placeholder="6~16位数字和字母" v-model="Password" />
-    </div>
-    <p class="inforerror regitem"></p>
-    <div class="input-group regitem">
-      <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-      <input type="password" class="form-control" placeholder="确认密码" v-model="confirmPassword" />
-    </div>
-    <p class="inforerror regitem"></p>
-    <div class="input-group regitem">
-      <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
-      <input type="text" class="form-control" placeholder="11位手机号" v-model="Mobile" autofocus/>
-    </div>
-    <p class="inforerror regitem"></p>
-    <div>
-      <button @click="register">立即注册</button>
-    </div>
+    <footer flex="main:center cross:center">
+      <small>Copyright &copy; BookBuy图书网 2017, All Rights Reserved</small>
+    </footer>
   </div>
-  <script src="/lib/jquery-1.10.2.min.js"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src="/lib/layer/layer.js"></script>
-  <script src="https://cdn.bootcss.com/fetch/2.0.2/fetch.min.js"></script>
-  <script src="https://cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
+  <script src="lib/jquery-1.10.2.min.js"></script>
+  <script src="lib/js/bootstrap.min.js"></script>
+  <script src="lib/layer/layer.js"></script>
+  <script src="//cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
+  <script src="//cdn.bootcss.com/fetch/2.0.2/fetch.min.js"></script>
   <script src="/js/register.js"></script>
 </body>
 
