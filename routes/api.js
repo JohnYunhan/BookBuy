@@ -35,6 +35,25 @@ router.post('/login', function(req, res, next) {
   })
 });
 
+//验证是否登录
+router.get('/checkLogin', function(req, res, next) {
+  if (!req.UserInfo.Nick) {
+    res.send({ Nick: "", Code: 400 });
+  } else {
+    res.send({ Nick: req.UserInfo.Nick, Code: 200 });
+  }
+});
+
+//注销登录
+router.get('/loginOut', function(req, res, next) {
+  res.clearCookie('token');
+  req.UserInfo = {
+    Id: "",
+    Nick: ""
+  };
+  res.send({ Nick: req.UserInfo.Nick });
+});
+
 //获取轮播图
 router.post('/getPicture', function(req, res, next) {
   Pictures.getPicture(req.body.Index, req.body.Size).then(result => {
@@ -133,11 +152,17 @@ router.post('/addUser', function(req, res, next) {
     // Email: req.body.Email
   });
   Users.addUser(json).then(result => {
+    res.cookie("token", setCookie({
+      Id: result.Id,
+      Nick: result.Nick,
+      LoginDate: Date.now()
+    }));
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {
     res.send({ Message: error, Code: 400 });
   })
 });
+
 //验证昵称、手机号是否已被注册
 router.post('/checkRegister', function(req, res, next) {
   let nick = req.body.Nick;

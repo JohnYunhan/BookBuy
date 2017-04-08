@@ -4,6 +4,8 @@ header {
   header .header {
     width: 1000px;
     margin: 0 auto; }
+    header .header .header-left-logo {
+      cursor: pointer; }
     header .header .header-right-manage .manage-left {
       margin: 10px 0 5px; }
     header .header .header-right-manage .manage-left,

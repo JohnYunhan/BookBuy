@@ -83,21 +83,30 @@ $color:#f86d0d;
       }
     }
     >ul {
-      padding: 0 10px;
+      width: 568px;
+      margin: 10px auto;
       li {
-        width: 190px;
+        width: 180px;
         float: left;
         padding: 10px;
         margin-bottom: 10px;
+        border: 1px solid #e4eaee;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
         &:hover {
           cursor: pointer;
-          box-shadow: 0px 0px 4px #999;
+          border-color: $color;
+          // box-shadow: 0px 0px 4px #999;
           // -webkit-transform: translateY(-4px);
           // transform: translateY(-4px);
         }
         >img {
           width: 160px;
         }
+      }
+      li.margin-lr {
+        margin: 0 10px;
       }
     }
   }

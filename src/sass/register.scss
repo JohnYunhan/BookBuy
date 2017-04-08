@@ -5,6 +5,9 @@ header {
   .header {
     width: 1000px;
     margin: 0 auto;
+    .header-left-logo {
+      cursor: pointer;
+    }
     .header-right-manage {
       .manage-left {
         margin: 10px 0 5px;

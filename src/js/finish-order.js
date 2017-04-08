@@ -51,12 +51,23 @@ new Vue({
     toMyorder() {},
     //验证是否登录
     checkLogin() {
-      if (!localStorage.nick) {
-        this.UsrName = "";
-      } else {
-        this.UsrName = localStorage.nick;
-        this.getCart();
-      }
+      var _this = this;
+      fetch("/api/checkLogin", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        }
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          _this.UsrName = res.Nick;
+          _this.getCart();
+        } else {
+          _this.UsrName = "";
+        }
+      }).catch(error => {
+        console.log(error)
+      })
     },
     // 显示登录框
     showLoginBox() {
@@ -133,8 +144,24 @@ new Vue({
     },
     // 登出
     loginOut() {
-      localStorage.nick = "";
-      location.href = "/index";
+      var confirm = layer.confirm('确定要退出吗？', {
+        btn: ['确定', '取消'] //按钮
+      }, function() {
+        fetch("/api/loginOut", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          }
+        }).then(res => {
+          location.href = "/index";
+        }).catch(error => {
+          console.log(error)
+        });
+        layer.close(confirm)
+      }, function() {
+        layer.close(confirm)
+      });
     },
   },
   watch: {

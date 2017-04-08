@@ -140,6 +140,7 @@ new Vue({
       this.confirmPwdValid = true;
     },
     register() {
+      var _this = this;
       this.regValid = true;
       this.checkNick();
       this.checkMobile();
@@ -161,7 +162,10 @@ new Vue({
           body: data
         }).then(result => result.json()).then(res => {
           if (res.Code === 200) {
-            window.location.href = "/index";
+            layer.msg("注册成功", { icon: 1, time: 2500 })
+            setTimeout(function() {
+              location.href = "/index";
+            }, 2500);
           } else {
             layer.msg(result.Message);
           }
