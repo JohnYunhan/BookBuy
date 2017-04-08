@@ -15,12 +15,17 @@ new Vue({
     handlerError: "",
     isValid: true,
     regValid: true,
+    nickValid: false,
+    mobileValid: false,
+    pwdValid: false,
+    confirmPwdValid: false,
   },
   created() {
 
   },
   methods: {
     checkNick() {
+      this.nickValid = false;
       this.nickError = "";
       var reg_nick = /^([\u4e00-\u9fa5]|[a-zA-Z0-9]){2,10}$/;
       if (this.Nick === "") {
@@ -57,11 +62,12 @@ new Vue({
           _this.nickError = "昵称已被注册";
           _this.regValid = false;
         } else {
-          _this.nickError = "";
+          _this.nickValid = true;
         }
       })
     },
     checkMobile() {
+      this.mobileValid = false;
       this.mobileError = "";
       var reg_mobile = /(^0{0,1}1[3|4|5|6|7|8|9][0-9]{9}$)/;
       if (this.Mobile === "") {
@@ -92,11 +98,12 @@ new Vue({
           _this.mobileError = "手机号已被注册";
           _this.regValid = false;
         } else {
-          _this.mobileError = "";
+          _this.mobileValid = true;
         }
       })
     },
     checkPwd() {
+      this.pwdValid = false;
       this.pwdError = "";
       var reg_password = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       if (this.Pwd === "") {
@@ -115,8 +122,10 @@ new Vue({
         this.regValid = false;
         return this.regValid;
       }
+      this.pwdValid = true;
     },
     checkConfirmPwd() {
+      this.confirmPwdValid = false;
       this.confirmPwdError = "";
       if (this.confirmPassword === "") {
         this.confirmPwdError = "确认密码不能为空";
@@ -128,6 +137,7 @@ new Vue({
         this.regValid = false;
         return this.regValid;
       }
+      this.confirmPwdValid = true;
     },
     register() {
       this.regValid = true;

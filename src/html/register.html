@@ -43,22 +43,26 @@
         <div class="title">快来开启您的购书之旅吧~</div>
         <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-          <input type="text" class="form-control" placeholder="昵称，2~10位，不含特殊字符" @blur="checkNick" v-model.trim="Nick" autofocus/>
+          <input type="text" :class="{'form-control': true,'border': !nickValid}" placeholder="昵称，2~10位，不含特殊字符" @blur="checkNick" v-model.trim="Nick" autofocus />
+          <span v-show="nickValid" style="color:#13ce66" class="input-group-addon"><span class="glyphicon glyphicon-ok-sign"></span></span>
         </div>
         <p>{{nickError}}</p>
         <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
-          <input type="text" class="form-control" placeholder="11位手机号" @blur="checkMobile" v-model.trim="Mobile" />
+          <input type="text" :class="{'form-control': true,'border': !mobileValid}" placeholder="11位手机号" @blur="checkMobile" v-model.trim="Mobile" />
+          <span v-show="mobileValid" style="color:#13ce66" class="input-group-addon"><span class="glyphicon glyphicon-ok-sign"></span></span>
         </div>
         <p>{{mobileError}}</p>
         <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-          <input type="password" class="form-control" placeholder="密码，6~16位数字和字母" @blur="checkPwd" v-model.trim="Pwd" />
+          <input type="password" :class="{'form-control': true,'border': !pwdValid}" placeholder="密码，6~16位数字和字母" @blur="checkPwd" v-model.trim="Pwd" />
+          <span v-show="pwdValid" style="color:#13ce66" class="input-group-addon"><span class="glyphicon glyphicon-ok-sign"></span></span>
         </div>
         <p>{{pwdError}}</p>
         <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-          <input type="password" class="form-control" placeholder="确认密码" @blur="checkConfirmPwd" v-model.trim="confirmPassword" />
+          <input type="password" :class="{'form-control': true,'border': !confirmPwdValid}" placeholder="确认密码" @blur="checkConfirmPwd" v-model.trim="confirmPassword" />
+          <span v-show="confirmPwdValid" style="color:#13ce66" class="input-group-addon"><span class="glyphicon glyphicon-ok-sign"></span></span>
         </div>
         <p>{{confirmPwdError}}</p>
         <div class="input-group register-drag">
