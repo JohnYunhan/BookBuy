@@ -1,9 +1,11 @@
 new Vue({
   el: "#register",
   data: {
+    Account: "",
     Nick: "",
     Password: "",
     Mobile: "",
+    Pwd: "",
     confirmPassword: "",
     Email: "",
     nickError: "",
@@ -11,32 +13,150 @@ new Vue({
     confirmPwdError: "",
     mobileError: "",
     handlerError: "",
+    isValid: true,
+    regValid: true,
   },
   created() {
 
   },
   methods: {
-    register() {
+    checkNick() {
+      this.nickError = "";
+      var reg_nick = /^([\u4e00-\u9fa5]|[a-zA-Z0-9]){2,10}$/;
+      if (this.Nick === "") {
+        this.nickError = "昵称不能为空";
+        this.regValid = false;
+        return this.regValid;
+      }
+      var length = this.Nick.length;
+      if (length < 2 || length > 10) {
+        this.nickError = "长度为2~10位";
+        this.regValid = false;
+        return this.regValid;
+      }
+      if (!reg_nick.test(this.Nick)) {
+        this.nickError = "不能含有特殊字符";
+        this.regValid = false;
+        return this.regValid;
+      }
+      var _this = this;
       var data = {
         Nick: this.Nick,
-        Password: this.Password,
-        Mobile: this.Mobile
+        Mobile: ""
       };
       data = JSON.stringify(data);
-      fetch("/user/addUser", {
+      fetch("/api/checkRegister", {
         method: "POST",
         credentials: "include",
         headers: {
           'Content-Type': "application/json"
         },
         body: data
-      }).then(res => res.json()).then(result => {
-        if (result.Code === 200) {
-          window.location.href = "/index";
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          _this.nickError = "昵称已被注册";
+          _this.regValid = false;
         } else {
-          layer.msg(result.Message);
+          _this.nickError = "";
         }
       })
+    },
+    checkMobile() {
+      this.mobileError = "";
+      var reg_mobile = /(^0{0,1}1[3|4|5|6|7|8|9][0-9]{9}$)/;
+      if (this.Mobile === "") {
+        this.mobileError = "手机号不能为空";
+        this.regValid = false;
+        return this.regValid;
+      }
+      if (!reg_mobile.test(this.Mobile)) {
+        this.mobileError = "手机号格式有误";
+        this.regValid = false;
+        return this.regValid;
+      }
+      var _this = this;
+      var data = {
+        Nick: "",
+        Mobile: this.Mobile
+      };
+      data = JSON.stringify(data);
+      fetch("/api/checkRegister", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          _this.mobileError = "手机号已被注册";
+          _this.regValid = false;
+        } else {
+          _this.mobileError = "";
+        }
+      })
+    },
+    checkPwd() {
+      this.pwdError = "";
+      var reg_password = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+      if (this.Pwd === "") {
+        this.pwdError = "密码不能为空";
+        this.regValid = false;
+        return this.regValid;
+      }
+      var length = this.Pwd.length;
+      if (length < 6 || length > 16) {
+        this.pwdError = "长度为6~16位";
+        this.regValid = false;
+        return this.regValid;
+      }
+      if (!reg_password.test(this.Pwd)) {
+        this.pwdError = "密码由6~16位数字和字母组成";
+        this.regValid = false;
+        return this.regValid;
+      }
+    },
+    checkConfirmPwd() {
+      this.confirmPwdError = "";
+      if (this.confirmPassword === "") {
+        this.confirmPwdError = "确认密码不能为空";
+        this.regValid = false;
+        return this.regValid;
+      }
+      if (this.confirmPassword !== this.Pwd) {
+        this.confirmPwdError = "确认密码与密码不一致";
+        this.regValid = false;
+        return this.regValid;
+      }
+    },
+    register() {
+      this.regValid = true;
+      this.checkNick();
+      this.checkMobile();
+      this.checkPassword();
+      this.checkConfirmPwd();
+      if (this.regValid) {
+        var data = {
+          Nick: this.Nick,
+          Password: this.Pwd,
+          Mobile: this.Mobile
+        };
+        data = JSON.stringify(data);
+        fetch("/api/addUser", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          },
+          body: data
+        }).then(result => result.json()).then(res => {
+          if (res.Code === 200) {
+            window.location.href = "/index";
+          } else {
+            layer.msg(result.Message);
+          }
+        })
+      }
     },
     // 显示登录框
     showLoginBox() {

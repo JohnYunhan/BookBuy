@@ -125,6 +125,25 @@ User.statics.getUserList = function(json, index, size) {
   })
 }
 
+//验证昵称、手机号是否已被注册
+User.statics.checkRegister = function(nick, mobile) {
+  return new Promise((resolve, reject) => {
+    let query = "";
+    if (nick !== "") {
+      query = this.findOne({ Nick: nick });
+    } else {
+      query = this.findOne({ Mobile: mobile });
+    }
+    query.exec((error, result) => {
+      if (result) {
+        resolve(result);
+      } else {
+        reject(error);
+      }
+    })
+  })
+}
+
 //根据Id获取会员
 User.statics.getUserById = function(Id) {
   return new Promise((resolve, reject) => {

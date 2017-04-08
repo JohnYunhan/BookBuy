@@ -130,7 +130,7 @@ router.post('/addUser', function(req, res, next) {
     Name: req.body.Name,
     Password: req.body.Password,
     Mobile: req.body.Mobile,
-    Email: req.body.Email
+    // Email: req.body.Email
   });
   Users.addUser(json).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
@@ -138,7 +138,16 @@ router.post('/addUser', function(req, res, next) {
     res.send({ Message: error, Code: 400 });
   })
 });
-
+//验证昵称、手机号是否已被注册
+router.post('/checkRegister', function(req, res, next) {
+  let nick = req.body.Nick;
+  let mobile = req.body.Mobile;
+  Users.checkRegister(nick, mobile).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
 //修改会员
 router.post('/editUser', function(req, res, next) {
   let json = new Users({
