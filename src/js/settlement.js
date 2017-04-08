@@ -386,6 +386,9 @@ new Vue({
         this.errorInfor = "";
       }
     },
+    toReg() {
+      location.href = "/register";
+    },
     // 登录
     login() {
       var _this = this;

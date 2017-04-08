@@ -28,7 +28,7 @@
           </div>
           <div class="manage-right">
             欢迎光临<b>BookBuy</b>图书网，<a href="javascript:;" @click="showLoginBox">[请登录]</a>
-            <a href="javascript:;">[免费注册]</a>
+            <a @click="toReg" href="javascript:;">[免费注册]</a>
           </div>
         </div>
       </div>
@@ -44,25 +44,25 @@
         <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
           <input type="text" :class="{'form-control': true,'border': !nickValid}" placeholder="昵称，2~10位，不含特殊字符" @blur="checkNick" v-model.trim="Nick" autofocus />
-          <span v-show="nickValid" style="color:#13ce66" class="input-group-addon"><span class="glyphicon glyphicon-ok-sign"></span></span>
+          <span v-show="nickValid" class="input-group-addon reset"><span class="ok_bg"></span></span>
         </div>
         <p>{{nickError}}</p>
         <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
           <input type="text" :class="{'form-control': true,'border': !mobileValid}" placeholder="11位手机号" @blur="checkMobile" v-model.trim="Mobile" />
-          <span v-show="mobileValid" style="color:#13ce66" class="input-group-addon"><span class="glyphicon glyphicon-ok-sign"></span></span>
+          <span v-show="mobileValid" class="input-group-addon reset"><span class="ok_bg"></span></span>
         </div>
         <p>{{mobileError}}</p>
         <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
           <input type="password" :class="{'form-control': true,'border': !pwdValid}" placeholder="密码，6~16位数字和字母" @blur="checkPwd" v-model.trim="Pwd" />
-          <span v-show="pwdValid" style="color:#13ce66" class="input-group-addon"><span class="glyphicon glyphicon-ok-sign"></span></span>
+          <span v-show="pwdValid" class="input-group-addon reset"><span class="ok_bg"></span></span>
         </div>
         <p>{{pwdError}}</p>
         <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
           <input type="password" :class="{'form-control': true,'border': !confirmPwdValid}" placeholder="确认密码" @blur="checkConfirmPwd" v-model.trim="confirmPassword" />
-          <span v-show="confirmPwdValid" style="color:#13ce66" class="input-group-addon"><span class="glyphicon glyphicon-ok-sign"></span></span>
+          <span v-show="confirmPwdValid" class="input-group-addon reset"><span class="ok_bg"></span></span>
         </div>
         <p>{{confirmPwdError}}</p>
         <div class="input-group register-drag">
@@ -89,6 +89,73 @@
   <script src="//cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
   <script src="//cdn.bootcss.com/fetch/2.0.2/fetch.min.js"></script>
   <script src="/js/register.js"></script>
+  <script>
+  (function($) {
+    $.fn.drag = function(options) {
+      var x, drag = this,
+        isMove = false,
+        defaults = {};
+      var options = $.extend(defaults, options);
+      //添加背景，文字，滑块
+      // var html = '<div class="drag_bg"></div>' +
+      //   '<div class="drag_text" onselectstart="return false;" unselectable="on">拖动滑块验证</div>' +
+      //   '<div class="handler handler_bg"></div>';
+      // this.append(html);
+
+      var handler = drag.find('.handler');
+      var drag_bg = drag.find('.drag_bg');
+      var text = drag.find('.drag_text');
+      var maxWidth = drag.width() - handler.width(); //能滑动的最大间距
+
+      //鼠标按下时候的x轴的位置
+      handler.mousedown(function(e) {
+        isMove = true;
+        x = e.pageX - parseInt(handler.css('left'), 10);
+      });
+
+      //鼠标指针在上下文移动时，移动距离大于0小于最大间距，滑块x轴位置等于鼠标移动距离
+      $(document).mousemove(function(e) {
+        var _x = e.pageX - x;
+        if (isMove) {
+          if (_x > 0 && _x <= maxWidth) {
+            handler.css({
+              'left': _x - 3
+            });
+            drag_bg.css({
+              'width': _x
+            });
+          } else if (_x > maxWidth) { //鼠标指针移动距离达到最大时清空事件
+            dragOk();
+          }
+        }
+      }).mouseup(function(e) {
+        isMove = false;
+        var _x = e.pageX - x;
+        if (_x < maxWidth) { //鼠标松开时，如果没有达到最大距离位置，滑块就返回初始位置
+          handler.css({
+            'left': 0
+          });
+          drag_bg.css({
+            'width': 0
+          });
+        }
+      });
+
+      //清空事件
+      function dragOk() {
+        handler.removeClass('handler_bg').addClass('handler_ok_bg');
+        text.text('验证通过');
+        drag.css({
+          'color': '#fff'
+        });
+        handler.unbind('mousedown');
+        $(document).unbind('mousemove');
+        $(document).unbind('mouseup');
+      }
+    };
+  })(jQuery);
+  $('#drag').drag();
+  </script>
 </body>
 
 </html>

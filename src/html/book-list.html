@@ -16,7 +16,7 @@
       <div class="header" flex="main:justify">
         <div v-if="UsrName == ''" class="head-left">
           欢迎光临<b>BookBuy</b>图书网，<a href="javascript:;" @click="showLoginBox">[请登录]</a>
-          <a href="javascript:;">[免费注册]</a>
+          <a @click="toReg" href="javascript:;">[免费注册]</a>
         </div>
         <div v-else class="head_left">
           <span>Hi, </span>
@@ -93,7 +93,7 @@
       <div>
         <button class="login-btn" type="button" @click="login">登 录</button>
       </div>
-      <div class="other-item" flex="main:justify"><span>没有账号？<a href="javascript:;">注册</a></span><a href="javascript:;">忘记密码</a></div>
+      <div class="other-item" flex="main:justify"><span>没有账号？<a @click="toReg" href="javascript:;">注册</a></span><a href="javascript:;">忘记密码</a></div>
     </div>
     <!-- 底部 -->
     <footer flex="main:center cross:center">

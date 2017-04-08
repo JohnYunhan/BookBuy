@@ -120,6 +120,9 @@ new Vue({
     toHome() {
       location.href = "/index";
     },
+    toReg() {
+      location.href = "/register";
+    },
     //跳到购物车页
     toCart() {
       if (!localStorage.nick) {

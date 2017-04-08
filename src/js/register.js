@@ -168,6 +168,12 @@ new Vue({
         })
       }
     },
+    toReg() {
+      location.href = "/register";
+    },
+    toHome() {
+      location.href = "/index";
+    },
     // 显示登录框
     showLoginBox() {
       this.layer = layer.open({
