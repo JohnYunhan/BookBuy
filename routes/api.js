@@ -271,15 +271,7 @@ router.post('/editCar', function(req, res, next) {
 
 //获取订单列表
 router.post('/getOrderList', function(req, res, next) {
-  let json = new Orders({
-    Id: req.body.Id,
-    Nick: req.body.Nick,
-    Status: req.body.Status
-  });
-  if (req.body.Status) {
-    json.Status = parseInt(req.body.Status);
-  }
-  Orders.getOrderList(req.body.Index, req.body.Size, json).then(result => {
+  Orders.getOrderList(req.body.Index, req.body.Size, req.UserInfo.Id).then(result => {
     res.send({ Data: result.Data, TotalCount: result.TotalCount, Message: "执行成功", Code: 200 });
   }).catch(error => {
     res.send({ Message: error, Code: 400 });

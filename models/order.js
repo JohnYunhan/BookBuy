@@ -86,30 +86,14 @@ let Order = mongoose.Schema({
 });
 
 //获取订单列表
-Order.statics.getOrderList = function(index, size, json) {
+Order.statics.getOrderList = function(index, size, usrid) {
   // console.log(json)
   return new Promise((resolve, reject) => {
-    let query = "";
-    let total = 0;
-    if (json.Nick !== "") {
-      //根据会员Id搜索
-      query = this.find({ Nick: json.Nick });
-      total = this.find({ Nick: json.Nick }).count();
-    } else if (json.Status !== null && json.Status !== "") {
-      //根据订单状态搜索
-      query = this.find({ Status: json.Status })
-      total = this.find({ Status: json.Status }).count();
-    } else if (json.Id !== "") {
-      //根据订单Id搜索
-      query = this.find({ Id: json.Id })
-      total = this.find({ Id: json.Id }).count();
-    } else {
-      query = this.find();
-      total = this.count();
-      query.sort({ UpdateDate: -1 }); //根据添加日期倒序
-      query.skip(index * size); //跳过多少个数据
-      query.limit(size); //限制Size条数据
-    }
+    let query = this.find({ UserId: usrid });
+    let total = this.count();
+    query.sort({ UpdateDate: -1 }); //根据添加日期倒序
+    query.skip(index * size); //跳过多少个数据
+    query.limit(size); //限制Size条数据
     query.exec((error, result) => {
       if (result) {
         total.exec((err, res) => {

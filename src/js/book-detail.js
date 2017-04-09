@@ -12,7 +12,6 @@ new Vue({
     searchKey: "",
     carNum: 0, //用户购物车中图书的数量
     categoryItem: [],
-    // bookId: "book1sh5kqf7gaizjld9he",
     bookId: sessionStorage.lookBookId,
     bookItem: {},
     cartItem: [],
@@ -31,12 +30,12 @@ new Vue({
   created() {
     this.getCategory();
     this.checkLogin();
-    this.getBookDetail();
+    this.getBookDetail(this.bookId);
     this.getHotBook();
   },
   methods: {
-    getBookDetail() {
-      fetch("/api/getBookById?Id=" + this.bookId, {
+    getBookDetail(id) {
+      fetch("/api/getBookById?Id=" + id, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -183,7 +182,7 @@ new Vue({
         headers: {
           'Content-Type': "application/json"
         }
-      }).then(res => {
+      }).then(result => result.json()).then(res => {
         if (res.Code === 200) {
           _this.UsrName = res.Nick;
           _this.getCart();

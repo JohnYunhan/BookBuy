@@ -176,7 +176,7 @@ new Vue({
         for (var i = 0; i < this.settleItem.length; i++) {
           bookid.push(this.settleItem[i].BookId);
           bookname.push(this.settleItem[i].BookName);
-          image.push(this.settleItem[i].Image);
+          image.push(this.settleItem[i].Image[0]);
           count.push(this.selectNum[i]);
           price.push(this.settleItem[i].SellPrice);
           category.push(this.settleItem[i].Category);
@@ -349,10 +349,11 @@ new Vue({
         headers: {
           'Content-Type': "application/json"
         }
-      }).then(res => {
+      }).then(result => result.json()).then(res => {
         if (res.Code === 200) {
           _this.UsrName = res.Nick;
           _this.getCart();
+          _this.getUserInfor();
         } else {
           _this.UsrName = "";
         }

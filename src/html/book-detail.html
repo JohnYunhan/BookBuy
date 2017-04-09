@@ -47,7 +47,7 @@
         <button @click="search" class="btn btn-default" type="button"><span style="font-size: 16px;" class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </span>
             </div>
-            <div class="hot-search">热搜:<a href="javascript:;" @click="lookDetail(item.Id)" v-for="(item,index) in hotBook">{{item.Name}}</a></div>
+            <div class="hot-search">热搜:<a href="javascript:;" @click="getBookDetail(item.Id)" v-for="(item,index) in hotBook">{{item.Name}}</a></div>
           </div>
           <div class="cart-order">
             <a @click="toCart" href="javascript:;" class="cart"><span style="font-size: 18px;" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车 <b>{{carNum}}</b></a><a href="javascript:;" class="myorder">我的订单</a>

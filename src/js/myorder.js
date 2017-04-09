@@ -8,11 +8,56 @@ new Vue({
     carNum: 0, //用户购物车中图书的数量
     UsrName: "",
     errorInfor: "",
+    totalCount: 0,
+    bookItem: [],
   },
   created() {
-
+    this.checkLogin();
   },
   methods: {
+    getOrder() {
+      var data = {
+        Index: 0,
+        Size: 5,
+      };
+      data = JSON.stringify(data);
+      fetch("/api/getOrderList", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.orderItem = res.Data;
+          this.totalCount = res.TotalCount;
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
+    },
+    //验证是否登录
+    checkLogin() {
+      var _this = this;
+      fetch("/api/checkLogin", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        }
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          _this.UsrName = res.Nick;
+          _this.getCart();
+        } else {
+          _this.UsrName = "";
+        }
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     toReg() {
       location.href = "/register";
     },
