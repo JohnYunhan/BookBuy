@@ -48,7 +48,9 @@ new Vue({
       location.href = "/shoppingcart";
     },
     //跳到我的订单
-    toMyorder() {},
+    toMyorder() {
+      location.href = "/myorder";
+    },
     //验证是否登录
     checkLogin() {
       var _this = this;

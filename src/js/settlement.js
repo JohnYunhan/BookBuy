@@ -399,6 +399,9 @@ new Vue({
     toReg() {
       location.href = "/register";
     },
+    toMyorder() {
+      location.href = "/myorder";
+    },
     // 登录
     login() {
       var _this = this;

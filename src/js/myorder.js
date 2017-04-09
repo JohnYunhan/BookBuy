@@ -1,5 +1,5 @@
 new Vue({
-  el: "#register",
+  el: "#myorder",
   data: {
     Account: "",
     Nick: "",
@@ -18,6 +18,12 @@ new Vue({
     },
     toHome() {
       location.href = "/index";
+    },
+    toCart() {
+      location.href = "/shoppingcart";
+    },
+    toMyorder() {
+      location.href = "/myorder";
     },
     // 显示登录框
     showLoginBox() {

@@ -134,6 +134,9 @@ new Vue({
     toReg() {
       location.href = "/register";
     },
+    toMyorder() {
+      location.href = "/myorder";
+    },
     //跳到购物车页
     toCart() {
       if (!localStorage.nick) {

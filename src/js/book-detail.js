@@ -164,6 +164,9 @@ new Vue({
         location.href = "/shoppingcart";
       }
     },
+    toMyorder() {
+      location.href = "/myorder";
+    },
     //跳到指定图书类别
     toCategory() {},
     //搜索图书

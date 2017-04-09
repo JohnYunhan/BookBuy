@@ -174,6 +174,9 @@ new Vue({
         location.href = "/shoppingcart";
       }
     },
+    toMyorder() {
+      location.href = "/myorder";
+    },
     //验证是否登录
     checkLogin() {
       var _this = this;

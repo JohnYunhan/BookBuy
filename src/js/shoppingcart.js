@@ -86,6 +86,9 @@ new Vue({
     toCart() {
       location.href = "/shoppingcart";
     },
+    toMyorder() {
+      location.href = "/myorder";
+    },
     //搜索图书
     search() {
       sessionStorage.setItem("searchKey", this.searchKey);
