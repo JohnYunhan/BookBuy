@@ -6,7 +6,15 @@ header {
     width: 1000px;
     margin: 0 auto;
     .header-left-logo {
-      cursor: pointer;
+      img {
+        cursor: pointer;
+      }
+      span {
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 26px;
+        font-weight: 700;
+      }
     }
     .header-right-manage {
       .manage-left {

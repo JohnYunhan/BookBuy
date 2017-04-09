@@ -4,8 +4,13 @@ header {
   header .header {
     width: 1000px;
     margin: 0 auto; }
-    header .header .header-left-logo {
+    header .header .header-left-logo img {
       cursor: pointer; }
+    header .header .header-left-logo span {
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 26px;
+      font-weight: 700; }
     header .header .header-right-manage .manage-left {
       margin: 10px 0 5px; }
     header .header .header-right-manage .manage-left,

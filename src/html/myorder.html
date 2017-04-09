@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/lib/css/bootstrap.min.css">
+  <link href="lib/flex.css" rel="stylesheet">
+  <link href="css/myorder.css" rel="stylesheet">
+  <title>我的订单</title>
+</head>
+
+<body>
+  <div id="myorder">
+    <header>
+      <div class="header" flex="main:justify">
+        <div class="header-left-logo">
+          <img @click="toHome" src="img/logo.png" alt="BookBuy图书网">
+          <span>我的订单</span>
+        </div>
+        <div class="header-right-manage">
+          <div class="manage-left">
+            <a href="javascript:;"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车&nbsp;<b>0</b></a>
+            <span>|</span>
+            <a href="javascript:;"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 我的订单</a>
+            <span>|</span>
+            <a href="javascript:;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 我的账户</a>
+            <span>|</span>
+            <a href="javascript:;"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> 留言</a>
+          </div>
+          <div class="manage-right">
+            <div v-if="UsrName == ''">
+              欢迎光临<b>BookBuy</b>图书网，<a href="javascript:;" @click="showLoginBox">[请登录]</a>
+              <a @click="toReg" href="javascript:;">[免费注册]</a>
+            </div>
+            <div v-else>
+              <span>Hi, </span>
+              <a style="color: #f86d0d" href="javascript:;">{{UsrName}}</a>&nbsp; 欢迎光临BookBuy图书网 &nbsp;
+              <a href="javascript:;" @click="loginOut"> [ 退出 ]</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div></div>
+    <!-- 登录 -->
+    <div id="loginbox">
+      <div class="login-item login-title">欢迎登录BookBuy图书网</div>
+      <div class="input-group login-item">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+        <input type="text" class="form-control" placeholder="昵称或手机号" v-model="Account" autofocus @input="checkAccount" @keyup.enter="login" />
+      </div>
+      <div class="input-group login-item">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+        <input type="password" class="form-control" placeholder="密码" @input="checkPassword" @keyup.enter="login" v-model="Password" />
+      </div>
+      <p class="error-infor">{{errorInfor}}</p>
+      <div>
+        <button class="login-btn" type="button" @click="login">登 录</button>
+      </div>
+      <div class="other-item" flex="main:justify"><span>没有账号？<a @click="toReg" href="javascript:;">注册</a></span><a href="javascript:;">忘记密码</a></div>
+    </div>
+    <footer flex="main:center cross:center">
+      <small>Copyright &copy; BookBuy图书网 2017, All Rights Reserved</small>
+    </footer>
+  </div>
+  <script src="lib/jquery-1.10.2.min.js"></script>
+  <script src="lib/js/bootstrap.min.js"></script>
+  <script src="lib/layer/layer.js"></script>
+  <script src="//cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
+  <script src="//cdn.bootcss.com/fetch/2.0.2/fetch.min.js"></script>
+  <script src="/js/myorder.js"></script>
+</body>
+
+</html>

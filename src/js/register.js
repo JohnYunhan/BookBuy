@@ -240,7 +240,6 @@ new Vue({
         }).then(res => res.json()).then(result => {
           if (result.Code === 200) {
             this.UsrName = result.Data;
-            localStorage.nick = this.UsrName;
             layer.close(_this.layer)
           } else {
             this.errorInfor = result.Message;

@@ -52,7 +52,7 @@ new Vue({
         headers: {
           'Content-Type': "application/json"
         }
-      }).then(result => result.json()).then(res => {
+      }).then(res => {
         if (res.Code === 200) {
           _this.UsrName = res.Nick;
           _this.getCart();
