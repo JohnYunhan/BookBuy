@@ -279,8 +279,8 @@ router.post('/getOrderList', function(req, res, next) {
 });
 
 //根据Id获取订单详情
-router.post('/getOrderById', function(req, res, next) {
-  let Id = req.body.Id;
+router.get('/getOrderById', function(req, res, next) {
+  let Id = req.query.Id;
   Orders.getOrderById(Id).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {

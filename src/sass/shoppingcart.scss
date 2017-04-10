@@ -137,6 +137,10 @@ $color: #f86d0d;
   margin: 60px auto;
   .empty-tip {
     margin-left: 30px;
+    p {
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
     button {
       background-color: $color;
       color: #fff;

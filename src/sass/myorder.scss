@@ -62,15 +62,19 @@ header {
     }
   }
   .order-page {
-    margin: 10px 0;
+    margin-top: 10px;
     button {
       padding: 3px 8px;
       background-color: #fff;
       border-color: #ccc;
       margin-left: 5px;
+      &:hover {
+        border-color: $color;
+      }
     }
   }
   .order-list {
+    margin-top: 10px;
     .order-header {
       background-color: #EFEFEF;
       height: 45px;
@@ -92,9 +96,14 @@ header {
     }
     .order-main {
       .order-main-left {
+        border: 1px solid #ccc;
+        border-top: 0;
+        padding: 5px;
         .book-name {
           width: 270px;
+          padding-left: 10px;
           text-align: center;
+          cursor: pointer;
           .bookname {
             a {
               display: inline-block;
@@ -113,17 +122,31 @@ header {
         }
       }
       .order-main-right {
+        border-bottom: 1px solid #ccc;
+        border-right: 1px solid #ccc;
         .book-total {
           width: 150px;
           text-align: center;
+          border-right: 1px solid #ccc;
+          height: 100%;
         }
         .trading-status {
           width: 150px;
           text-align: center;
+          border-right: 1px solid #ccc;
+          height: 100%;
         }
         .trading-manage {
           width: 150px;
           text-align: center;
+          height: 100%;
+          button {
+            background-color: #fff;
+            border-color: #ccc;
+            &:hover {
+              border-color: $color;
+            }
+          }
         }
       }
     }

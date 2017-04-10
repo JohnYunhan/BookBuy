@@ -44,47 +44,70 @@ header {
       width: 150px;
       text-align: center; }
   .myorder .order-page {
-    margin: 10px 0; }
+    margin-top: 10px; }
     .myorder .order-page button {
       padding: 3px 8px;
       background-color: #fff;
       border-color: #ccc;
       margin-left: 5px; }
-  .myorder .order-list .order-header {
-    background-color: #EFEFEF;
-    height: 45px;
-    line-height: 45px;
-    padding: 0 20px; }
-    .myorder .order-list .order-header .order-header-left label {
-      display: inline-block;
-      margin-right: 10px; }
-    .myorder .order-list .order-header .order-header-right {
-      font-size: 16px;
-      cursor: pointer; }
-      .myorder .order-list .order-header .order-header-right:hover {
-        opacity: .8; }
-  .myorder .order-list .order-main .order-main-left .book-name {
-    width: 270px;
-    text-align: center; }
-    .myorder .order-list .order-main .order-main-left .book-name .bookname a {
-      display: inline-block;
-      margin-bottom: 5px; }
-  .myorder .order-list .order-main .order-main-left .book-price,
-  .myorder .order-list .order-main .order-main-left .book-count {
-    width: 80px;
-    text-align: center; }
-  .myorder .order-list .order-main .order-main-left .book-manage {
-    width: 120px;
-    text-align: center; }
-  .myorder .order-list .order-main .order-main-right .book-total {
-    width: 150px;
-    text-align: center; }
-  .myorder .order-list .order-main .order-main-right .trading-status {
-    width: 150px;
-    text-align: center; }
-  .myorder .order-list .order-main .order-main-right .trading-manage {
-    width: 150px;
-    text-align: center; }
+      .myorder .order-page button:hover {
+        border-color: #f86d0d; }
+  .myorder .order-list {
+    margin-top: 10px; }
+    .myorder .order-list .order-header {
+      background-color: #EFEFEF;
+      height: 45px;
+      line-height: 45px;
+      padding: 0 20px; }
+      .myorder .order-list .order-header .order-header-left label {
+        display: inline-block;
+        margin-right: 10px; }
+      .myorder .order-list .order-header .order-header-right {
+        font-size: 16px;
+        cursor: pointer; }
+        .myorder .order-list .order-header .order-header-right:hover {
+          opacity: .8; }
+    .myorder .order-list .order-main .order-main-left {
+      border: 1px solid #ccc;
+      border-top: 0;
+      padding: 5px; }
+      .myorder .order-list .order-main .order-main-left .book-name {
+        width: 270px;
+        padding-left: 10px;
+        text-align: center;
+        cursor: pointer; }
+        .myorder .order-list .order-main .order-main-left .book-name .bookname a {
+          display: inline-block;
+          margin-bottom: 5px; }
+      .myorder .order-list .order-main .order-main-left .book-price,
+      .myorder .order-list .order-main .order-main-left .book-count {
+        width: 80px;
+        text-align: center; }
+      .myorder .order-list .order-main .order-main-left .book-manage {
+        width: 120px;
+        text-align: center; }
+    .myorder .order-list .order-main .order-main-right {
+      border-bottom: 1px solid #ccc;
+      border-right: 1px solid #ccc; }
+      .myorder .order-list .order-main .order-main-right .book-total {
+        width: 150px;
+        text-align: center;
+        border-right: 1px solid #ccc;
+        height: 100%; }
+      .myorder .order-list .order-main .order-main-right .trading-status {
+        width: 150px;
+        text-align: center;
+        border-right: 1px solid #ccc;
+        height: 100%; }
+      .myorder .order-list .order-main .order-main-right .trading-manage {
+        width: 150px;
+        text-align: center;
+        height: 100%; }
+        .myorder .order-list .order-main .order-main-right .trading-manage button {
+          background-color: #fff;
+          border-color: #ccc; }
+          .myorder .order-list .order-main .order-main-right .trading-manage button:hover {
+            border-color: #f86d0d; }
 
 #loginbox {
   display: none;

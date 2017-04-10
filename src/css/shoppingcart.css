@@ -112,6 +112,9 @@
   margin: 60px auto; }
   #cart-empty .empty-tip {
     margin-left: 30px; }
+    #cart-empty .empty-tip p {
+      margin-bottom: 15px;
+      font-size: 18px; }
     #cart-empty .empty-tip button {
       background-color: #f86d0d;
       color: #fff;

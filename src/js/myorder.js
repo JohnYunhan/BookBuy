@@ -12,6 +12,7 @@ new Vue({
     cartItem: [],
     orderItem: [],
     checkedItem: [],
+    orderDetailItem: [],
   },
   created() {
     this.checkLogin();
@@ -37,7 +38,7 @@ new Vue({
             this.orderItem[i].BuyInfor = JSON.parse(this.orderItem[i].BuyInfor);
             this.checkedItem.push(false);
           }
-          console.log(this.orderItem)
+          // console.log(this.orderItem)
           this.totalCount = res.TotalCount;
         }
       }).catch(error => {
@@ -46,8 +47,31 @@ new Vue({
       })
     },
     checkedOrder(index) {},
-    lookDetail(bookid) {},
-    orderDetail(orderid) {},
+    lookDetail(bookid) {
+      this.addClickCount(id);
+      sessionStorage.setItem("lookBookId", bookid);
+      location.href = "/book-detail";
+    },
+    //增加图书的点击次数
+    addClickCount(id) {
+      fetch("/api/addClickCount?Id=" + id, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then(result => result.json()).then(res => {
+        if (res.Code !== 200) {
+          console.log(res.Message);
+        }
+        // console.log(res);
+      }).catch(function(error) {
+        console.log(error)
+      })
+    },
+    orderDetail(index) {
+      this.orderDetailItem = this.orderItem[index];
+    },
     //验证是否登录
     checkLogin() {
       var _this = this;
