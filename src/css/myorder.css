@@ -17,6 +17,75 @@ header {
     header .header .header-right-manage .manage-right {
       text-align: right; }
 
+.myorder {
+  width: 1000px;
+  margin: 10px auto; }
+  .myorder .order-title {
+    height: 45px;
+    line-height: 45px;
+    background-color: #EFEFEF; }
+    .myorder .order-title .book-name {
+      width: 270px;
+      text-align: center; }
+    .myorder .order-title .book-price,
+    .myorder .order-title .book-count {
+      width: 80px;
+      text-align: center; }
+    .myorder .order-title .book-manage {
+      width: 120px;
+      text-align: center; }
+    .myorder .order-title .book-total {
+      width: 150px;
+      text-align: center; }
+    .myorder .order-title .trading-status {
+      width: 150px;
+      text-align: center; }
+    .myorder .order-title .trading-manage {
+      width: 150px;
+      text-align: center; }
+  .myorder .order-page {
+    margin: 10px 0; }
+    .myorder .order-page button {
+      padding: 3px 8px;
+      background-color: #fff;
+      border-color: #ccc;
+      margin-left: 5px; }
+  .myorder .order-list .order-header {
+    background-color: #EFEFEF;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 20px; }
+    .myorder .order-list .order-header .order-header-left label {
+      display: inline-block;
+      margin-right: 10px; }
+    .myorder .order-list .order-header .order-header-right {
+      font-size: 16px;
+      cursor: pointer; }
+      .myorder .order-list .order-header .order-header-right:hover {
+        opacity: .8; }
+  .myorder .order-list .order-main .order-main-left .book-name {
+    width: 270px;
+    text-align: center; }
+    .myorder .order-list .order-main .order-main-left .book-name .bookname a {
+      display: inline-block;
+      margin-bottom: 5px; }
+  .myorder .order-list .order-main .order-main-left .book-price,
+  .myorder .order-list .order-main .order-main-left .book-count {
+    width: 80px;
+    text-align: center; }
+  .myorder .order-list .order-main .order-main-left .book-manage {
+    width: 120px;
+    text-align: center; }
+  .myorder .order-list .order-main .order-main-right .book-total {
+    width: 150px;
+    text-align: center; }
+  .myorder .order-list .order-main .order-main-right .trading-status {
+    width: 150px;
+    text-align: center; }
+  .myorder .order-list .order-main .order-main-right .trading-manage {
+    width: 150px;
+    text-align: center; }
+
 #loginbox {
   display: none;
   padding: 0 20px 20px; }

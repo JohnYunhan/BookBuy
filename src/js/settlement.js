@@ -166,32 +166,23 @@ new Vue({
       this.checkAddress();
       if (this.valid) {
         var _this = this;
-        var bookid = [];
-        var bookname = [];
-        var image = [];
-        var count = [];
-        var price = [];
+        var buyInfor = this.settleItem;
         var category = [];
+        var bookid = [];
         var invoiceInfor = "";
-        for (var i = 0; i < this.settleItem.length; i++) {
-          bookid.push(this.settleItem[i].BookId);
-          bookname.push(this.settleItem[i].BookName);
-          image.push(this.settleItem[i].Image[0]);
-          count.push(this.selectNum[i]);
-          price.push(this.settleItem[i].SellPrice);
-          category.push(this.settleItem[i].Category);
+        for (var i = 0; i < buyInfor.length; i++) {
+          buyInfor[i].count = this.selectNum[i];
+          category.push(buyInfor[i].Category);
+          bookid.push(buyInfor[i].BookId);
         };
         //选择了开具发票
         if (invoice) {
           invoiceInfor = this.invoiceName + "," + this.invoiceInfor;
         }
         var data = {
+          "Id": this.createId(),
           "Nick": this.UsrName,
-          "BookId": bookid,
-          "BookName": bookname,
-          "Image": image,
-          "Price": price,
-          "Count": count,
+          "BuyInfor": JSON.stringify(buyInfor),
           "Freight": this.freight,
           "Total": this.totalPrice,
           "Name": this.Name,
@@ -220,6 +211,7 @@ new Vue({
             sessionStorage.setItem("buyInfor", "");
             sessionStorage.setItem("totalPrice", "");
             sessionStorage.setItem("source", "");
+            //购买成功后用于推荐图书
             sessionStorage.setItem("category", category.toString());
             sessionStorage.setItem("bookid", bookid.toString());
             location.href = "/finish-order";
@@ -256,6 +248,19 @@ new Vue({
       }).catch(error => {
         console.log(error)
       });
+    },
+    //根据当前时间生成订单id
+    createId() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      month = month > 9 ? month : "0" + month;
+      var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+      var hours = date.getHours() > 9 ? date.getHours() : "0" + date.getHours();
+      var minute = date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes();
+      var second = date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds();
+      var id = year + month + day + hours + minute + second;
+      return id;
     },
     //提交订单时保存收货信息
     saveDelivery() {

@@ -34,7 +34,7 @@ app.use(AuthCookie); //解密cookie，获取到登录信息
 
 app.get('/', (req, res, next) => {
   // console.log(req.UserInfo.Id)
-  res.redirect('/finish-order');
+  res.redirect('/index');
 })
 
 app.use('/api', Api); //会员api

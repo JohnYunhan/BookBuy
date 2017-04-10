@@ -42,40 +42,54 @@
       </div>
     </header>
     <div class="myorder">
-      <div class="order-list" for="(item,index) in orderItem">
-        <div class="order-header">
+      <div class="order-title" flex="dir:left">
+        <div class="book-name">图书</div>
+        <div class="book-price">单价</div>
+        <div class="book-count">数量</div>
+        <div class="book-manage">商品操作</div>
+        <div class="book-total">实付款</div>
+        <div class="trading-status">交易状态</div>
+        <div class="trading-manage">交易操作</div>
+      </div>
+      <div class="order-page" flex="dir:right">
+        <button class="btn">下一页</button>
+        <button class="btn">上一页</button>
+      </div>
+      <div class="order-list" v-for="(item,index) in orderItem">
+        <div class="order-header" flex="main:justify">
           <div class="order-header-left">
             <input type="checkbox" v-model="checkedItem[index]" @click="checkedOrder(index)" />
-            <label>{{item.CreateDate}}</label>
+            <label>{{item.Id | subDate}}</label>
             <span>订单号:{{item.Id}}</span>
           </div>
           <div class="order-header-right"><span class="glyphicon glyphicon-trash"></span></div>
         </div>
-        <div class="order-main" v-for="(key,sort) in item.bookItem">
-          <div class="order-main-left">
-            <div class="book-name">
+        <div class="order-main" v-for="(key,sort) in item.BuyInfor" flex="dir:left">
+          <div class="order-main-left" flex="dir:left cross:center">
+            <div class="book-name" flex="main:center cross:center">
               <img @click="lookDetail(key.BookId)" :src="key.Image" :alt="key.BookName">
-              <span flex="dir:top">
-		          <a @click="lookDetail(key.BookId)" href="javascript:;">{{key.BookName}}</a>
-		          <span flex="main:left"><img src="img/eleven.png"><img src="img/privoid.png"><img src="img/product.png">
-		          </span>
+              <span class="bookname" flex="dir:top">
+              <a @click="lookDetail(key.BookId)" href="javascript:;">{{key.BookName}}</a>
+              <span flex="main:left"><img src="img/eleven.png"><img src="img/privoid.png"><img src="img/product.png">
+              </span>
               </span>
             </div>
-            <div class="price">￥{{key.Price}}</div>
+            <div class="book-price">￥{{key.SellPrice}}</div>
+            <div class="book-count">{{key.count}}</div>
             <div class="book-manage">
               <a href="javascript:;">申请售后</a>
             </div>
           </div>
-          <div class="order-main-right">
-            <div class="total">
-              <b>￥{{key.Total}}</b>
-              <span>（含运费：￥{{key.Freight}}）</span>
+          <div class="order-main-right" flex="dir:left">
+            <div class="book-total">
+              <b>￥{{item.Total}}</b>
+              <span>（含运费：￥{{item.Freight}}）</span>
             </div>
-            <div class="order-detail">
+            <div class="trading-status">
               <span>交易成功</span>
               <a @click="orderDetail(item.Id)" href="javascript:;">订单详情</a>
             </div>
-            <div class="comment">
+            <div class="trading-manage">
               <button class="btn">评价</button>
             </div>
           </div>
@@ -108,7 +122,7 @@
   <script src="lib/layer/layer.js"></script>
   <script src="//cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
   <script src="//cdn.bootcss.com/fetch/2.0.2/fetch.min.js"></script>
-  <script src="/js/myorder.js"></script>
+  <script src="js/myorder.js"></script>
 </body>
 
 </html>

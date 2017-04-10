@@ -111,6 +111,7 @@ new Vue({
           if (item.BookId === bookid) {
             type = "editCar";
             count += item.Count;
+            break;
           }
         }
         var data = {

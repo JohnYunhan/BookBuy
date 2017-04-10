@@ -11,22 +11,10 @@ let Order = mongoose.Schema({
     required: true,
     index: true
   }, //订单id
-  BookId: {
-    type: Array,
+  BuyInfor: {
+    type: String,
     required: true,
-  }, //图书Id
-  BookName: {
-    type: Array,
-    required: true,
-  },
-  Price: {
-    type: Array,
-    required: true
-  },
-  Image: {
-    type: Array,
-    required: true
-  },
+  }, //购买的图书信息
   UserId: {
     type: String,
     required: true,
@@ -35,10 +23,6 @@ let Order = mongoose.Schema({
     type: String,
     required: true,
   }, //昵称
-  Count: {
-    type: Array,
-    required: true,
-  }, //订单数量
   Freight: {
     type: Number,
     required: true,
@@ -130,7 +114,6 @@ Order.statics.getOrderById = function(Id) {
 // 新增订单(确认下单)
 Order.statics.addOrder = function(json) {
   return new Promise((resolve, reject) => {
-    json.Id = uniqid("order");
     json.CreateDate = Date.now();
     json.UpdateDate = Date.now();
     json.save((error, result) => {

@@ -164,7 +164,7 @@ new Vue({
         if (res.Code !== 200) {
           console.log(res.Message);
         }
-        console.log(res);
+        // console.log(res);
       }).catch(function(error) {
         console.log(error)
       })

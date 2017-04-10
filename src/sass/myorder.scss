@@ -28,6 +28,108 @@ header {
   }
 }
 
+.myorder {
+  width: 1000px;
+  margin: 10px auto;
+  .order-title {
+    height: 45px;
+    line-height: 45px;
+    background-color: #EFEFEF;
+    .book-name {
+      width: 270px;
+      text-align: center;
+    }
+    .book-price,
+    .book-count {
+      width: 80px;
+      text-align: center;
+    }
+    .book-manage {
+      width: 120px;
+      text-align: center;
+    }
+    .book-total {
+      width: 150px;
+      text-align: center;
+    }
+    .trading-status {
+      width: 150px;
+      text-align: center;
+    }
+    .trading-manage {
+      width: 150px;
+      text-align: center;
+    }
+  }
+  .order-page {
+    margin: 10px 0;
+    button {
+      padding: 3px 8px;
+      background-color: #fff;
+      border-color: #ccc;
+      margin-left: 5px;
+    }
+  }
+  .order-list {
+    .order-header {
+      background-color: #EFEFEF;
+      height: 45px;
+      line-height: 45px;
+      padding: 0 20px;
+      .order-header-left {
+        label {
+          display: inline-block;
+          margin-right: 10px;
+        }
+      }
+      .order-header-right {
+        font-size: 16px;
+        cursor: pointer;
+        &:hover {
+          opacity: .8;
+        }
+      }
+    }
+    .order-main {
+      .order-main-left {
+        .book-name {
+          width: 270px;
+          text-align: center;
+          .bookname {
+            a {
+              display: inline-block;
+              margin-bottom: 5px;
+            }
+          }
+        }
+        .book-price,
+        .book-count {
+          width: 80px;
+          text-align: center;
+        }
+        .book-manage {
+          width: 120px;
+          text-align: center;
+        }
+      }
+      .order-main-right {
+        .book-total {
+          width: 150px;
+          text-align: center;
+        }
+        .trading-status {
+          width: 150px;
+          text-align: center;
+        }
+        .trading-manage {
+          width: 150px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
 #loginbox {
   display: none;
   padding: 0 20px 20px;

@@ -291,13 +291,10 @@ router.post('/getOrderById', function(req, res, next) {
 //新增订单
 router.post('/addOrder', function(req, res, next) {
   let json = new Orders({
+    Id: req.body.Id,
     UserId: req.UserInfo.Id,
     Nick: req.body.Nick,
-    BookId: req.body.BookId,
-    BookName: req.body.BookName,
-    Price: req.body.Price,
-    Image: req.body.Image,
-    Count: req.body.Count,
+    BuyInfor: req.body.BuyInfor,
     Freight: req.body.Freight,
     Total: req.body.Total,
     Name: req.body.Name,
@@ -318,11 +315,7 @@ router.post('/addOrder', function(req, res, next) {
 router.post('/editOrder', function(req, res, next) {
   let json = new Orders({
     Id: req.body.Id,
-    BookId: req.body.BookId,
-    BookName: req.body.BookName,
-    Image: req.body.Image,
-    Count: req.body.Count,
-    Price: req.body.Price,
+    BuyInfor: req.body.BuyInfor,
     Freight: req.body.Freight,
     Total: req.body.Total,
     Name: req.body.Name,
