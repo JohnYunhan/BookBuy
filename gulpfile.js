@@ -1,12 +1,15 @@
-var gulp = require('gulp');
-var path = require('path');
-var webpack = require('gulp-webpack');
-var rename = require('gulp-rename'); //更改名字
-var uglify = require('gulp-uglify'); //js代码压缩
-var sass = require('gulp-sass');
-var notify = require('gulp-notify'); //通知信息
-var autoprefixer = require('gulp-autoprefixer');
-var html2jade = require('gulp-html2jade');
+var gulp = require('gulp'),
+  path = require('path'),
+  webpack = require('gulp-webpack'),
+  rename = require('gulp-rename'), //更改名字
+  uglify = require('gulp-uglify'), //js代码压缩
+  sass = require('gulp-sass'),
+  notify = require('gulp-notify'), //通知信息
+  autoprefixer = require('gulp-autoprefixer'),
+  clean = require('gulp-clean-css'), //css代码压缩
+  spriter = require('gulp-css-spriter'),
+  base64 = require('gulp-css-base64'),
+  fileinclude = require('gulp-file-include');
 
 gulp.task('sass', function() {
   return gulp.src('./src/sass/*.scss')
@@ -16,7 +19,9 @@ gulp.task('sass', function() {
       cascade: true,
       remove: true
     }))
+    .pipe(clean())
     .pipe(gulp.dest('./src/css'));
+  // .pipe(notify("<%= file.relative %> 成功生成!"));
 });
 
 gulp.task('sass:watch', function() {
