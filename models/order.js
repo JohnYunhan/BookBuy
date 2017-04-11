@@ -66,15 +66,15 @@ let Order = mongoose.Schema({
   Status: {
     type: Number,
     default: 1
-  }, //订单状态,0:已失效、1:待确认、2:配送中、3:已签收、4:审核退款、5:已退款
+  }, //订单状态,-1:已删除、0:已失效、1:待确认、2:配送中、3:已签收、4:审核退款、5:已退款
 });
 
 //获取订单列表
 Order.statics.getOrderList = function(index, size, usrid) {
   // console.log(json)
   return new Promise((resolve, reject) => {
-    let query = this.find({ UserId: usrid });
-    let total = this.count();
+    let query = this.find({ UserId: usrid, Status: { $gt: -1 } });
+    let total = this.find({ UserId: usrid, Status: { $gt: -1 } }).count();
     query.sort({ UpdateDate: -1 }); //根据添加日期倒序
     query.skip(index * size); //跳过多少个数据
     query.limit(size); //限制Size条数据
@@ -168,7 +168,7 @@ Order.statics.setOrderStatus = function(json) {
       if (!error) {
         if (result) {
           result.Status = json.Status;
-          result.UpdateDate = json.UpdateDate;
+          result.UpdateDate = Date.now();
           result.save((error, res) => {
             resolve(res); //更新后的数据
           })

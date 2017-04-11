@@ -6,10 +6,10 @@ var gulp = require('gulp'),
   sass = require('gulp-sass'),
   notify = require('gulp-notify'), //通知信息
   autoprefixer = require('gulp-autoprefixer'),
-  clean = require('gulp-clean-css'), //css代码压缩
-  spriter = require('gulp-css-spriter'),
-  base64 = require('gulp-css-base64'),
-  fileinclude = require('gulp-file-include');
+  clean = require('gulp-clean-css'); //css代码压缩
+// spriter = require('gulp-css-spriter'),
+// base64 = require('gulp-css-base64'),
+// fileinclude = require('gulp-file-include');
 
 gulp.task('sass', function() {
   return gulp.src('./src/sass/*.scss')

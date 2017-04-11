@@ -332,5 +332,17 @@ router.post('/editOrder', function(req, res, next) {
     res.send({ Message: error, Code: 400 });
   })
 });
+//删除订单
+router.post('/setOrderStatus', function(req, res, next) {
+  let json = new Orders({
+    Id: req.body.Id,
+    Status: req.body.Status
+  });
+  Orders.setOrderStatus(json).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
 
 module.exports = router;

@@ -13,15 +13,18 @@ new Vue({
     orderItem: [],
     checkedItem: [],
     orderDetailItem: [],
+    upBtn: true,
+    downBtn: false,
+    page: 0,
   },
   created() {
     this.checkLogin();
   },
   methods: {
-    getOrder() {
+    getOrder(index, size) {
       var data = {
-        Index: 0,
-        Size: 5,
+        Index: index,
+        Size: size,
       };
       data = JSON.stringify(data);
       fetch("/api/getOrderList", {
@@ -40,11 +43,73 @@ new Vue({
           }
           // console.log(this.orderItem)
           this.totalCount = res.TotalCount;
+          if (this.totalCount == this.orderItem.length) {
+            this.downBtn = true;
+            console.log(this.downBtn)
+          } else {
+            this.downBtn = false;
+          }
         }
       }).catch(error => {
         layer.msg("服务器错误，请稍后再试")
         console.log(error)
       })
+    },
+    //上一页
+    upPage() {
+      if (this.page > 0) {
+        this.page = this.page - 1;
+        this.downBtn = false;
+        this.getOrder(this.page, 5);
+      }
+      if (this.page === 0) {
+        this.upBtn = true;
+      }
+    },
+    //下一页
+    downPage() {
+      var total = Math.ceil(this.totalCount / 1);
+      if (this.page < total) {
+        this.page = this.page + 1;
+        this.upBtn = false;
+        this.getOrder(this.page, 5);
+      }
+      if (this.page === total - 1) {
+        this.downBtn = true;
+      }
+    },
+    delOrder(id) {
+      var _this = this;
+      var confirm = layer.confirm('确定要删除吗？', {
+        btn: ['确定', '取消'] //按钮
+      }, function() {
+        var data = {
+          Id: id,
+          Status: -1,
+        };
+        data = JSON.stringify(data);
+        fetch("/api/setOrderStatus", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          },
+          body: data
+        }).then(result => result.json()).then(res => {
+          if (res.Code === 200) {
+            layer.msg("删除成功", { icon: 1, time: 2500 });
+            _this.getOrder(_this.page, 5);
+          } else {
+            console.log(res.Message)
+            layer.msg("删除失败，请稍后再试", { icon: 0, time: 2500 });
+          }
+        }).catch(function(error) {
+          console.log(error);
+        })
+        layer.close(confirm);
+      }, function() {
+        layer.close(confirm);
+      });
     },
     checkedOrder(index) {},
     lookDetail(bookid) {
@@ -85,7 +150,7 @@ new Vue({
         if (res.Code === 200) {
           _this.UsrName = res.Nick;
           _this.getCart();
-          _this.getOrder();
+          _this.getOrder(0, 5);
         } else {
           _this.UsrName = "";
         }

@@ -52,8 +52,8 @@
         <div class="trading-manage">交易操作</div>
       </div>
       <div class="order-page" flex="dir:right">
-        <button class="btn">下一页</button>
-        <button class="btn">上一页</button>
+        <button :disabled="downBtn" @click="downPage" class="btn">下一页</button>
+        <button :disabled="upBtn" @click="upPage" class="btn">上一页</button>
       </div>
       <div class="order-list" v-for="(item,index) in orderItem">
         <div class="order-header" flex="main:justify">
@@ -62,7 +62,7 @@
             <label>{{item.Id | subDate}}</label>
             <span>订单号:{{item.Id}}</span>
           </div>
-          <div class="order-header-right"><span class="glyphicon glyphicon-trash"></span></div>
+          <div class="order-header-right"><span class="glyphicon glyphicon-trash" @click="delOrder(item.Id)"></span></div>
         </div>
         <div class="order-main" flex="dir:left">
           <div flex="dir:top">
