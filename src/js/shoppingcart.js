@@ -278,6 +278,13 @@ new Vue({
     toHome() {
       location.href = "/index";
     },
+    toMycount() {
+      if (this.UsrName === "") {
+        this.showLoginBox();
+      } else {
+        location.href = "/account";
+      }
+    },
     //验证是否登录
     checkLogin() {
       var _this = this;

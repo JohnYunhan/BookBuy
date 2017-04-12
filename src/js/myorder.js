@@ -205,6 +205,9 @@ new Vue({
     toMyorder() {
       location.href = "/myorder";
     },
+    toMycount() {
+      location.href = "/account";
+    },
     // 显示登录框
     showLoginBox() {
       this.layer = layer.open({

@@ -68,6 +68,13 @@ new Vue({
     toMyorder() {
       location.href = "/myorder";
     },
+    toMycount() {
+      if (this.UsrName === "") {
+        this.showLoginBox();
+      } else {
+        location.href = "/account";
+      }
+    },
     // 显示登录框
     showLoginBox() {
       this.layer = layer.open({

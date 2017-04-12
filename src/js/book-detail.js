@@ -171,6 +171,13 @@ new Vue({
         location.href = "/shoppingcart";
       }
     },
+    toMycount() {
+      if (this.UsrName === "") {
+        this.showLoginBox();
+      } else {
+        location.href = "/account";
+      }
+    },
     //跳到指定图书类别
     toCategory() {},
     //搜索图书

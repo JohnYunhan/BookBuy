@@ -178,6 +178,9 @@ new Vue({
     toHome() {
       location.href = "/index";
     },
+    toMycount() {
+      location.href = "/account";
+    },
     // 显示登录框
     showLoginBox() {
       this.layer = layer.open({

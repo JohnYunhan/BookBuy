@@ -344,6 +344,9 @@ new Vue({
     toCart() {
       location.href = "/shoppingcart";
     },
+    toMycount() {
+      location.href = "/account";
+    },
     search() {},
     //验证是否登录
     checkLogin() {

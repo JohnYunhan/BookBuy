@@ -149,6 +149,13 @@ new Vue({
         location.href = "/shoppingcart";
       }
     },
+    toMycount() {
+      if (this.UsrName === "") {
+        this.showLoginBox();
+      } else {
+        location.href = "/account";
+      }
+    },
     //跳转到图书详情页，查看详情
     lookDetail(id) {
       this.addClickCount(id);
