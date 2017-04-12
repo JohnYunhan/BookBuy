@@ -135,12 +135,15 @@ new Vue({
       location.href = "/register";
     },
     toMyorder() {
-      location.href = "/myorder";
+      if (this.UsrName === "") {
+        this.showLoginBox();
+      } else {
+        location.href = "/myorder";
+      }
     },
     //跳到购物车页
     toCart() {
-      if (!localStorage.nick) {
-        this.UsrName = "";
+      if (this.UsrName === "") {
         this.showLoginBox();
       } else {
         location.href = "/shoppingcart";

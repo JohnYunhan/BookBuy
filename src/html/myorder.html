@@ -55,10 +55,9 @@
         <button :disabled="downBtn" @click="downPage" class="btn">下一页</button>
         <button :disabled="upBtn" @click="upPage" class="btn">上一页</button>
       </div>
-      <div class="order-list" v-for="(item,index) in orderItem">
+      <div v-if="orderItem.length !== 0" class="order-list" v-for="(item,index) in orderItem">
         <div class="order-header" flex="main:justify">
           <div class="order-header-left">
-            <input type="checkbox" v-model="checkedItem[index]" @click="checkedOrder(index)" />
             <label>{{item.Id | subDate}}</label>
             <span>订单号:{{item.Id}}</span>
           </div>
@@ -85,7 +84,7 @@
           <div class="order-main-right" flex="dir:left cross:center">
             <div class="book-total" flex="dir:top main:center">
               <b>￥{{item.Total}}</b>
-              <span>（含运费：￥{{item.Freight}}）</span>
+              <span>（含运费:￥{{item.Freight}}）</span>
             </div>
             <div class="trading-status" flex="dir:top main:center">
               <span>交易成功</span>
@@ -103,6 +102,68 @@
           </div>
         </div>
       </div>
+      <div class="no-order" v-else><img src="img/noorder.jpg"></div>
+    </div>
+    <!-- 订单详情 -->
+    <div id="orderDetail">
+      <table>
+        <tbody>
+          <tr>
+            <td>订单号</td>
+            <td>{{orderDetailItem.Id}}</td>
+          </tr>
+          <tr v-for="(item,index) in orderDetailItem.BuyInfor">
+            <td>图书{{index+1}}</td>
+            <td>{{item.BookName}}（{{item.count}}本）</td>
+          </tr>
+          <tr>
+            <td>运费</td>
+            <td>￥{{orderDetailItem.Freight}}</td>
+          </tr>
+          <tr>
+            <td>总额</td>
+            <td>￥{{orderDetailItem.Total}}</td>
+          </tr>
+          <tr>
+            <td>收货人</td>
+            <td>{{orderDetailItem.Name}}</td>
+          </tr>
+          <tr>
+            <td>手机号</td>
+            <td>{{orderDetailItem.Mobile}}</td>
+          </tr>
+          <tr>
+            <td>收货地址</td>
+            <td>{{orderDetailItem.Address}}</td>
+          </tr>
+          <tr>
+            <td>发票信息</td>
+            <td>{{orderDetailItem.InvoiceInfor}}</td>
+          </tr>
+          <tr>
+            <td>配送时间</td>
+            <td>{{orderDetailItem.DeliveryTime}}</td>
+          </tr>
+          <tr>
+            <td>订单状态</td>
+            <td v-if="orderDetailItem.Status === 1">待确认</td>
+            <td v-else-if="orderDetailItem.Status === 2">配送中</td>
+            <td v-else-if="orderDetailItem.Status === 3">已签收</td>
+            <td v-else-if="orderDetailItem.Status === 4">配送中</td>
+            <td v-else-if="orderDetailItem.Status === 5">审核退款</td>
+            <td v-else-if="orderDetailItem.Status === 6">已退款</td>
+            <td v-else>已失效</td>
+          </tr>
+          <tr>
+            <td>下单日期</td>
+            <td>{{orderDetailItem.Id | coverDate}}</td>
+          </tr>
+          <tr>
+            <td>备注</td>
+            <td>{{orderDetailItem.Note}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <!-- 登录 -->
     <div id="loginbox">

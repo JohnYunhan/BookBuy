@@ -165,17 +165,21 @@ new Vue({
     toReg() {
       location.href = "/register";
     },
+    //跳到我的订单页
+    toMyorder() {
+      if (this.UsrName === "") {
+        this.showLoginBox();
+      } else {
+        location.href = "/myorder";
+      }
+    },
     //跳到购物车页
     toCart() {
-      if (!localStorage.nick) {
-        this.UsrName = "";
+      if (this.UsrName === "") {
         this.showLoginBox();
       } else {
         location.href = "/shoppingcart";
       }
-    },
-    toMyorder() {
-      location.href = "/myorder";
     },
     //验证是否登录
     checkLogin() {

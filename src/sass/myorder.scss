@@ -151,6 +151,9 @@ header {
       }
     }
   }
+  .no-order {
+    text-align: center;
+  }
 }
 
 #loginbox {
@@ -191,6 +194,21 @@ header {
   }
   .other-item {
     margin-top: 10px;
+  }
+}
+
+#orderDetail {
+  display: none;
+  padding: 20px;
+  table {
+    width: 100%;
+    tr {
+      td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 8px;
+      }
+    }
   }
 }
 

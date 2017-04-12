@@ -11,8 +11,7 @@ new Vue({
     totalCount: 0,
     cartItem: [],
     orderItem: [],
-    checkedItem: [],
-    orderDetailItem: [],
+    orderDetailItem: {},
     upBtn: true,
     downBtn: false,
     page: 0,
@@ -39,13 +38,12 @@ new Vue({
           this.orderItem = res.Data;
           for (var i = 0; i < this.orderItem.length; i++) {
             this.orderItem[i].BuyInfor = JSON.parse(this.orderItem[i].BuyInfor);
-            this.checkedItem.push(false);
           }
           // console.log(this.orderItem)
           this.totalCount = res.TotalCount;
           if (this.totalCount == this.orderItem.length) {
             this.downBtn = true;
-            console.log(this.downBtn)
+            // console.log(this.downBtn)
           } else {
             this.downBtn = false;
           }
@@ -111,15 +109,14 @@ new Vue({
         layer.close(confirm);
       });
     },
-    checkedOrder(index) {},
     lookDetail(bookid) {
-      this.addClickCount(id);
+      this.addClickCount(bookid);
       sessionStorage.setItem("lookBookId", bookid);
       location.href = "/book-detail";
     },
     //增加图书的点击次数
-    addClickCount(id) {
-      fetch("/api/addClickCount?Id=" + id, {
+    addClickCount(bookid) {
+      fetch("/api/addClickCount?Id=" + bookid, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -136,6 +133,19 @@ new Vue({
     },
     orderDetail(index) {
       this.orderDetailItem = this.orderItem[index];
+      // console.log(this.orderDetailItem)
+      // this.orderDetailItem.BuyInfor = JSON.parse(this.orderItem[index].BuyInfor);
+      // console.log(this.orderDetailItem.BuyInfor)
+      layer.open({
+        type: 1,
+        title: "订单详情",
+        content: $("#orderDetail"),
+        area: "400px",
+        skin: 'layui-layer-demo', //样式类名
+        anim: 2,
+        shadeClose: false, //开启遮罩关闭
+        end: function() {}
+      });
     },
     //验证是否登录
     checkLogin() {
@@ -291,7 +301,18 @@ new Vue({
   },
   filters: {
     subDate: function(val) {
-      return val.slice(0, 4) + "-" + val.slice(4, 6) + "-" + val.slice(6, 8);
+      if (!val) {
+        return "";
+      } else {
+        return val.slice(0, 4) + "-" + val.slice(4, 6) + "-" + val.slice(6, 8);
+      }
+    },
+    coverDate: function(val) {
+      if (!val) {
+        return "";
+      } else {
+        return val.slice(0, 4) + "-" + val.slice(4, 6) + "-" + val.slice(6, 8) + " " + val.slice(8, 10) + ":" + val.slice(10, 12) + ":" + val.slice(12, 14);
+      }
     },
   },
 })
