@@ -57,6 +57,14 @@
         </div>
       </div>
       <div class="recommend-purchase">
+        <ul>
+          <li :class="{'margin-lr': index==1 || index == 4}" flex="dir:top cross:center" @click="lookDetail(item.Id)" v-for="(item,index) in recommendBook">
+            <img :src="item.Image[1]" :alt="item.Name">
+            <a href="javascript:;">{{item.Name}}</a>
+            <span>定价：￥<del>{{item.ListPrice}}</del></span>
+            <span>售价：￥<b>{{item.SellPrice}}</b></span>
+          </li>
+        </ul>
       </div>
     </div>
     <!-- 登录 -->

@@ -132,6 +132,27 @@ router.get('/addClickCount', function(req, res, next) {
   })
 });
 
+//下单之后减少图书的库存数量
+router.post('/minusBookCount', function(req, res, next) {
+  let id = req.body.Id;
+  let count = req.body.Count;
+  Books.minusBookCount(id, count).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
+//根据分类获取图书
+router.get('/getBookByCategory', function(req, res, next) {
+  let category = req.query.Category;
+  Books.getBookByCategory(category).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
 //根据Id获取会员
 router.get('/getUserById', function(req, res, next) {
   let Id = req.UserInfo.Id;

@@ -209,6 +209,23 @@ Book.statics.getBookById = function(Id) {
   })
 }
 
+//根据分类获取图书
+Book.statics.getBookByCategory = function(category) {
+  return new Promise((resolve, reject) => {
+    let query = this.find({ Category: category, IsSoldOut: false });
+    query.sort({ ClickCount: -1 });
+    query.skip(10);
+    query.select("Name Id Image ListPrice SellPrice");
+    query.exec((error, result) => {
+      if (result) {
+        resolve(result);
+      } else {
+        reject(error);
+      }
+    })
+  })
+}
+
 //增加图书
 Book.statics.addBook = function(json) {
   return new Promise((resolve, reject) => {
@@ -290,6 +307,27 @@ Book.statics.addClickCount = function(Id) {
       if (result) {
         let count = result.ClickCount;
         result.ClickCount = count + 1;
+        result.save((err, res) => {
+          if (res) {
+            resolve(res);
+          } else {
+            reject(err);
+          }
+        })
+      } else {
+        reject(error);
+      }
+    })
+  })
+}
+
+//下单之后减少图书的库存数量
+Book.statics.minusBookCount = function(id, count) {
+  return new Promise((resolve, reject) => {
+    let query = this.findOne({ Id: id });
+    query.exec((error, result) => {
+      if (result) {
+        result.ClickCount = count;
         result.save((err, res) => {
           if (res) {
             resolve(res);

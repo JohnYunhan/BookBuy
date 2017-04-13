@@ -10,6 +10,9 @@ new Vue({
     errorInfor: "",
     isValid: true,
     carNum: 0, //用户购物车中图书的数量
+    recommendItem: [],
+    category: sessionStorage.category,
+    bookid: sessionStorage.bookid,
   },
   created() {
     this.checkLogin();
@@ -40,6 +43,41 @@ new Vue({
         console.log(error)
       })
     },
+    getRecommend() {
+      fetch("/api/getBookByCategory", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.recommendItem = res.Data;
+          this.converArr();
+          //推荐图书前去掉已买的
+          if (this.recommendItem.length !== 0) {
+            for (var i = 0; i < this.recommendItem.length; i++) {
+              if (this.recommendItem[i].Id === this.bookid[i]) {
+                this.recommendItem = this.recommendItem.splice(i, 1);
+              }
+            }
+          }
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
+    },
+    //字符串转数组
+    converArr() {
+      var arr = [];
+      if (this.bookid.indexOf(",") === -1) {
+        arr.push(this.bookid)
+      } else {
+        arr = this.bookid.split(",");
+      }
+      this.bookid = arr;
+    },
     //跳到首页
     toHome() {
       location.href = "/index";
@@ -64,6 +102,7 @@ new Vue({
         if (res.Code === 200) {
           _this.UsrName = res.Nick;
           _this.getCart();
+          _this.getRecommend();
         } else {
           _this.UsrName = "";
         }

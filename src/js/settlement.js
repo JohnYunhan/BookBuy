@@ -170,6 +170,7 @@ new Vue({
         var category = [];
         var bookid = [];
         var invoiceInfor = "";
+        var count = 0; //减去购买量之后的库存量
         for (var i = 0; i < buyInfor.length; i++) {
           buyInfor[i].count = this.selectNum[i];
           category.push(buyInfor[i].Category);
@@ -208,6 +209,10 @@ new Vue({
                 _this.delCart(j);
               }
             }
+            for (var k = 0; k < bookid.length; k++) {
+              count = parseInt(_this.settleItem[k].Storage) - parseInt(_this.selectNum[k]);
+              _this.minusBookNum(bookid[k], count);
+            }
             sessionStorage.setItem("buyInfor", "");
             sessionStorage.setItem("totalPrice", "");
             sessionStorage.setItem("source", "");
@@ -226,6 +231,26 @@ new Vue({
       } else {
         layer.msg("请完善收货信息", { icon: 0, time: 2500 });
       }
+    },
+    //下单之后减少图书的库存数量
+    minusBookNum(id, count) {
+      var _this = this;
+      var data = { Id: id, Count: count };
+      data = JSON.stringify(data);
+      fetch("/api/minusBookCount", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data,
+      }).then((result) => result.json()).then(function(res) {
+        if (res.Code !== 200) {
+          console.log(res.Message)
+        }
+      }).catch(error => {
+        console.log(error)
+      });
     },
     //如果结算来源于购物车
     delCart(index) {
