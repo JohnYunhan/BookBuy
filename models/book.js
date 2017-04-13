@@ -212,9 +212,11 @@ Book.statics.getBookById = function(Id) {
 //根据分类获取图书
 Book.statics.getBookByCategory = function(category) {
   return new Promise((resolve, reject) => {
-    let query = this.find({ Category: category, IsSoldOut: false });
+    let categorys = new RegExp(category);
+    let query = this.find({ Category: { $regex: categorys }, IsSoldOut: false });
     query.sort({ ClickCount: -1 });
     query.skip(10);
+    query.limit(10);
     query.select("Name Id Image ListPrice SellPrice");
     query.exec((error, result) => {
       if (result) {

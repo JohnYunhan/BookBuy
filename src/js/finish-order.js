@@ -44,7 +44,8 @@ new Vue({
       })
     },
     getRecommend() {
-      fetch("/api/getBookByCategory", {
+      this.uniqueArr();
+      fetch("/api/getBookByCategory?Category=" + this.category, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -78,6 +79,24 @@ new Vue({
       }
       this.bookid = arr;
     },
+    //字符串转数组、数组去重
+    uniqueArr() {
+      var _arr = [];
+      var json = {};
+      var res = [];
+      if (this.category.indexOf(",") === -1) {
+        res.push(this.category);
+      } else {
+        _arr = this.category.split(",");
+        for (var i = 0; i < _arr.length; i++) {
+          if (!json[_arr[i]]) {
+            res.push(_arr[i]);
+            json[_arr[i]] = 1;
+          }
+        }
+      }
+      this.category = res[0];
+    },
     //跳到首页
     toHome() {
       location.href = "/index";
@@ -88,6 +107,9 @@ new Vue({
     //跳到我的订单
     toMyorder() {
       location.href = "/myorder";
+    },
+    toMycount() {
+      location.href = "/accont";
     },
     //验证是否登录
     checkLogin() {
