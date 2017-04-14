@@ -8,6 +8,7 @@ let Presses = require("../models/press");
 let Categorys = require("../models/category");
 let Cars = require("../models/shoppingcar");
 let Notes = require("../models/note");
+let Evaluates = require("../models/evaluate");
 let jwt = require('jsonwebtoken');
 const jwtSecret = "zcvaetmbnhgpwegdfvcmghsdpdj"; //jwt密钥
 
@@ -395,7 +396,7 @@ router.post('/editNote', function(req, res, next) {
     Id: req.body.Id,
     NoteMsg: req.body.NoteMsg
   });
-  Users.editNote(json).then(result => {
+  Notes.editNote(json).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {
     res.send({ Message: error, Code: 400 });
@@ -406,6 +407,57 @@ router.post('/editNote', function(req, res, next) {
 router.post('/delNote', function(req, res, next) {
   let Id = req.body.Id;
   Notes.delNote(Id).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
+//获取图书评价列表
+router.post('/getEvaluateList', function(req, res, next) {
+  let index = req.body.Index,
+    size = req.body.Size,
+    usrid = "",
+    bookid = "";
+  if (!req.body.BookId) {
+    usrid = req.UserInfo.Id;
+  } else {
+    bookid = req.body.BookId;
+  }
+  Evaluates.getEvaluateList(index, size, usrid, bookid).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: Code });
+  })
+});
+
+//新增图书评价
+router.post('/addEvaluate', function(req, res, next) {
+  let json = new Evaluates({
+    UserId: req.UserInfo.Id,
+    BookId: req.body.BookId,
+    EvaluateMsg: req.body.EvaluateMsg,
+    QualityRate: req.body.QualityRate,
+    ServiceRate: req.body.ServiceRate,
+    DeliveryRate: req.body.DeliveryRate
+  });
+  Evaluates.addEvaluate(json).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
+//用户修改图书评价
+router.post('/editEvaluate', function(req, res, next) {
+  let json = new Evaluates({
+    Id: req.body.Id,
+    EvaluateMsg: req.body.EvaluateMsg,
+    QualityRate: req.body.QualityRate,
+    ServiceRate: req.body.ServiceRate,
+    DeliveryRate: req.body.DeliveryRate
+  });
+  Evaluates.editEvaluate(json).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {
     res.send({ Message: error, Code: 400 });

@@ -10,12 +10,10 @@ let Book = mongoose.Schema({
     type: String,
     unique: true,
     index: true,
-    // default: uniqid("book")
   },
   Name: {
     type: String,
     required: true,
-    unique: true,
   },
   Author: {
     type: String,

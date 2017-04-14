@@ -28,6 +28,7 @@ new Vue({
     imageS: "",
     noteMsg: "",
     locationHref: "/book-detail",
+    evaluateItem: [],
   },
   created() {
     this.getCategory();
@@ -207,6 +208,30 @@ new Vue({
           _this.UsrName = "";
         }
       }).catch(error => {
+        console.log(error)
+      })
+    },
+    // 获取用户对图书的评价
+    getEvaluate() {
+      var data = {
+        Index: 0,
+        Size: 10,
+        BookId: this.bookId
+      };
+      data = JSON.stringify(data);
+      fetch("/api/getEvaluateList", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.evaluateItem = res.Data;
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
         console.log(error)
       })
     },

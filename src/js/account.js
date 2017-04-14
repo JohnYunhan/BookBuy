@@ -44,6 +44,32 @@ new Vue({
         console.log(error)
       })
     },
+    //提交评价
+    submitEvaluate() {
+      var data = {
+        BookId: this.BookId[index],
+        EvaluateMsg: this.EvaluateMsg[index],
+        QualityRate: this.QualityRate[index],
+        ServiceRate: this.ServiceRate[index],
+        DeliveryRate: this.DeliveryRate[index]
+      };
+      data = JSON.stringify(data);
+      fetch("/api/addEvaluate", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          layer.msg("评价成功", { icon: 1, time: 2500 });
+        }
+        // console.log(res);
+      }).catch(function(error) {
+        console.log(error)
+      })
+    },
     //验证是否登录
     checkLogin() {
       var _this = this;
