@@ -9,11 +9,41 @@ new Vue({
     UsrName: "",
     errorInfor: "",
     noteMsg: "",
+    newPwd: "",
+    oldPwd: "",
+    confirmPwd: "",
+    orderItem: [],
+    totalCount: 0,
+    downBtn: true,
+    usrItem: {},
   },
   created() {
     this.checkLogin();
   },
   methods: {
+    updatePwd() {
+      var _this = this;
+      var data = {
+        Password: this.newPwd
+      };
+      data = JSON.stringify(data);
+      fetch("/api/updatePassword", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          layer.msg("修改成功", { icon: 1, time: 2500 });
+        } else {
+          layer.msg(res.Message, { icon: 0, time: 2500 });
+        }
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     //验证是否登录
     checkLogin() {
       var _this = this;
@@ -31,6 +61,25 @@ new Vue({
           _this.UsrName = "";
         }
       }).catch(error => {
+        console.log(error)
+      })
+    },
+    //获取用户信息
+    getUserInfor() {
+      fetch("/api/getUserById", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.usrItem = res.Data;
+        } else {
+          console.log(res.Message)
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
         console.log(error)
       })
     },
@@ -53,6 +102,38 @@ new Vue({
             }
           }
           this.carNum = count;
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
+    },
+    getOrder(index, size) {
+      var data = {
+        Index: index,
+        Size: size,
+      };
+      data = JSON.stringify(data);
+      fetch("/api/getOrderList", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.orderItem = res.Data;
+          for (var i = 0; i < this.orderItem.length; i++) {
+            this.orderItem[i].BuyInfor = JSON.parse(this.orderItem[i].BuyInfor);
+          }
+          // console.log(this.orderItem)
+          this.totalCount = res.TotalCount;
+          if (this.totalCount == this.orderItem.length) {
+            this.downBtn = true;
+          } else {
+            this.downBtn = false;
+          }
         }
       }).catch(error => {
         layer.msg("服务器错误，请稍后再试")

@@ -154,7 +154,7 @@ router.get('/getBookByCategory', function(req, res, next) {
   })
 });
 
-//根据Id获取会员
+//根据Id获取会员信息
 router.get('/getUserById', function(req, res, next) {
   let Id = req.UserInfo.Id;
   Users.getUserById(Id).then(result => {
@@ -214,14 +214,14 @@ router.post('/editUser', function(req, res, next) {
 });
 
 //修改会员密码
-router.post('/setUserPassword', function(req, res, next) {
+router.post('/updatePassword', function(req, res, next) {
   let json = new Users({
     Id: req.UserInfo.Id,
     Password: req.body.NewPassword,
     UpdateDate: Date.now()
   });
   let oldpwd = req.body.OldPassword;
-  Users.setUserPassword(json, oldpwd).then(result => {
+  Users.updatePassword(json, oldpwd).then(result => {
     res.send({ Data: result, Message: "修改成功", Code: 200 });
   }).catch(error => {
     res.send({ Message: error.Message, Code: 400 });

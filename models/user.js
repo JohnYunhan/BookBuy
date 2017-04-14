@@ -204,7 +204,7 @@ User.statics.editUser = function(json) {
 }
 
 //修改会员密码
-User.statics.setUserPassword = function(json, oldpwd) {
+User.statics.updatePassword = function(json, oldpwd) {
   return new Promise((resolve, reject) => {
     let query = this.findOne({ Id: json.Id });
     query.exec((error, result) => {
@@ -223,7 +223,7 @@ User.statics.setUserPassword = function(json, oldpwd) {
               })
             })
           } else {
-            reject({ Message: "旧密码不正确", Code: 401 });
+            reject({ Message: "旧密码不正确", Code: 400 });
           }
         })
       } else {

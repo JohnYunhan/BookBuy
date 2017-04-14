@@ -19,6 +19,7 @@ new Vue({
     cartItem: [],
     hotSearch: "",
     noteMsg: "",
+    locationHref: "/index",
   },
   created() {
     this.getCarousel();
@@ -138,6 +139,7 @@ new Vue({
     toMyorder() {
       if (this.UsrName === "") {
         this.showLoginBox();
+        this.locationHref = "/myorder";
       } else {
         location.href = "/myorder";
       }
@@ -146,6 +148,7 @@ new Vue({
     toCart() {
       if (this.UsrName === "") {
         this.showLoginBox();
+        this.locationHref = "/shoppingcart";
       } else {
         location.href = "/shoppingcart";
       }
@@ -153,6 +156,7 @@ new Vue({
     toMycount() {
       if (this.UsrName === "") {
         this.showLoginBox();
+        this.locationHref = "/account";
       } else {
         location.href = "/account";
       }
@@ -242,7 +246,8 @@ new Vue({
         }).then(res => res.json()).then(result => {
           if (result.Code === 200) {
             this.UsrName = result.Data;
-            layer.close(_this.layer)
+            layer.close(_this.layer);
+            location.href = this.locationHref;
           } else {
             this.errorInfor = result.Message;
           }

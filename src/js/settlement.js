@@ -355,7 +355,6 @@ new Vue({
           this.Address = usrItem.Address;
           this.invoiceName = this.Name;
         } else {
-          layer.msg("服务器错误，请稍后再试")
           console.log(res.Message)
         }
       }).catch(error => {
