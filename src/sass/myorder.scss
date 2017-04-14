@@ -1,4 +1,12 @@
 $color: #f86d0d;
+body {
+  width: 100%;
+  min-height: 100%;
+  position: absolute;
+  padding-bottom: 40px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
 header {
   width: 100%;
   border-bottom: 3px solid $color;
@@ -159,6 +167,26 @@ header {
 #evaluateOrder {
   display: none;
   padding: 20px;
+  .evaluate-text {
+    margin: 10px 0;
+    >div {
+      text-align: right;
+      font-size: 12px;
+      color: #999;
+    }
+  }
+  .evaluate-btn {
+    text-align: right;
+    .submit-btn {
+      background-color: $color;
+    }
+    .btn {
+      color: #fff;
+      &:hover {
+        opacity: .8;
+      }
+    }
+  }
 }
 
 #loginbox {

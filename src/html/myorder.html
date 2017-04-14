@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="//unpkg.com/element-ui/lib/theme-default/index.css">
   <link rel="stylesheet" href="/lib/css/bootstrap.min.css">
   <link href="lib/flex.css" rel="stylesheet">
   <link href="css/myorder.css" rel="stylesheet">
@@ -97,7 +98,9 @@
               <span v-else="item.Status===5">已退款</span>
             </div>
             <div class="trading-manage" flex="cross:center main:center">
-              <button class="btn">评价</button>
+              <button @click="confirmReceived(item.Id)" v-if="item.Status===1 || item.Status===2" class="btn">确认收货</button>
+              <button @click="openEvaluate(index)" v-else-if="item.Status===3" class="btn">评价</button>
+              <button @click="lookDetail(index)" v-else class="btn">再次购买</button>
             </div>
           </div>
         </div>
@@ -106,6 +109,31 @@
     </div>
     <!-- 评价订单 -->
     <div id="evaluateOrder">
+      <div class="evaluate-rate box" flex="dir:left box:mean">
+        <div class="evaluate-quality">
+          <span>图书质量</span>
+          <el-rate v-model="QualityRate" show-text>
+          </el-rate>
+        </div>
+        <div class="evaluate-delivery">
+          <span>送货速度</span>
+          <el-rate v-model="DeliveryRate" show-text>
+          </el-rate>
+        </div>
+        <div class="evaluate-service">
+          <span>服务态度</span>
+          <el-rate v-model="ServiceRate" show-text>
+          </el-rate>
+        </div>
+      </div>
+      <div class="evaluate-text">
+        <textarea class="form-control" placeholder="图书是否给力，快写下您的购买心得吧~" v-model.trim="EvaluateMsg" cols="57" rows="4"></textarea>
+        <div>还能输入{{evaluateCount}}字</div>
+      </div>
+      <div class="evaluate-btn">
+        <button class="btn submit-btn" @click="submitEvaluate">提交</button>
+        <button class="btn" @click="closeEvaluate">取消</button>
+      </div>
     </div>
     <!-- 订单详情 -->
     <div id="orderDetail">
@@ -194,6 +222,7 @@
   <script src="lib/layer/layer.js"></script>
   <script src="//cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
   <script src="//cdn.bootcss.com/fetch/2.0.2/fetch.min.js"></script>
+  <script src="//unpkg.com/element-ui/lib/index.js"></script>
   <script src="js/myorder.js"></script>
 </body>
 

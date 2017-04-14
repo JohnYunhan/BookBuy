@@ -355,6 +355,7 @@ router.post('/editOrder', function(req, res, next) {
     res.send({ Message: error, Code: 400 });
   })
 });
+
 //删除订单
 router.post('/setOrderStatus', function(req, res, next) {
   let json = new Orders({
@@ -435,6 +436,7 @@ router.post('/getEvaluateList', function(req, res, next) {
 router.post('/addEvaluate', function(req, res, next) {
   let json = new Evaluates({
     UserId: req.UserInfo.Id,
+    OrderId: req.body.OrderId,
     BookId: req.body.BookId,
     EvaluateMsg: req.body.EvaluateMsg,
     QualityRate: req.body.QualityRate,

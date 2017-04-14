@@ -11,7 +11,7 @@ let Evaluate = mongoose.Schema({
     unique: true,
     index: true,
   },
-  UsrId: {
+  UserId: {
     type: String,
     required: true,
   },

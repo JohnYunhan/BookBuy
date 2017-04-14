@@ -15,6 +15,12 @@ new Vue({
     upBtn: true,
     downBtn: false,
     page: 0,
+    BookId: [],
+    OrderId: "",
+    EvaluateMsg: "",
+    QualityRate: 0,
+    ServiceRate: 0,
+    DeliveryRate: 0,
   },
   created() {
     this.checkLogin();
@@ -109,6 +115,40 @@ new Vue({
         layer.close(confirm);
       });
     },
+    //确认收货
+    confirmReceived(id) {
+      var _this = this;
+      var confirm = layer.confirm('确定要确认收货吗？', {
+        btn: ['确定', '取消'] //按钮
+      }, function() {
+        var data = {
+          Id: id,
+          Status: 3,
+        };
+        data = JSON.stringify(data);
+        fetch("/api/setOrderStatus", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          },
+          body: data
+        }).then(result => result.json()).then(res => {
+          if (res.Code === 200) {
+            layer.msg("确认成功", { icon: 1, time: 2500 });
+            _this.getOrder(_this.page, 5);
+          } else {
+            console.log(res.Message)
+            layer.msg("确认失败，请稍后再试", { icon: 0, time: 2500 });
+          }
+        }).catch(function(error) {
+          console.log(error);
+        })
+        layer.close(confirm);
+      }, function() {
+        layer.close(confirm);
+      });
+    },
     lookDetail(bookid) {
       this.addClickCount(bookid);
       sessionStorage.setItem("lookBookId", bookid);
@@ -147,31 +187,62 @@ new Vue({
         end: function() {}
       });
     },
+    //打开评价对话框
+    openEvaluate(index) {
+      this.layer = layer.open({
+        type: 1,
+        title: "评价订单",
+        area: "540px",
+        content: $("#evaluateOrder"),
+        shadeClose: false,
+        closeBtn: 1,
+      });
+      this.OrderId = this.orderItem[index].Id;
+      var buyinfor = this.orderItem[index].BuyInfor;
+      this.BookId = [];
+      for (var i = 0; i < buyinfor.length; i++) {
+        this.BookId.push(buyinfor[i].BookId);
+      }
+    },
     //提交评价
     submitEvaluate() {
-      var data = {
-        BookId: this.BookId[index],
-        EvaluateMsg: this.EvaluateMsg[index],
-        QualityRate: this.QualityRate[index],
-        ServiceRate: this.ServiceRate[index],
-        DeliveryRate: this.DeliveryRate[index]
-      };
-      data = JSON.stringify(data);
-      fetch("/api/addEvaluate", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: data
-      }).then(result => result.json()).then(res => {
-        if (res.Code === 200) {
-          layer.msg("评价成功", { icon: 1, time: 2500 });
-        }
-        // console.log(res);
-      }).catch(function(error) {
-        console.log(error)
-      })
+      var valid = false;
+      for (var id of this.BookId) {
+        var data = {
+          OrderId: this.OrderId,
+          BookId: id,
+          EvaluateMsg: this.EvaluateMsg,
+          QualityRate: this.QualityRate,
+          ServiceRate: this.ServiceRate,
+          DeliveryRate: this.DeliveryRate
+        };
+        data = JSON.stringify(data);
+        fetch("/api/addEvaluate", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          },
+          body: data
+        }).then(result => result.json()).then(res => {
+          if (res.Code === 200) {
+            valid = true;
+          }
+          // console.log(res);
+        }).catch(function(error) {
+          console.log(error)
+        })
+      }
+      if (valid) {
+        layer.msg("评价成功", { icon: 1, time: 2500 });
+      }
+    },
+    closeEvaluate() {
+      this.EvaluateMsg = "";
+      this.QualityRate = 0;
+      this.DeliveryRate = 0;
+      this.ServiceRate = 0;
+      layer.close(this.layer);
     },
     //验证是否登录
     checkLogin() {
@@ -326,6 +397,30 @@ new Vue({
       }, function() {
         layer.close(confirm)
       });
+    },
+  },
+  computed: {
+    noteWordCount() {
+      var len = this.noteMsg.length;
+      var count = 140;
+      count = count - len;
+      if (count < 0) {
+        count = 0;
+        this.noteMsg = this.noteMsg.slice(0, 140);
+        layer.msg("最多只能输入140个字", { icon: 0, time: 2500 });
+      }
+      return count;
+    },
+    evaluateCount() {
+      var length = this.EvaluateMsg.length;
+      var counts = 140;
+      counts = counts - length;
+      if (counts < 0) {
+        counts = 0;
+        this.EvaluateMsg = this.EvaluateMsg.slice(0, 140);
+        layer.msg("最多只能输入140个字", { icon: 0, time: 2500 });
+      }
+      return counts;
     },
   },
   filters: {

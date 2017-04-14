@@ -1,4 +1,12 @@
 $color: #f86d0d;
+body {
+  width: 100%;
+  min-height: 100%;
+  position: absolute;
+  padding-bottom: 40px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
 header {
   width: 100%;
   border-bottom: 3px solid $color;
