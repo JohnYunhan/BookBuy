@@ -7,6 +7,7 @@ let Orders = require("../models/order");
 let Presses = require("../models/press");
 let Categorys = require("../models/category");
 let Cars = require("../models/shoppingcar");
+let Notes = require("../models/note");
 let jwt = require('jsonwebtoken');
 const jwtSecret = "zcvaetmbnhgpwegdfvcmghsdpdj"; //jwt密钥
 
@@ -360,6 +361,51 @@ router.post('/setOrderStatus', function(req, res, next) {
     Status: req.body.Status
   });
   Orders.setOrderStatus(json).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
+//获取留言列表
+router.get('/getNoteList', function(req, res, next) {
+  Notes.getNoteList(req.UserInfo.Id).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: Code });
+  })
+});
+
+//新增留言
+router.post('/addNote', function(req, res, next) {
+  let json = new Notes({
+    UserId: req.UserInfo.Id,
+    NoteMsg: req.body.NoteMsg
+  });
+  Notes.addNote(json).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
+//用户修改留言
+router.post('/editNote', function(req, res, next) {
+  let json = new Notes({
+    Id: req.body.Id,
+    NoteMsg: req.body.NoteMsg
+  });
+  Users.editNote(json).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
+//删除购物车
+router.post('/delNote', function(req, res, next) {
+  let Id = req.body.Id;
+  Notes.delNote(Id).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {
     res.send({ Message: error, Code: 400 });

@@ -25,7 +25,7 @@
             <span>|</span>
             <a @click="toMycount" href="javascript:;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 我的账户</a>
             <span>|</span>
-            <a href="javascript:;"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> 留言</a>
+            <a @click="openNote" href="javascript:;"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> 留言</a>
           </div>
           <div class="manage-right">
             <div v-if="UsrName === ''">
@@ -42,6 +42,17 @@
       </div>
     </header>
     <div class="account"></div>
+    <!-- 留言 -->
+    <div id="note">
+      <div class="note-content" flex="dir:top">
+        <textarea class="form-control" placeholder="给卖家留言，说出想要的图书或改进的建议. . ." v-model.trim="noteMsg" cols="30" rows="7"></textarea>
+        <div>还能输入{{noteWordCount}}字</div>
+      </div>
+      <div class="note-btn" flex="dir:right">
+        <button class="btn submit-btn" @click="submitNote">提交</button>
+        <button class="btn" @click="closeNote">取消</button>
+      </div>
+    </div>
     <!-- 登录 -->
     <div id="loginbox">
       <div class="login-item login-title">欢迎登录BookBuy图书网</div>

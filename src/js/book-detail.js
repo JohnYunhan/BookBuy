@@ -26,6 +26,7 @@ new Vue({
     imageL: "",
     imageM: "",
     imageS: "",
+    noteMsg: "",
   },
   created() {
     this.getCategory();
@@ -272,6 +273,60 @@ new Vue({
         console.log(error)
       })
     },
+    // 留言
+    openNote() {
+      if (this.UsrName !== "") {
+        this.layer = layer.open({
+          type: 1,
+          title: "留言",
+          area: "400px",
+          content: $("#note"),
+          shadeClose: false,
+          closeBtn: 1,
+        });
+      } else {
+        this.showLoginBox();
+      }
+    },
+    submitNote() {
+      var _this = this;
+      if (this.noteMsg !== "") {
+        var confirm = layer.confirm('确定要提交吗？', {
+          btn: ['确定', '取消'] //按钮
+        }, function() {
+          var data = {
+            NoteMsg: _this.noteMsg
+          };
+          data = JSON.stringify(data);
+          fetch("/api/addNote", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              'Content-Type': "application/json"
+            },
+            body: data
+          }).then(result => result.json()).then(res => {
+            if (res.Code === 200) {
+              layer.msg("提交成功", { icon: 1, time: 2500 });
+              _this.closeNote();
+            } else {
+              console.log(res.Message)
+            }
+          }).catch(error => {
+            console.log(error)
+          });
+          layer.close(confirm)
+        }, function() {
+          layer.close(confirm)
+        });
+      } else {
+        layer.msg("请输入留言信息");
+      }
+    },
+    closeNote() {
+      layer.close(this.layer);
+      this.noteMsg = "";
+    },
     // 显示登录框
     showLoginBox() {
       this.layer = layer.open({
@@ -378,7 +433,17 @@ new Vue({
     }
   },
   computed: {
-
+    noteWordCount() {
+      var len = this.noteMsg.length;
+      var count = 140;
+      count = count - len;
+      if (count < 0) {
+        count = 0;
+        this.noteMsg = this.noteMsg.slice(0, 40);
+        layer.msg("最多只能输入140个字", { icon: 0, time: 2500 });
+      }
+      return count;
+    },
   },
 })
 $(function() {
