@@ -51,7 +51,6 @@ new Vue({
           for (var i = 0; i < this.orderItem.length; i++) {
             this.orderItem[i].BuyInfor = JSON.parse(this.orderItem[i].BuyInfor);
           }
-          // console.log(this.orderItem)
           this.totalCount = res.TotalCount;
           if (this.totalCount == this.orderItem.length) {
             this.downBtn = true;
@@ -323,13 +322,14 @@ new Vue({
       location.href = "/book-detail";
     },
     //申请售后
-    applyRefund(id) {
+    applyRefund(id, index) {
       this.OrderId = id;
+      this.orderIndex = index;
       this.layer = layer.open({
         type: 1,
         title: "申请售后",
-        area: "540px",
-        content: $("#evaluateOrder"),
+        area: "350px",
+        content: $("#applyRefund"),
         shadeClose: false,
         closeBtn: 1,
       });
@@ -344,7 +344,7 @@ new Vue({
           var data = {
             OrderId: _this.OrderId,
             RefundType: _this.refundType,
-            NoteMsg: _this.refundMsg
+            RefundMsg: _this.refundMsg
           };
           data = JSON.stringify(data);
           fetch("/api/addRefund", {
@@ -357,7 +357,8 @@ new Vue({
           }).then(result => result.json()).then(res => {
             if (res.Code === 200) {
               layer.msg("提交成功", { icon: 1, time: 2500 });
-              _this.closeNote();
+              _this.closeRefund();
+              _this.setApplyRefund(1);
             } else {
               console.log(res.Message)
             }
@@ -375,6 +376,31 @@ new Vue({
     closeRefund() {
       this.refundMsg = "";
       layer.close(this.layer);
+    },
+    //申请售后之后在订单中做标记
+    setApplyRefund(refund) {
+      var _this = this;
+      var data = {
+        Id: this.OrderId,
+        IsApplyRefund: refund
+      };
+      data = JSON.stringify(data);
+      fetch("/api/setApplyRefund", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          Vue.set(_this.orderItem[_this.orderIndex], "IsApplyRefund", refund);
+        } else {
+          console.log(res.Message)
+        }
+      }).catch(error => {
+        console.log(error)
+      });
     },
     //验证是否登录
     checkLogin() {

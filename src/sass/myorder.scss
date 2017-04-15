@@ -250,6 +250,36 @@ header {
   }
 }
 
+#applyRefund {
+  display: none;
+  padding: 20px;
+  .refund-type {
+    span {
+      // display: inline-block;
+      // width: 100px;
+    }
+  }
+  .refund-msg {
+    margin-top: 5px;
+    >div {
+      color: #999;
+    }
+  }
+  .note-btn {
+    .submit-btn {
+      background-color: $color;
+      margin-left: 20px;
+      display: inline-block;
+    }
+    .btn {
+      color: #fff;
+      &:hover {
+        opacity: .8;
+      }
+    }
+  }
+}
+
 #note {
   display: none;
   padding: 20px;

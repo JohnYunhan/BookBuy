@@ -505,4 +505,17 @@ router.get('/cancelRefund', function(req, res, next) {
   })
 });
 
+//申请售后之后在订单中做标记
+router.post('/setApplyRefund', function(req, res, next) {
+  let json = new Orders({
+    Id: req.body.Id,
+    IsApplyRefund: req.body.IsApplyRefund
+  });
+  Orders.setApplyRefund(req.query.Id).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: Code });
+  })
+});
+
 module.exports = router;

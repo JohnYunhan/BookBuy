@@ -52,7 +52,7 @@
         <div class="trading-status">交易状态</div>
         <div class="trading-manage">交易操作</div>
       </div>
-      <div class="order-page" flex="dir:right">
+      <div v-show="orderItem.length !== 0" class="order-page" flex="dir:right">
         <button :disabled="downBtn" @click="downPage" class="btn">下一页</button>
         <button :disabled="upBtn" @click="upPage" class="btn">上一页</button>
       </div>
@@ -78,7 +78,8 @@
               <div class="book-price">￥{{key.SellPrice}}</div>
               <div class="book-count">{{key.count}}</div>
               <div class="book-manage">
-                <a @click="applyRefund(item.Id)" href="javascript:;">申请售后</a>
+                <a v-if="item.IsApplyRefund === 0" @click="applyRefund(item.Id,index)" href="javascript:;">申请售后</a>
+                <a v-else @click="updateRefund(item.Id)" href="javascript:;">修改申请</a>
               </div>
             </div>
           </div>
@@ -108,7 +109,7 @@
           </div>
         </div>
       </div>
-      <div class="no-order" v-else><img src="img/noorder.jpg"></div>
+      <div class="no-order" v-if="orderItem.length === 0"><img src="img/noorder.jpg"></div>
     </div>
     <!-- 评价订单 -->
     <div id="evaluateOrder">
@@ -214,8 +215,8 @@
       </div>
     </div>
     <!-- 申请售后 -->
-    <div class="applyRefund">
-      <div class="refund-type">
+    <div id="applyRefund">
+      <div class="refund-type" flex="main:justify">
         <span class="refund-goods">
           <input type="radio" v-model="refundType" :value="2" name="refundtype" id="refund-goods">
           <label for="refund-goods">换货</label>

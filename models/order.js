@@ -65,7 +65,7 @@ let Order = mongoose.Schema({
   },
   IsApplyRefund: {
     type: Number,
-    rdefault: 0
+    default: 0
   }, //是否申请售后  0:否、1:是
   Status: {
     type: Number,
@@ -75,7 +75,7 @@ let Order = mongoose.Schema({
 
 //获取订单列表
 Order.statics.getOrderList = function(index, size, usrid) {
-  // console.log(json)
+  // console.log(index, size, usrid)
   return new Promise((resolve, reject) => {
     let query = this.find({ UserId: usrid, Status: { $gt: -1 } });
     let total = this.find({ UserId: usrid, Status: { $gt: -1 } }).count();
@@ -83,9 +83,9 @@ Order.statics.getOrderList = function(index, size, usrid) {
     query.skip(index * size); //跳过多少个数据
     query.limit(size); //限制Size条数据
     query.exec((error, result) => {
-      if (result) {
+      if (!error) {
         total.exec((err, res) => {
-          if (res) {
+          if (!err) {
             resolve({
               Data: result,
               TotalCount: res
@@ -106,7 +106,7 @@ Order.statics.getOrderById = function(Id) {
   return new Promise((resolve, reject) => {
     let query = this.findOne({ Id: Id });
     query.exec((error, result) => {
-      if (result) {
+      if (!error) {
         resolve(result);
       } else {
         reject(error);
@@ -190,7 +190,7 @@ Order.statics.setApplyRefund = function(json) {
     query.exec((error, result) => {
       if (!error) {
         if (result) {
-          result.IsApplyRefund = 1;
+          result.IsApplyRefund = json.IsApplyRefund;
           result.UpdateDate = Date.now();
           result.save((error, res) => {
             resolve(res); //更新后的数据
