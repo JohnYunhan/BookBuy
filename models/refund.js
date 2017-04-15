@@ -49,6 +49,20 @@ let Refund = mongoose.Schema({
   }, //1、待审核、2:审核通过、3:审核不通过、0:已取消
 });
 
+//获取用户的退款申请
+Refund.statics.getRefundById = function(usrid, orderid) {
+  return new Promise((resolve, reject) => {
+    let query = this.findOne({ UserId: usrid, OrderId: orderid });
+    query.exec((error, result) => {
+      if (result) {
+        resolve(result);
+      } else {
+        reject(error);
+      }
+    })
+  })
+}
+
 //申请退换
 Refund.statics.addRefund = function(json) {
   return new Promise((resolve, reject) => {
@@ -73,6 +87,7 @@ Refund.statics.editRefund = function(json) {
       if (result) {
         result.RefundMsg = json.RefundMsg;
         result.RefundType = json.RefundType;
+        result.Status = json.Status;
         result.UpdateDate = Date.now();
         result.save((err, res) => {
           if (res) {

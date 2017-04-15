@@ -77,13 +77,13 @@
               </div>
               <div class="book-price">￥{{key.SellPrice}}</div>
               <div class="book-count">{{key.count}}</div>
-              <div class="book-manage">
-                <a v-if="item.IsApplyRefund === 0" @click="applyRefund(item.Id,index)" href="javascript:;">申请售后</a>
-                <a v-else @click="updateRefund(item.Id)" href="javascript:;">修改申请</a>
-              </div>
             </div>
           </div>
           <div class="order-main-right" flex="dir:left cross:center">
+            <div class="book-manage" flex="dir:top main:center">
+              <a v-if="item.IsApplyRefund === 0" @click="applyRefund(item.Id,index,'add')" href="javascript:;">申请售后</a>
+              <a v-else @click="applyRefund(item.Id,index,'update')" href="javascript:;">修改申请</a>
+            </div>
             <div class="book-total" flex="dir:top main:center">
               <b>￥{{item.Total}}</b>
               <span>（含运费:￥{{item.Freight}}）</span>
@@ -227,12 +227,16 @@
         </span>
         <span class="refund-money">
           <input type="radio" v-model="refundType" :value="1" name="refundtype" id="refund-money">
-          <label for="refund-money">只退款</label>
+          <label for="refund-money">退款</label>
         </span>
       </div>
       <div class="refund-msg">
-        <textarea class="form-control" placeholder="申请理由" v-model.trim="refundMsg" cols="30" rows="7"></textarea>
-        <div>还能输入{{refundWordCount}}字</div>
+        <textarea class="form-control" placeholder="申请理由" v-model.trim="refundMsg" cols="35" rows="6"></textarea>
+        <div flex="main:justify">
+          <span class="refund-count">还能输入{{refundWordCount}}字</span>
+          <span v-show="showRefundCancel"><input type="checkbox" v-model="refundCancel" :true-value="0" :false-value="1" id="refund-cancel">
+        <label for="refund-cancel">取消售后申请</label></span>
+        </div>
       </div>
       <div class="note-btn" flex="dir:right">
         <button class="btn submit-btn" @click="submitRefund">提交</button>

@@ -27,6 +27,8 @@ new Vue({
     errorInfor: "",
     refundType: 2,
     refundMsg: "",
+    showRefundCancel: false,
+    refundCancel: 1,
   },
   created() {
     this.checkLogin();
@@ -322,17 +324,25 @@ new Vue({
       location.href = "/book-detail";
     },
     //申请售后
-    applyRefund(id, index) {
+    applyRefund(id, index, type) {
       this.OrderId = id;
       this.orderIndex = index;
       this.layer = layer.open({
         type: 1,
         title: "申请售后",
-        area: "350px",
+        area: "363px",
         content: $("#applyRefund"),
         shadeClose: false,
         closeBtn: 1,
       });
+      if (type === "update") {
+        this.getApplyRefund();
+        this.showRefundCancel = true;
+      } else {
+        this.refundType = "";
+        this.refundMsg = "";
+        this.showRefundCancel = false;
+      }
     },
     //提交售后申请
     submitRefund() {
@@ -401,6 +411,71 @@ new Vue({
       }).catch(error => {
         console.log(error)
       });
+    },
+    getApplyRefund() {
+      var _this = this;
+      var data = {
+        OrderId: this.OrderId
+      };
+      data = JSON.stringify(data);
+      fetch("/api/getRefundById", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          var refund = res.Data;
+          this.refundType = refund.RefundType;
+          this.refundMsg = refund.RefundMsg;
+        } else {
+          console.log(res.Message)
+        }
+      }).catch(error => {
+        console.log(error)
+      });
+    },
+    updateRefund(id) {
+      var _this = this;
+      if (this.refundMsg === "" && this.refundCancel === 1) {
+        layer.msg("请输入申请理由");
+        return false;
+      }
+      var confirm = layer.confirm('确定要提交吗？', {
+        btn: ['确定', '取消'] //按钮
+      }, function() {
+        var data = {
+          OrderId: _this.OrderId,
+          RefundType: _this.refundType,
+          RefundMsg: _this.refundMsg,
+          Status: _this.refundCancel
+        };
+        data = JSON.stringify(data);
+        fetch("/api/addRefund", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          },
+          body: data
+        }).then(result => result.json()).then(res => {
+          if (res.Code === 200) {
+            layer.msg("提交成功", { icon: 1, time: 2500 });
+            _this.closeRefund();
+            _this.setApplyRefund(1);
+          } else {
+            console.log(res.Message)
+          }
+        }).catch(error => {
+          console.log(error)
+        });
+        layer.close(confirm)
+      }, function() {
+        layer.close(confirm)
+      });
+
     },
     //验证是否登录
     checkLogin() {

@@ -487,7 +487,8 @@ router.post('/editRefund', function(req, res, next) {
   let json = new Refunds({
     Id: req.body.Id,
     RefundMsg: req.body.RefundMsg,
-    RefundType: req.body.RefundType
+    RefundType: req.body.RefundType,
+    Status: req.body.Status
   });
   Refunds.editRefund(json).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
@@ -511,7 +512,16 @@ router.post('/setApplyRefund', function(req, res, next) {
     Id: req.body.Id,
     IsApplyRefund: req.body.IsApplyRefund
   });
-  Orders.setApplyRefund(req.query.Id).then(result => {
+  Orders.setApplyRefund(json).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: Code });
+  })
+});
+
+//获取用户的退款申请
+router.post('/getRefundById', function(req, res, next) {
+  Refunds.getRefundById(req.UserInfo.Id, req.body.OrderId).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {
     res.send({ Message: error, Code: Code });
