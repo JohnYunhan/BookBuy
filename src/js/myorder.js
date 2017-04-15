@@ -21,6 +21,12 @@ new Vue({
     QualityRate: 0,
     ServiceRate: 0,
     DeliveryRate: 0,
+    orderIndex: 0,
+    noteMsg: "",
+    evaluateValid: true,
+    errorInfor: "",
+    refundType: 2,
+    refundMsg: "",
   },
   created() {
     this.checkLogin();
@@ -116,13 +122,13 @@ new Vue({
       });
     },
     //确认收货
-    confirmReceived(id) {
+    confirmReceived(index) {
       var _this = this;
       var confirm = layer.confirm('确定要确认收货吗？', {
         btn: ['确定', '取消'] //按钮
       }, function() {
         var data = {
-          Id: id,
+          Id: _this.orderItem[index].Id,
           Status: 3,
         };
         data = JSON.stringify(data);
@@ -136,7 +142,7 @@ new Vue({
         }).then(result => result.json()).then(res => {
           if (res.Code === 200) {
             layer.msg("确认成功", { icon: 1, time: 2500 });
-            _this.getOrder(_this.page, 5);
+            Vue.set(_this.orderItem[index], "Status", 3);
           } else {
             console.log(res.Message)
             layer.msg("确认失败，请稍后再试", { icon: 0, time: 2500 });
@@ -197,6 +203,7 @@ new Vue({
         shadeClose: false,
         closeBtn: 1,
       });
+      this.orderIndex = index;
       this.OrderId = this.orderItem[index].Id;
       var buyinfor = this.orderItem[index].BuyInfor;
       this.BookId = [];
@@ -204,37 +211,76 @@ new Vue({
         this.BookId.push(buyinfor[i].BookId);
       }
     },
+    //验证评价
+    checkEvaluate() {
+      var _this = this;
+      setTimeout(function() {
+        _this.errorInfor = "";
+      }, 3000);
+      if (this.QualityRate === 0) {
+        this.errorInfor = "请评价图书质量";
+        this.evaluateValid = false;
+        return this.evaluateValid;
+      }
+      if (this.DeliveryRate === 0) {
+        this.errorInfor = "请评价送货速度";
+        this.evaluateValid = false;
+        return this.evaluateValid;
+      }
+      if (this.ServiceRate === 0) {
+        this.errorInfor = "请评价服务态度";
+        this.evaluateValid = false;
+        return this.evaluateValid;
+      }
+      if (this.EvaluateMsg === "") {
+        this.errorInfor = "请填写购买心得";
+        this.evaluateValid = false;
+        return this.evaluateValid;
+      }
+    },
     //提交评价
     submitEvaluate() {
-      var valid = false;
-      for (var id of this.BookId) {
-        var data = {
-          OrderId: this.OrderId,
-          BookId: id,
-          EvaluateMsg: this.EvaluateMsg,
-          QualityRate: this.QualityRate,
-          ServiceRate: this.ServiceRate,
-          DeliveryRate: this.DeliveryRate
-        };
-        data = JSON.stringify(data);
-        fetch("/api/addEvaluate", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            'Content-Type': "application/json"
-          },
-          body: data
-        }).then(result => result.json()).then(res => {
-          if (res.Code === 200) {
-            valid = true;
-          }
-          // console.log(res);
-        }).catch(function(error) {
-          console.log(error)
-        })
-      }
-      if (valid) {
-        layer.msg("评价成功", { icon: 1, time: 2500 });
+      this.evaluateValid = true;
+      this.checkEvaluate();
+      if (this.evaluateValid) {
+        var success_count = 0;
+        var _this = this;
+        for (var id of this.BookId) {
+          var data = {
+            OrderId: this.OrderId,
+            BookId: id,
+            EvaluateMsg: this.EvaluateMsg,
+            QualityRate: this.QualityRate,
+            ServiceRate: this.ServiceRate,
+            DeliveryRate: this.DeliveryRate
+          };
+          data = JSON.stringify(data);
+          fetch("/api/addEvaluate", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              'Content-Type': "application/json"
+            },
+            body: data
+          }).then(result => result.json()).then(res => {
+            if (res.Code === 200) {
+              success_count = success_count + 1;
+              if (success_count === _this.BookId.length) {
+                layer.msg("评价成功", { icon: 1, time: 2500 });
+                _this.isEvaluated();
+                _this.closeEvaluate();
+              }
+            } else {
+              success_count = -1;
+              console.log(res.Message);
+              layer.msg("评价失败，稍后再试", { icon: 0, time: 2500 });
+            }
+          }).catch(function(error) {
+            success_count = -1;
+            console.log(error);
+            layer.msg("评价失败，稍后再试", { icon: 0, time: 2500 });
+          })
+        }
       }
     },
     closeEvaluate() {
@@ -242,6 +288,92 @@ new Vue({
       this.QualityRate = 0;
       this.DeliveryRate = 0;
       this.ServiceRate = 0;
+      layer.close(this.layer);
+    },
+    //评价成功后将订单状态改为已评价
+    isEvaluated() {
+      var _this = this;
+      var data = {
+        Id: this.OrderId,
+        Status: 6,
+      };
+      data = JSON.stringify(data);
+      fetch("/api/setOrderStatus", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          Vue.set(_this.orderItem[_this.orderIndex], "Status", 6);
+        } else {
+          console.log(res.Message)
+        }
+      }).catch(function(error) {
+        console.log(error);
+      })
+    },
+    //再次购买
+    againBuy(index) {
+      var bookid = this.orderItem[index].BuyInfor[0].BookId;
+      this.addClickCount(bookid);
+      sessionStorage.setItem("lookBookId", bookid);
+      location.href = "/book-detail";
+    },
+    //申请售后
+    applyRefund(id) {
+      this.OrderId = id;
+      this.layer = layer.open({
+        type: 1,
+        title: "申请售后",
+        area: "540px",
+        content: $("#evaluateOrder"),
+        shadeClose: false,
+        closeBtn: 1,
+      });
+    },
+    //提交售后申请
+    submitRefund() {
+      var _this = this;
+      if (this.refundMsg !== "") {
+        var confirm = layer.confirm('确定要提交吗？', {
+          btn: ['确定', '取消'] //按钮
+        }, function() {
+          var data = {
+            OrderId: _this.OrderId,
+            RefundType: _this.refundType,
+            NoteMsg: _this.refundMsg
+          };
+          data = JSON.stringify(data);
+          fetch("/api/addRefund", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              'Content-Type': "application/json"
+            },
+            body: data
+          }).then(result => result.json()).then(res => {
+            if (res.Code === 200) {
+              layer.msg("提交成功", { icon: 1, time: 2500 });
+              _this.closeNote();
+            } else {
+              console.log(res.Message)
+            }
+          }).catch(error => {
+            console.log(error)
+          });
+          layer.close(confirm)
+        }, function() {
+          layer.close(confirm)
+        });
+      } else {
+        layer.msg("请输入申请理由");
+      }
+    },
+    closeRefund() {
+      this.refundMsg = "";
       layer.close(this.layer);
     },
     //验证是否登录
@@ -398,6 +530,60 @@ new Vue({
         layer.close(confirm)
       });
     },
+    // 留言
+    openNote() {
+      if (this.UsrName !== "") {
+        this.layer = layer.open({
+          type: 1,
+          title: "留言",
+          area: "400px",
+          content: $("#note"),
+          shadeClose: false,
+          closeBtn: 1,
+        });
+      } else {
+        this.showLoginBox();
+      }
+    },
+    submitNote() {
+      var _this = this;
+      if (this.noteMsg !== "") {
+        var confirm = layer.confirm('确定要提交吗？', {
+          btn: ['确定', '取消'] //按钮
+        }, function() {
+          var data = {
+            NoteMsg: _this.noteMsg
+          };
+          data = JSON.stringify(data);
+          fetch("/api/addNote", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              'Content-Type': "application/json"
+            },
+            body: data
+          }).then(result => result.json()).then(res => {
+            if (res.Code === 200) {
+              layer.msg("提交成功", { icon: 1, time: 2500 });
+              _this.closeNote();
+            } else {
+              console.log(res.Message)
+            }
+          }).catch(error => {
+            console.log(error)
+          });
+          layer.close(confirm)
+        }, function() {
+          layer.close(confirm)
+        });
+      } else {
+        layer.msg("请输入留言信息");
+      }
+    },
+    closeNote() {
+      layer.close(this.layer);
+      this.noteMsg = "";
+    },
   },
   computed: {
     noteWordCount() {
@@ -421,6 +607,17 @@ new Vue({
         layer.msg("最多只能输入140个字", { icon: 0, time: 2500 });
       }
       return counts;
+    },
+    refundWordCount() {
+      var leng = this.refundMsg.length;
+      var num = 140;
+      num = num - leng;
+      if (num < 0) {
+        num = 0;
+        this.refundMsg = this.refundMsg.slice(0, 140);
+        layer.msg("最多只能输入140个字", { icon: 0, time: 2500 });
+      }
+      return num;
     },
   },
   filters: {

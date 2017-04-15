@@ -20,13 +20,13 @@
         </div>
         <div class="header-right-manage">
           <div class="manage-left">
-            <a @click="toCart" href="javascript:;"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车&nbsp;<b>0</b></a>
+            <a @click="toCart" href="javascript:;"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车&nbsp;<b>{{carNum}}</b></a>
             <span>|</span>
             <a @click="toMyorder" href="javascript:;"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 我的订单</a>
             <span>|</span>
             <a @click="toMycount" href="javascript:;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 我的账户</a>
             <span>|</span>
-            <a href="javascript:;"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> 留言</a>
+            <a @click="openNote" href="javascript:;"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> 留言</a>
           </div>
           <div class="manage-right">
             <div v-if="UsrName === ''">
@@ -78,7 +78,7 @@
               <div class="book-price">￥{{key.SellPrice}}</div>
               <div class="book-count">{{key.count}}</div>
               <div class="book-manage">
-                <a href="javascript:;">申请售后</a>
+                <a @click="applyRefund(item.Id)" href="javascript:;">申请售后</a>
               </div>
             </div>
           </div>
@@ -94,13 +94,16 @@
               <span v-else-if="item.Status===1">待确认</span>
               <span v-else-if="item.Status===2">配送中</span>
               <span v-else-if="item.Status===3">已签收</span>
-              <span v-else-if="item.Status===4">审核退款</span>
-              <span v-else="item.Status===5">已退款</span>
+              <span v-else-if="item.Status===4">审核中</span>
+              <span v-else-if="item.Status===5">已退款</span>
+              <span v-else-if="item.Status===6">已评价</span>
+              <span v-else-if="item.Status===7">退换中</span>
+              <span v-else>已换货</span>
             </div>
             <div class="trading-manage" flex="cross:center main:center">
-              <button @click="confirmReceived(item.Id)" v-if="item.Status===1 || item.Status===2" class="btn">确认收货</button>
+              <button @click="confirmReceived(index)" v-if="item.Status===1 || item.Status===2" class="btn">确认收货</button>
               <button @click="openEvaluate(index)" v-else-if="item.Status===3" class="btn">评价</button>
-              <button @click="lookDetail(index)" v-else class="btn">再次购买</button>
+              <button @click="againBuy(index)" v-else class="btn">再次购买</button>
             </div>
           </div>
         </div>
@@ -127,12 +130,15 @@
         </div>
       </div>
       <div class="evaluate-text">
-        <textarea class="form-control" placeholder="图书是否给力，快写下您的购买心得吧~" v-model.trim="EvaluateMsg" cols="57" rows="4"></textarea>
+        <textarea class="form-control" placeholder="图书是否给力，快写下您的购买心得吧~" v-model.trim="EvaluateMsg" cols="52" rows="4"></textarea>
         <div>还能输入{{evaluateCount}}字</div>
       </div>
-      <div class="evaluate-btn">
-        <button class="btn submit-btn" @click="submitEvaluate">提交</button>
-        <button class="btn" @click="closeEvaluate">取消</button>
+      <div class="evaluate-btn" flex="main:justify">
+        <span>{{errorInfor}}</span>
+        <div>
+          <button class="btn" @click="closeEvaluate">取消</button>
+          <button class="btn submit-btn" @click="submitEvaluate">提交</button>
+        </div>
       </div>
     </div>
     <!-- 订单详情 -->
@@ -180,9 +186,9 @@
             <td v-if="orderDetailItem.Status === 1">待确认</td>
             <td v-else-if="orderDetailItem.Status === 2">配送中</td>
             <td v-else-if="orderDetailItem.Status === 3">已签收</td>
-            <td v-else-if="orderDetailItem.Status === 4">配送中</td>
-            <td v-else-if="orderDetailItem.Status === 5">审核退款</td>
-            <td v-else-if="orderDetailItem.Status === 6">已退款</td>
+            <td v-else-if="orderDetailItem.Status === 4">审核退款</td>
+            <td v-else-if="orderDetailItem.Status === 5">已退款</td>
+            <td v-else-if="orderDetailItem.Status === 6">已评价</td>
             <td v-else>已失效</td>
           </tr>
           <tr>
@@ -195,6 +201,42 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <!-- 留言 -->
+    <div id="note">
+      <div class="note-content" flex="dir:top">
+        <textarea class="form-control" placeholder="给卖家留言，说出想要的图书或改进的建议. . ." v-model.trim="noteMsg" cols="30" rows="7"></textarea>
+        <div>还能输入{{noteWordCount}}字</div>
+      </div>
+      <div class="note-btn" flex="dir:right">
+        <button class="btn submit-btn" @click="submitNote">提交</button>
+        <button class="btn" @click="closeNote">取消</button>
+      </div>
+    </div>
+    <!-- 申请售后 -->
+    <div class="applyRefund">
+      <div class="refund-type">
+        <span class="refund-goods">
+          <input type="radio" v-model="refundType" :value="2" name="refundtype" id="refund-goods">
+          <label for="refund-goods">换货</label>
+        </span>
+        <span class="refund--goods-money">
+          <input type="radio" v-model="refundType" :value="3" name="refundtype" id="refund-goods-money">
+          <label for="refund-goods-money">退款退货</label>
+        </span>
+        <span class="refund-money">
+          <input type="radio" v-model="refundType" :value="1" name="refundtype" id="refund-money">
+          <label for="refund-money">只退款</label>
+        </span>
+      </div>
+      <div class="refund-msg">
+        <textarea class="form-control" placeholder="申请理由" v-model.trim="refundMsg" cols="30" rows="7"></textarea>
+        <div>还能输入{{refundWordCount}}字</div>
+      </div>
+      <div class="note-btn" flex="dir:right">
+        <button class="btn submit-btn" @click="submitRefund">提交</button>
+        <button class="btn" @click="closeRefund">取消</button>
+      </div>
     </div>
     <!-- 登录 -->
     <div id="loginbox">

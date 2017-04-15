@@ -50,13 +50,13 @@ let Evaluate = mongoose.Schema({
 });
 
 //获取评价列表
-Evaluate.statics.getEvaluateList = function(index, size, usrid, bookid) {
+Evaluate.statics.getEvaluateList = function(index, size, userid, bookid) {
   return new Promise((resolve, reject) => {
     let query = "";
     let total = "";
     if (usrid !== "") {
-      query = this.find({ UserId: usrid });
-      total = this.find({ UserId: usrid }).count();
+      query = this.find({ UserId: userid });
+      total = this.find({ UserId: userid }).count();
     } else {
       query = this.find({ BookId: bookid });
       total = this.find({ BookId: bookid }).count();

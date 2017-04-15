@@ -63,10 +63,14 @@ let Order = mongoose.Schema({
     type: Number,
     required: true,
   },
+  IsApplyRefund: {
+    type: Number,
+    rdefault: 0
+  }, //是否申请售后  0:否、1:是
   Status: {
     type: Number,
     default: 1
-  }, //订单状态,-1:已删除、0:已失效、1:待确认、2:配送中、3:已签收、4:审核退款、5:已退款
+  }, //订单状态,-1:已删除、0:已失效、1:待确认、2:配送中、3:已签收、4:审核中、5:已退款、6:已评价、7:退换中、8:已换货
 });
 
 //获取订单列表
@@ -168,6 +172,25 @@ Order.statics.setOrderStatus = function(json) {
       if (!error) {
         if (result) {
           result.Status = json.Status;
+          result.UpdateDate = Date.now();
+          result.save((error, res) => {
+            resolve(res); //更新后的数据
+          })
+        }
+      } else {
+        reject(error);
+      }
+    })
+  })
+}
+
+Order.statics.setApplyRefund = function(json) {
+  return new Promise((resolve, reject) => {
+    let query = this.findOne({ Id: json.Id });
+    query.exec((error, result) => {
+      if (!error) {
+        if (result) {
+          result.IsApplyRefund = 1;
           result.UpdateDate = Date.now();
           result.save((error, res) => {
             resolve(res); //更新后的数据

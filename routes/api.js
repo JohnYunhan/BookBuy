@@ -9,6 +9,7 @@ let Categorys = require("../models/category");
 let Cars = require("../models/shoppingcar");
 let Notes = require("../models/note");
 let Evaluates = require("../models/evaluate");
+let Refunds = require("../models/refund");
 let jwt = require('jsonwebtoken');
 const jwtSecret = "zcvaetmbnhgpwegdfvcmghsdpdj"; //jwt密钥
 
@@ -418,14 +419,14 @@ router.post('/delNote', function(req, res, next) {
 router.post('/getEvaluateList', function(req, res, next) {
   let index = req.body.Index,
     size = req.body.Size,
-    usrid = "",
+    userid = "",
     bookid = "";
   if (!req.body.BookId) {
-    usrid = req.UserInfo.Id;
+    userid = req.UserInfo.Id;
   } else {
     bookid = req.body.BookId;
   }
-  Evaluates.getEvaluateList(index, size, usrid, bookid).then(result => {
+  Evaluates.getEvaluateList(index, size, userid, bookid).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {
     res.send({ Message: error, Code: Code });
@@ -463,6 +464,44 @@ router.post('/editEvaluate', function(req, res, next) {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {
     res.send({ Message: error, Code: 400 });
+  })
+});
+
+//申请退换
+router.post('/addRefund', function(req, res, next) {
+  let json = new Refunds({
+    UserId: req.UserInfo.Id,
+    OrderId: req.body.OrderId,
+    RefundMsg: req.body.RefundMsg,
+    RefundType: req.body.RefundType,
+  });
+  Refunds.addRefund(json).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
+//修改申请
+router.post('/editRefund', function(req, res, next) {
+  let json = new Refunds({
+    Id: req.body.Id,
+    RefundMsg: req.body.RefundMsg,
+    RefundType: req.body.RefundType
+  });
+  Refunds.editRefund(json).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
+//取消申请
+router.get('/cancelRefund', function(req, res, next) {
+  Refunds.cancelRefund(req.query.Id).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: Code });
   })
 });
 
