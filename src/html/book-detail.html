@@ -22,7 +22,7 @@
         </div>
         <div v-else class="head_left">
           <span>Hi, </span>
-          <a style="color: #f86d0d" href="javascript:;">{{UsrName}}</a>&nbsp; 欢迎光临BookBuy图书网 &nbsp;
+          <a @click="toMycount" style="color: #f86d0d" href="javascript:;">{{UsrName}}</a>&nbsp; 欢迎光临BookBuy图书网 &nbsp;
           <a href="javascript:;" @click="loginOut"> [ 退出 ]</a>
         </div>
         <div class="head_right">

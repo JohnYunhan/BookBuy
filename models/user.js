@@ -33,6 +33,10 @@ let User = mongoose.Schema({
     type: String,
     default: "",
   }, //邮箱
+  Avatar: {
+    type: String,
+    default: "http://yunhan723.top/image/avatar.jpg",
+  }, //头像
   Address: {
     type: String,
     default: "",
@@ -187,8 +191,31 @@ User.statics.editUser = function(json) {
         result.Name = json.Name;
         result.Mobile = json.Mobile;
         result.Email = json.Email;
+        result.Avatar = json.Avatar;
         result.Address = json.Address;
-        result.UpdateDate = json.UpdateDate;
+        result.UpdateDate = Date.now();
+        result.save((err, res) => {
+          if (res) {
+            resolve(res);
+          } else {
+            reject(err);
+          }
+        })
+      } else {
+        reject(error);
+      }
+    })
+  })
+}
+
+//上传用户头像
+User.statics.uploadAvatar = function(json) {
+  return new Promise((resolve, reject) => {
+    let query = this.findOne({ Id: json.Id });
+    query.exec((error, result) => {
+      if (result) {
+        result.Avatar = json.Avatar;
+        result.UpdateDate = Date.now();
         result.save((err, res) => {
           if (res) {
             resolve(res);

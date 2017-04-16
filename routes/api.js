@@ -205,10 +205,22 @@ router.post('/editUser', function(req, res, next) {
     Name: req.body.Name,
     Mobile: req.body.Mobile,
     Email: req.body.Email,
-    Address: req.body.Address,
-    UpdateDate: Date.now()
+    Address: req.body.Address
   });
   Users.editUser(json).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
+//上传用户头像
+router.post('/uploadAvatar', function(req, res, next) {
+  let json = new Users({
+    Id: req.UserInfo.Id,
+    Avatar: req.body.Avatar
+  });
+  Users.uploadAvatar(json).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {
     res.send({ Message: error, Code: 400 });

@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="//unpkg.com/element-ui/lib/theme-default/index.css">
+  <link rel="stylesheet" href="/lib/css/bootstrap.min.css">
   <link rel="stylesheet" href="/lib/css/bootstrap.min.css">
   <link href="lib/flex.css" rel="stylesheet">
   <link href="css/account.css" rel="stylesheet">
@@ -34,14 +36,25 @@
             </div>
             <div v-else>
               <span>Hi, </span>
-              <a style="color: #f86d0d" href="javascript:;">{{UsrName}}</a>&nbsp; 欢迎光临BookBuy图书网 &nbsp;
+              <a @click="toMycount" style="color: #f86d0d" href="javascript:;">{{UsrName}}</a>&nbsp; 欢迎光临BookBuy图书网 &nbsp;
               <a href="javascript:;" @click="loginOut"> [ 退出 ]</a>
             </div>
           </div>
         </div>
       </div>
     </header>
-    <div class="account"></div>
+    <div class="account">
+      <div class="account-infor">
+        <div class="account-avatar">
+          <img :src="usrItem.Avatar" alt="头像">
+        </div>
+        <div class="account-detail">
+          <span class="nick">{{usrItem.Nick}}</span>
+          <span class="level">{{usrItem.Level}}</span>
+          <a href="javascript:;">完善个人信息</a>
+        </div>
+      </div>
+    </div>
     <!-- 留言 -->
     <div id="note">
       <div class="note-content" flex="dir:top">
@@ -79,6 +92,7 @@
   <script src="lib/layer/layer.js"></script>
   <script src="//cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
   <script src="//cdn.bootcss.com/fetch/2.0.2/fetch.min.js"></script>
+  <script src="//unpkg.com/element-ui/lib/index.js"></script>
   <script src="js/account.js"></script>
 </body>
 
