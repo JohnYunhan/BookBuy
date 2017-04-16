@@ -467,7 +467,7 @@ router.post('/editEvaluate', function(req, res, next) {
   })
 });
 
-//申请退换
+//增加申请
 router.post('/addRefund', function(req, res, next) {
   let json = new Refunds({
     UserId: req.UserInfo.Id,
@@ -485,10 +485,9 @@ router.post('/addRefund', function(req, res, next) {
 //修改申请
 router.post('/editRefund', function(req, res, next) {
   let json = new Refunds({
-    Id: req.body.Id,
+    OrderId: req.body.OrderId,
     RefundMsg: req.body.RefundMsg,
-    RefundType: req.body.RefundType,
-    Status: req.body.Status
+    RefundType: req.body.RefundType
   });
   Refunds.editRefund(json).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
@@ -499,10 +498,10 @@ router.post('/editRefund', function(req, res, next) {
 
 //取消申请
 router.get('/cancelRefund', function(req, res, next) {
-  Refunds.cancelRefund(req.query.Id).then(result => {
+  Refunds.cancelRefund(req.query.OrderId).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {
-    res.send({ Message: error, Code: Code });
+    res.send({ Message: error, Code: 400 });
   })
 });
 

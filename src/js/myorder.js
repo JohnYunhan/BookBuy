@@ -27,7 +27,7 @@ new Vue({
     errorInfor: "",
     refundType: 2,
     refundMsg: "",
-    showRefundCancel: false,
+    applyRefundType: "",
     refundCancel: 1,
   },
   created() {
@@ -326,6 +326,7 @@ new Vue({
     //申请售后
     applyRefund(id, index, type) {
       this.OrderId = id;
+      console.log(id)
       this.orderIndex = index;
       this.layer = layer.open({
         type: 1,
@@ -337,16 +338,20 @@ new Vue({
       });
       if (type === "update") {
         this.getApplyRefund();
-        this.showRefundCancel = true;
+        this.applyRefundType = "update";
       } else {
-        this.refundType = "";
+        this.refundType = 2;
         this.refundMsg = "";
-        this.showRefundCancel = false;
+        this.applyRefundType = "add";
       }
     },
     //提交售后申请
     submitRefund() {
       var _this = this;
+      var type = "editRefund";
+      if (this.applyRefundType === "add") {
+        type = "addRefund";
+      }
       if (this.refundMsg !== "") {
         var confirm = layer.confirm('确定要提交吗？', {
           btn: ['确定', '取消'] //按钮
@@ -357,7 +362,7 @@ new Vue({
             RefundMsg: _this.refundMsg
           };
           data = JSON.stringify(data);
-          fetch("/api/addRefund", {
+          fetch("/api/" + type, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -368,7 +373,9 @@ new Vue({
             if (res.Code === 200) {
               layer.msg("提交成功", { icon: 1, time: 2500 });
               _this.closeRefund();
-              _this.setApplyRefund(1);
+              if (_this.applyRefundType === "add") {
+                _this.setApplyRefund(1);
+              }
             } else {
               console.log(res.Message)
             }
@@ -437,9 +444,9 @@ new Vue({
         console.log(error)
       });
     },
-    updateRefund(id) {
+    updateRefund() {
       var _this = this;
-      if (this.refundMsg === "" && this.refundCancel === 1) {
+      if (this.refundMsg === "") {
         layer.msg("请输入申请理由");
         return false;
       }
@@ -449,8 +456,7 @@ new Vue({
         var data = {
           OrderId: _this.OrderId,
           RefundType: _this.refundType,
-          RefundMsg: _this.refundMsg,
-          Status: _this.refundCancel
+          RefundMsg: _this.refundMsg
         };
         data = JSON.stringify(data);
         fetch("/api/addRefund", {
@@ -464,7 +470,6 @@ new Vue({
           if (res.Code === 200) {
             layer.msg("提交成功", { icon: 1, time: 2500 });
             _this.closeRefund();
-            _this.setApplyRefund(1);
           } else {
             console.log(res.Message)
           }
@@ -475,7 +480,36 @@ new Vue({
       }, function() {
         layer.close(confirm)
       });
-
+    },
+    //取消申请
+    cancelRefund(id, index) {
+      this.OrderId = id;
+      this.orderIndex = index;
+      var _this = this;
+      var confirm = layer.confirm('确定要取消吗？', {
+        btn: ['确定', '取消'] //按钮
+      }, function() {
+        fetch("/api/cancelRefund?OrderId=" + id, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          }
+        }).then(result => result.json()).then(res => {
+          if (res.Code === 200) {
+            layer.msg("取消成功", { icon: 1, time: 2500 });
+            _this.setApplyRefund(0);
+          } else {
+            layer.msg("取消失败，请稍后再试", { icon: 0, time: 2500 });
+            console.log(res.Message);
+          }
+        }).catch(error => {
+          console.log(error)
+        });
+        layer.close(confirm)
+      }, function() {
+        layer.close(confirm)
+      });
     },
     //验证是否登录
     checkLogin() {

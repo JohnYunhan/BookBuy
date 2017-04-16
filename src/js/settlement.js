@@ -178,7 +178,7 @@ new Vue({
           bookid.push(buyInfor[i].BookId);
         };
         //选择了开具发票
-        if (invoice) {
+        if (this.invoice) {
           invoiceInfor = this.invoiceName + "," + this.invoiceInfor;
         }
         var data = {

@@ -82,12 +82,11 @@ Refund.statics.addRefund = function(json) {
 //修改申请
 Refund.statics.editRefund = function(json) {
   return new Promise((resolve, reject) => {
-    let query = this.findOne({ Id: json.Id });
+    let query = this.findOne({ OrderId: json.OrderId });
     query.exec((error, result) => {
       if (result) {
         result.RefundMsg = json.RefundMsg;
         result.RefundType = json.RefundType;
-        result.Status = json.Status;
         result.UpdateDate = Date.now();
         result.save((err, res) => {
           if (res) {
@@ -106,16 +105,14 @@ Refund.statics.editRefund = function(json) {
 //取消申请
 Refund.statics.cancelRefund = function(id) {
   return new Promise((resolve, reject) => {
-    let query = this.findOne({ Id: id });
+    let query = this.findOne({ OrderId: id });
     query.exec((error, result) => {
       if (result) {
-        result.Status = 0;
-        result.UpdateDate = Date.now();
-        result.save((err, res) => {
+        result.remove((err, res) => {
           if (res) {
             resolve(res);
           } else {
-            reject(err);
+            reject(err)
           }
         })
       } else {
