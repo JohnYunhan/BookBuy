@@ -36,6 +36,8 @@ new Vue({
     oldPwdError: "",
     newPwdError: "",
     confirmPwdError: "",
+    orderDetailItem: {},
+    headers: { "Access-Control-Allow-Origin": "*" },
   },
   created() {
     this.checkLogin();
@@ -46,7 +48,7 @@ new Vue({
       this.layer = layer.open({
         type: 1,
         title: "完善个人信息",
-        area: "500px",
+        area: "350px",
         content: $("#completeInfor"),
         shadeClose: false,
         closeBtn: 1,
@@ -214,10 +216,11 @@ new Vue({
       this.usrItem = this.initUsrItem;
     },
     openUpdatePwd() {
+      var _this = this;
       this.layer = layer.open({
         type: 1,
         title: "修改密码",
-        area: "400px",
+        area: "350px",
         content: $("#updatePwd"),
         shadeClose: false,
         closeBtn: 1,
@@ -235,21 +238,21 @@ new Vue({
       }
     },
     checkNewPwd() {
-      this.pwdError = "";
+      this.newPwdError = "";
       var upd_password = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       if (this.newPwd === "") {
-        this.pwdError = "请输入新密码";
+        this.newPwdError = "请输入新密码";
         this.pwdValid = false;
         return false;
       }
       var length = this.newPwd.length;
       if (length < 6 || length > 16) {
-        this.pwdError = "长度为6~16位";
+        this.newPwdError = "长度为6~16位";
         this.pwdValid = false;
         return false;
       }
       if (!upd_password.test(this.newPwd)) {
-        this.pwdError = "密码由6~16位数字和字母组成";
+        this.newPwdError = "密码由6~16位数字和字母组成";
         this.pwdValid = false;
         return false;
       }
@@ -452,6 +455,8 @@ new Vue({
     },
     uploadAvatarScucess(res, file) {
       this.usrItem.Avatar = URL.createObjectURL(file.raw);
+      console.log(res);
+      console.log(file);
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
@@ -496,7 +501,7 @@ new Vue({
       }, function() {
         var data = {
           Id: _this.orderItem[index].Id,
-          Status: 3,
+          Status: 9,
         };
         data = JSON.stringify(data);
         fetch("/api/setOrderStatus", {
@@ -509,7 +514,7 @@ new Vue({
         }).then(result => result.json()).then(res => {
           if (res.Code === 200) {
             layer.msg("确认成功", { icon: 1, time: 2500 });
-            Vue.set(_this.orderItem[index], "Status", 3);
+            Vue.set(_this.orderItem[index], "Status", 9);
           } else {
             console.log(res.Message)
             layer.msg("确认失败，请稍后再试", { icon: 0, time: 2500 });
@@ -546,9 +551,6 @@ new Vue({
     },
     orderDetail(index) {
       this.orderDetailItem = this.orderItem[index];
-      // console.log(this.orderDetailItem)
-      // this.orderDetailItem.BuyInfor = JSON.parse(this.orderItem[index].BuyInfor);
-      // console.log(this.orderDetailItem.BuyInfor)
       layer.open({
         type: 1,
         title: "订单详情",
@@ -867,5 +869,21 @@ new Vue({
       }
       return count;
     },
-  }
+  },
+  filters: {
+    subDate: function(val) {
+      if (!val) {
+        return "";
+      } else {
+        return val.slice(0, 4) + "-" + val.slice(4, 6) + "-" + val.slice(6, 8);
+      }
+    },
+    coverDate: function(val) {
+      if (!val) {
+        return "";
+      } else {
+        return val.slice(0, 4) + "-" + val.slice(4, 6) + "-" + val.slice(6, 8) + " " + val.slice(8, 10) + ":" + val.slice(10, 12) + ":" + val.slice(12, 14);
+      }
+    },
+  },
 })

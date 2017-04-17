@@ -315,7 +315,7 @@ router.post('/getOrderList', function(req, res, next) {
 });
 
 //获取不同状态的订单
-router.post('/getOrderByStatus', function(req, res, next) {
+router.get('/getOrderByStatus', function(req, res, next) {
   Orders.getOrderByStatus(req.UserInfo.Id, req.query.Status).then(result => {
     res.send({ Data: result, Message: "执行成功", Code: 200 });
   }).catch(error => {

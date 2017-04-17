@@ -36,123 +36,148 @@ header {
   }
 }
 
-.account-order {
+.account {
   width: 1000px;
   margin: 10px auto;
-  .order-title {
-    height: 45px;
-    line-height: 45px;
-    background-color: #EFEFEF;
-    .book-name {
-      width: 270px;
-      text-align: center;
+  .account-infor {
+    background-color: #efefef;
+    padding: 10px 20px;
+    .account-avatar {
+      border-radius: 50%;
     }
-    .book-price,
-    .book-count {
-      width: 80px;
-      text-align: center;
+    .account-detail {
+      h2 {
+        margin: 0;
+      }
+      margin: 0 20px 0 10px;
     }
-    .book-total {
-      width: 150px;
-      text-align: center;
-    }
-    .trading-status {
-      width: 150px;
-      text-align: center;
-    }
-    .trading-manage {
-      width: 150px;
-      text-align: center;
-    }
-  }
-  .order-page {
-    margin-top: 10px;
-    button {
-      padding: 3px 8px;
-      background-color: #fff;
-      border-color: #ccc;
-      margin-left: 5px;
-      &:hover {
-        border-color: $color;
+    .account-manage {
+      width: 746px;
+      a {
+        display: inline-block;
+        margin-left: 20px;
       }
     }
   }
-  .order-list {
-    margin-top: 10px;
-    .order-header {
-      background-color: #EFEFEF;
+  .account-order {
+    width: 1000px;
+    margin: 10px auto;
+    .order-title {
       height: 45px;
       line-height: 45px;
-      padding: 0 20px;
-      .order-header-left {
-        label {
-          display: inline-block;
-          margin-right: 10px;
-        }
+      background-color: #EFEFEF;
+      .book-name {
+        width: 270px;
+        text-align: center;
       }
-      .order-header-right {
-        font-size: 16px;
-        cursor: pointer;
+      .book-price,
+      .book-count {
+        width: 100px;
+        text-align: center;
+      }
+      .book-total {
+        width: 180px;
+        text-align: center;
+      }
+      .trading-status {
+        width: 180px;
+        text-align: center;
+      }
+      .trading-manage {
+        width: 170px;
+        text-align: center;
+      }
+    }
+    .order-page {
+      margin-top: 10px;
+      button {
+        padding: 3px 8px;
+        background-color: #fff;
+        border-color: #ccc;
+        margin-left: 5px;
         &:hover {
-          opacity: .8;
+          border-color: $color;
         }
       }
     }
-    .order-main {
-      .order-main-left {
-        border: 1px solid #ccc;
-        border-top: 0;
-        padding: 5px;
-        .book-name {
-          width: 270px;
-          padding-left: 10px;
-          text-align: center;
+    .order-list {
+      margin-top: 10px;
+      .order-header {
+        background-color: #EFEFEF;
+        height: 45px;
+        line-height: 45px;
+        padding: 0 20px;
+        .order-header-left {
+          label {
+            display: inline-block;
+            margin-right: 10px;
+          }
+        }
+        .order-header-right {
+          font-size: 14px;
           cursor: pointer;
-          .bookname {
-            a {
-              display: inline-block;
-              margin-bottom: 5px;
-            }
+          &:hover {
+            color: $color;
+            text-decoration: underline;
           }
         }
-        .book-price,
-        .book-count {
-          width: 80px;
-          text-align: center;
-        }
       }
-      .order-main-right {
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-        .book-total {
-          width: 150px;
-          text-align: center;
-          border-right: 1px solid #ccc;
-          height: 100%;
+      .order-main {
+        .order-main-left {
+          border: 1px solid #ccc;
+          border-top: 0;
+          padding: 5px;
+          .book-name {
+            width: 270px;
+            padding-left: 10px;
+            text-align: center;
+            cursor: pointer;
+            .bookname {
+              a {
+                display: inline-block;
+                margin-bottom: 5px;
+              }
+            }
+          }
+          .book-price,
+          .book-count {
+            width: 100px;
+            text-align: center;
+          }
         }
-        .trading-status {
-          width: 150px;
-          text-align: center;
+        .order-main-right {
+          border-bottom: 1px solid #ccc;
           border-right: 1px solid #ccc;
-          height: 100%;
-        }
-        .trading-manage {
-          width: 150px;
-          text-align: center;
-          height: 100%;
-          button {
-            background-color: #fff;
-            border-color: #ccc;
-            &:hover {
-              border-color: $color;
+          .book-total {
+            width: 180px;
+            text-align: center;
+            border-right: 1px solid #ccc;
+            height: 100%;
+          }
+          .trading-status {
+            width: 180px;
+            text-align: center;
+            border-right: 1px solid #ccc;
+            height: 100%;
+          }
+          .trading-manage {
+            width: 170px;
+            text-align: center;
+            height: 100%;
+            button {
+              background-color: #fff;
+              border-color: #ccc;
+              &:hover {
+                border-color: $color;
+              }
             }
           }
         }
       }
     }
-  }
-  .no-order {
-    text-align: center;
+    .no-order {
+      text-align: center;
+    }
   }
 }
 
@@ -182,18 +207,36 @@ header {
   }
 }
 
+#orderDetail {
+  display: none;
+  padding: 20px;
+  table {
+    width: 100%;
+    tr {
+      td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 8px;
+      }
+    }
+  }
+}
+
 #completeInfor {
   display: none;
   padding: 20px;
   label {
     display: inline-block;
-    width: 100px;
+    width: 68px;
     text-align: right;
+  }
+  input {
+    width: 238px;
   }
   p.error-infor {
     margin: 0;
-    height: 20px;
-    line-height: 20px;
+    height: 25px;
+    line-height: 25px;
     font-size: 12px;
     color: red;
   }
@@ -216,15 +259,19 @@ header {
   padding: 20px;
   label {
     display: inline-block;
-    width: 100px;
+    width: 68px;
     text-align: right;
+  }
+  input {
+    width: 236px;
   }
   p.error-infor {
     margin: 0;
-    height: 20px;
-    line-height: 20px;
+    height: 25px;
+    line-height: 25px;
     font-size: 12px;
     color: red;
+    padding-left: 72px;
   }
   .updatePwd-btn {
     button {

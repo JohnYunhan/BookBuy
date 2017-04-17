@@ -100,7 +100,8 @@
               <span v-else-if="item.Status===5">已退款</span>
               <span v-else-if="item.Status===6">已评价</span>
               <span v-else-if="item.Status===7">退换中</span>
-              <span v-else>已换货</span>
+              <span v-else-if="item.Status===8">已换货</span>
+              <span v-else>待评价</span>
             </div>
             <div class="trading-manage" flex="cross:center main:center">
               <button @click="confirmReceived(index)" v-if="item.Status<4 && item.Status>0" class="btn">确认收货</button>
@@ -152,7 +153,7 @@
             <td>{{orderDetailItem.Id}}</td>
           </tr>
           <tr v-for="(item,index) in orderDetailItem.BuyInfor">
-            <td>图书{{index+1}}</td>
+            <td>图书</td>
             <td>{{item.BookName}}（{{item.count}}本）</td>
           </tr>
           <tr>
