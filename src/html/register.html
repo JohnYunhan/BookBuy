@@ -50,7 +50,7 @@
         <p>{{nickError}}</p>
         <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
-          <input type="text" :class="{'form-control': true,'border': !mobileValid}" placeholder="11位手机号" @blur="checkMobile" v-model.trim="Mobile" />
+          <input type="number" :class="{'form-control': true,'border': !mobileValid}" placeholder="11位手机号" @blur="checkMobile" v-model.trim="Mobile" />
           <span v-show="mobileValid" class="input-group-addon reset"><span class="ok_bg"></span></span>
         </div>
         <p>{{mobileError}}</p>

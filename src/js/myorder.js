@@ -130,7 +130,7 @@ new Vue({
       }, function() {
         var data = {
           Id: _this.orderItem[index].Id,
-          Status: 3,
+          Status: 9,
         };
         data = JSON.stringify(data);
         fetch("/api/setOrderStatus", {
@@ -143,7 +143,7 @@ new Vue({
         }).then(result => result.json()).then(res => {
           if (res.Code === 200) {
             layer.msg("确认成功", { icon: 1, time: 2500 });
-            Vue.set(_this.orderItem[index], "Status", 3);
+            Vue.set(_this.orderItem[index], "Status", 9);
           } else {
             console.log(res.Message)
             layer.msg("确认失败，请稍后再试", { icon: 0, time: 2500 });

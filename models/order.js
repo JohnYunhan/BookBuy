@@ -70,7 +70,7 @@ let Order = mongoose.Schema({
   Status: {
     type: Number,
     default: 1
-  }, //订单状态,-1:已删除、0:已失效、1:待确认、2:配送中、3:已签收、4:审核中、5:已退款、6:已评价、7:退换中、8:已换货
+  }, //订单状态,-1:已删除、0:已失效、1:待确认、2:配送中、3:已签收、4:审核中、5:已退款、6:已评价、7:退换中、8:已换货、9:待评价
 });
 
 //获取订单列表
@@ -94,6 +94,20 @@ Order.statics.getOrderList = function(index, size, usrid) {
             reject(err);
           }
         })
+      } else {
+        reject(error);
+      }
+    })
+  })
+}
+
+Order.statics.getOrderByStatus = function(usrid, status) {
+  return new Promise((resolve, reject) => {
+    let query = this.find({ UserId: usrid, Status: status, IsApplyRefund: 0 });
+    query.sort({ UpdateDate: -1 });
+    query.exec((error, result) => {
+      if (!error) {
+        resolve(result)
       } else {
         reject(error);
       }

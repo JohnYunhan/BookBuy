@@ -103,8 +103,8 @@
               <span v-else>已换货</span>
             </div>
             <div class="trading-manage" flex="cross:center main:center">
-              <button @click="confirmReceived(index)" v-if="item.Status===1 || item.Status===2" class="btn">确认收货</button>
-              <button @click="openEvaluate(index)" v-else-if="item.Status===3" class="btn">评价</button>
+              <button @click="confirmReceived(index)" v-if="item.Status<4 && item.Status>0" class="btn">确认收货</button>
+              <button @click="openEvaluate(index)" v-else-if="item.Status===9" class="btn">评价</button>
               <button @click="againBuy(index)" v-else class="btn">再次购买</button>
             </div>
           </div>

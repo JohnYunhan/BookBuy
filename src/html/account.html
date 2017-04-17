@@ -21,7 +21,7 @@
         </div>
         <div class="header-right-manage">
           <div class="manage-left">
-            <a @click="toCart" href="javascript:;"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车&nbsp;<b>0</b></a>
+            <a @click="toCart" href="javascript:;"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车&nbsp;<b>{{carNum}}</b></a>
             <span>|</span>
             <a @click="toMyorder" href="javascript:;"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 我的订单</a>
             <span>|</span>
@@ -46,13 +46,146 @@
     <div class="account">
       <div class="account-infor">
         <div class="account-avatar">
-          <img :src="usrItem.Avatar" alt="头像">
+          <el-upload class="avatar-uploader" action="http://yunhan723.top/image/" :show-file-list="false" :on-success="uploadAvatarScucess" :before-upload="beforeAvatarUpload">
+            <img :src="usrItem.Avatar" alt="头像">
+          </el-upload>
         </div>
         <div class="account-detail">
           <span class="nick">{{usrItem.Nick}}</span>
-          <span class="level">{{usrItem.Level}}</span>
-          <a href="javascript:;">完善个人信息</a>
+          <span v-if="usrItem.Level === 1" class="level">注册会员</span>
+          <span v-else-if="usrItem.Level === 2" class="level">铜牌会员</span>
+          <span v-else-if="usrItem.Level === 3" class="level">银牌会员</span>
+          <span v-else-if="usrItem.Level === 4" class="level">金牌会员</span>
+          <span v-else class="level">钻石会员</span>
+          <a @click="openCompleteInfor" href="javascript:;">完善个人信息</a>
+          <a @click="openUpdatePwd" href="javascript:;">修改密码</a>
         </div>
+        <div class="account-manage">
+          <span><a @click="getOrderByStatus(2)" href="javascript:;"><img src="#">待收货</a></span>
+          <span><a @click="getOrderByStatus(3)" href="javascript:;"><img src="#">待确认</a></span>
+          <span><a @click="getOrderByStatus(9)" href="javascript:;"><img src="#">待评价</a></span>
+          <span><a href="javascript:;"><img src="#">待回复</a></span>
+        </div>
+      </div>
+      <div class="account-order">
+        <h3>我的订单</h3>
+        <div class="order-title" flex="dir:left">
+          <div class="book-name">图书</div>
+          <div class="book-price">单价</div>
+          <div class="book-count">数量</div>
+          <div class="book-total">实付款</div>
+          <div class="trading-status">交易状态</div>
+          <div class="trading-manage">交易操作</div>
+        </div>
+        <div v-if="orderItem.length !== 0" class="order-list" v-for="(item,index) in orderItem">
+          <div class="order-header" flex="main:justify">
+            <div class="order-header-left">
+              <label>{{item.Id | subDate}}</label>
+              <span>订单号:{{item.Id}}</span>
+            </div>
+            <div @click="toMyorder" class="order-header-right">全部订单</div>
+          </div>
+          <div class="order-main" flex="dir:left">
+            <div flex="dir:top">
+              <div class="order-main-left" flex="dir:left cross:center" v-for="key in item.BuyInfor">
+                <div class="book-name" flex="dir:left cross:center">
+                  <img @click="lookDetail(key.BookId)" :src="key.Image" :alt="key.BookName">
+                  <span class="bookname" flex="dir:top">
+              <a @click="lookDetail(key.BookId)" href="javascript:;">{{key.BookName}}</a>
+              <span flex="main:left"><img src="img/eleven.png"><img src="img/privoid.png"><img src="img/product.png">
+              </span>
+                  </span>
+                </div>
+                <div class="book-price">￥{{key.SellPrice}}</div>
+                <div class="book-count">{{key.count}}</div>
+              </div>
+            </div>
+            <div class="order-main-right" flex="dir:left cross:center">
+              <div class="book-total" flex="dir:top main:center">
+                <b>￥{{item.Total}}</b>
+                <span>（含运费:￥{{item.Freight}}）</span>
+              </div>
+              <div class="trading-status" flex="dir:top main:center">
+                <span>交易成功</span>
+                <a @click="orderDetail(index)" href="javascript:;">订单详情</a>
+                <span v-if="item.Status===0">已失效</span>
+                <span v-else-if="item.Status===1">待确认</span>
+                <span v-else-if="item.Status===2">配送中</span>
+                <span v-else-if="item.Status===3">已签收</span>
+                <span v-else-if="item.Status===4">审核中</span>
+                <span v-else-if="item.Status===5">已退款</span>
+                <span v-else-if="item.Status===6">已评价</span>
+                <span v-else-if="item.Status===7">退换中</span>
+                <span v-else>已换货</span>
+              </div>
+              <div class="trading-manage" flex="cross:center main:center">
+                <button @click="confirmReceived(index)" v-if="item.Status===1 || item.Status===2" class="btn">确认收货</button>
+                <button @click="openEvaluate(index)" v-else-if="item.Status===3" class="btn">评价</button>
+                <button @click="againBuy(index)" v-else class="btn">再次购买</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="no-order" v-if="orderItem.length === 0"><img src="img/noorder.jpg"></div>
+      </div>
+    </div>
+    <!-- 修改密码 -->
+    <div id="updatePwd">
+      <div class="updatePwd-oldpwd">
+        <label>旧 密 码:</label>
+        <input @blur="checkOldPwd" type="password" v-model.trim="oldPwd" class="form-control">
+      </div>
+      <p class="error-infor">{{oldPwdError}}</p>
+      <div class="updatePwd-newpwd">
+        <label>新 密 码:</label>
+        <input placeholder="密码，6~16位数字和字母" type="password" v-model.trim="newPwd" class="form-control">
+      </div>
+      <p class="error-infor">{{newPwdError}}</p>
+      <div class="updatePwd-confirmpwd">
+        <label>确认密码:</label>
+        <input type="password" v-model.trim="confirmPwd" class="form-control">
+      </div>
+      <p class="error-infor">{{confirmPwdError}}</p>
+      <div class="updatePwd-btn" flex="dir:right">
+        <button class="btn submit-btn" @click="submitPwd">提交</button>
+        <button class="btn" @click="closePwd">取消</button>
+      </div>
+    </div>
+    <!-- 完善个人信息 -->
+    <div id="completeInfor">
+      <div class="completeInfor-nick">
+        <label>昵称:</label>
+        <input @blur="checkNick" type="text" v-model.trim="usrItem.Nick" class="form-control">
+        <span v-show="nickValid" class="ok_bg"></span>
+      </div>
+      <p class="error-infor">{{nickError}}</p>
+      <div class="completeInfor-mobile">
+        <label>手机:</label>
+        <input @blur="checkMobile" type="number" v-model.trim="usrItem.Mobile" class="form-control">
+        <span v-show="mobileValid" class="ok_bg"></span>
+      </div>
+      <p class="error-infor">{{mobileError}}</p>
+      <div class="completeInfor-email">
+        <label>邮箱:</label>
+        <input @blur="checkEmail" type="text" v-model.trim="usrItem.Email" class="form-control">
+        <span v-show="emailValid" class="ok_bg"></span>
+      </div>
+      <p class="error-infor">{{emailError}}</p>
+      <div class="completeInfor-name">
+        <label>收货人:</label>
+        <input @blur="checkName" type="text" v-model.trim="usrItem.Name" class="form-control">
+        <span v-show="nameValid" class="ok_bg"></span>
+      </div>
+      <p class="error-infor">{{nameError}}</p>
+      <div class="completeInfor-address">
+        <label>收货地址:</label>
+        <input @blur="checkAddress" type="text" v-model.trim="usrItem.Address" class="form-control">
+        <span v-show="addressValid" class="ok_bg"></span>
+      </div>
+      <p class="error-infor">{{addressError}}</p>
+      <div class="completeInfor-btn" flex="dir:right">
+        <button class="btn submit-btn" @click="submitInfor">提交</button>
+        <button class="btn" @click="closeInfor">取消</button>
       </div>
     </div>
     <!-- 留言 -->

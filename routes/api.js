@@ -314,6 +314,15 @@ router.post('/getOrderList', function(req, res, next) {
   })
 });
 
+//获取不同状态的订单
+router.post('/getOrderByStatus', function(req, res, next) {
+  Orders.getOrderByStatus(req.UserInfo.Id, req.query.Status).then(result => {
+    res.send({ Data: result, Message: "执行成功", Code: 200 });
+  }).catch(error => {
+    res.send({ Message: error, Code: 400 });
+  })
+});
+
 //根据Id获取订单详情
 router.get('/getOrderById', function(req, res, next) {
   let Id = req.query.Id;
@@ -369,7 +378,7 @@ router.post('/editOrder', function(req, res, next) {
   })
 });
 
-//删除订单
+//设置订单状态
 router.post('/setOrderStatus', function(req, res, next) {
   let json = new Orders({
     Id: req.body.Id,

@@ -3,6 +3,7 @@ new Vue({
   data: {
     Account: "",
     Nick: "",
+    Mobile: "",
     Password: "",
     isValid: true,
     carNum: 0, //用户购物车中图书的数量
@@ -15,19 +16,74 @@ new Vue({
     orderItem: [],
     totalCount: 0,
     downBtn: true,
-    usrItem: {},
+    usrItem: { Nick: "", Name: "", Mobile: "", Email: "", Address: "", },
+    nickError: "",
+    mobileError: "",
+    emailError: "",
+    nameError: "",
+    addressError: "",
+    completeValid: true,
+    nickValid: false,
+    mobileValid: false,
+    emailValid: false,
+    nameValid: false,
+    addressValid: false,
+    initUsrItem: {},
+    pwdValid: true,
+    oldPwd: "",
+    newPwd: "",
+    confirmPwd: "",
+    oldPwdError: "",
+    newPwdError: "",
+    confirmPwdError: "",
   },
   created() {
     this.checkLogin();
   },
   methods: {
-    updatePwd() {
+    openCompleteInfor() {
+      var _this = this;
+      this.layer = layer.open({
+        type: 1,
+        title: "完善个人信息",
+        area: "500px",
+        content: $("#completeInfor"),
+        shadeClose: false,
+        closeBtn: 1,
+        cancel: function() {
+          //取消修改后，将数据初始化
+          _this.usrItem = _this.initUsrItem;
+        }
+      });
+    },
+    checkNick() {
+      this.nickValid = false;
+      this.nickError = "";
+      var nick = this.usrItem.Nick;
+      var length = nick.length;
+      var test_nick = /^([\u4e00-\u9fa5]|[a-zA-Z0-9]){2,10}$/;
+      if (nick === "") {
+        this.nickError = "昵称不能为空";
+        this.completeValid = false;
+        return false;
+      }
+      if (length < 2 || length > 10) {
+        this.nickError = "长度为2~10位";
+        this.completeValid = false;
+        return false;
+      }
+      if (!test_nick.test(nick)) {
+        this.nickError = "不能含有特殊字符";
+        this.completeValid = false;
+        return false;
+      }
       var _this = this;
       var data = {
-        Password: this.newPwd
+        Nick: nick,
+        Mobile: ""
       };
       data = JSON.stringify(data);
-      fetch("/api/updatePassword", {
+      fetch("/api/checkRegister", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -36,13 +92,217 @@ new Vue({
         body: data
       }).then(result => result.json()).then(res => {
         if (res.Code === 200) {
-          layer.msg("修改成功", { icon: 1, time: 2500 });
+          _this.nickError = "昵称已被注册";
+          _this.completeValid = false;
         } else {
-          layer.msg(res.Message, { icon: 0, time: 2500 });
+          _this.nickValid = true;
         }
-      }).catch(error => {
-        console.log(error)
       })
+    },
+    checkMobile() {
+      this.mobileValid = false;
+      this.mobileError = "";
+      var mobile = this.usrItem.Mobile;
+      var test_mobile = /(^0{0,1}1[3|4|5|6|7|8|9][0-9]{9}$)/;
+      if (mobile === "") {
+        this.mobileError = "手机号不能为空";
+        this.completeValid = false;
+        return false;
+      }
+      if (!test_mobile.test(mobile)) {
+        this.mobileError = "手机号格式有误";
+        this.completeValid = false;
+        return false;
+      }
+      var _this = this;
+      var data = {
+        Nick: "",
+        Mobile: mobile
+      };
+      data = JSON.stringify(data);
+      fetch("/api/checkRegister", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          _this.mobileError = "手机号已被注册";
+          _this.completeValid = false;
+        } else {
+          _this.mobileValid = true;
+        }
+      })
+    },
+    checkEmail() {
+      this.emailValid = false;
+      this.emailError = "";
+      var email = this.usrItem.Email;
+      var test_email = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+      if (!test_email.test(email) && email !== "") {
+        this.emailError = "邮箱格式有误";
+        this.completeValid = false;
+        return false;
+      }
+      this.emailValid = true;
+    },
+    checkName() {
+      this.nameValid = false;
+      this.nameError = "";
+      var name = this.usrItem.Name;
+      var test_name = /[^\x00-\x80]/;
+      if (!test_name.test(name) && name !== "") {
+        this.nameError = "请输入正确的收货人姓名";
+        this.completeValid = false;
+        return false;
+      }
+      this.nameValid = true;
+    },
+    checkAddress() {
+      this.addressValid = false;
+      this.addressError = "";
+      var address = this.usrItem.Address;
+      var test_address = /^([\u4e00-\u9fa5]|[a-zA-Z0-9]){2,20}$/;
+      if (!test_address.test(address) && address !== "") {
+        this.addressError = "请输入正确的收货地址";
+        this.completeValid = false;
+        return false;
+      }
+      this.addressValid = true;
+    },
+    submitInfor() {
+      var _this = this;
+      this.completeValid = true;
+      this.checkNick();
+      this.checkMobile();
+      this.checkEmail();
+      this.checkName();
+      this.checkAddress();
+      if (this.completeValid) {
+        var confirm = layer.confirm('确定要确认收货吗？', {
+          btn: ['确定', '取消'] //按钮
+        }, function() {
+          var data = JSON.stringify(this.usrItem);
+          fetch("/api/editUser", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              'Content-Type': "application/json"
+            },
+            body: data
+          }).then(result => result.json()).then(res => {
+            if (res.Code === 200) {
+              layer.msg("提交成功", { icon: 1, time: 2500 });
+              layer.close(_this.layer);
+            } else {
+              layer.msg("提交失败，请稍后再试", { icon: 0, time: 2500 });
+              console.log(res.Message);
+            }
+          }).catch(error => {
+            console.log(error)
+          })
+          layer.close(confirm);
+        }, function() {
+          layer.close(confirm);
+        });
+      }
+    },
+    closeInfor() {
+      layer.close(this.layer);
+      this.usrItem = this.initUsrItem;
+    },
+    openUpdatePwd() {
+      this.layer = layer.open({
+        type: 1,
+        title: "修改密码",
+        area: "400px",
+        content: $("#updatePwd"),
+        shadeClose: false,
+        closeBtn: 1,
+        cancel: function() {
+          //取消修改后，将数据初始化
+          _this.closePwd();
+        }
+      });
+    },
+    checkOldPwd() {
+      this.oldPwdError = "";
+      if (this.oldPwd === "") {
+        this.oldPwdError = "请输入旧密码";
+        this.pwdValid = false;
+      }
+    },
+    checkNewPwd() {
+      this.pwdError = "";
+      var upd_password = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+      if (this.newPwd === "") {
+        this.pwdError = "请输入新密码";
+        this.pwdValid = false;
+        return false;
+      }
+      var length = this.newPwd.length;
+      if (length < 6 || length > 16) {
+        this.pwdError = "长度为6~16位";
+        this.pwdValid = false;
+        return false;
+      }
+      if (!upd_password.test(this.newPwd)) {
+        this.pwdError = "密码由6~16位数字和字母组成";
+        this.pwdValid = false;
+        return false;
+      }
+    },
+    checkConfirmPwd() {
+      this.confirmPwdError = "";
+      if (this.confirmPwd === "") {
+        this.confirmPwdError = "确认密码不能为空";
+        this.pwdValid = false;
+        return false;
+      }
+      if (this.confirmPwd !== this.newPwd) {
+        this.confirmPwdError = "确认密码与密码不一致";
+        this.pwdValid = false;
+        return false;
+      }
+    },
+    submitPwd() {
+      var _this = this;
+      this.pwdValid = true;
+      this.checkOldPwd();
+      this.checkNewPwd();
+      this.checkConfirmPwd();
+      if (this.pwdValid) {
+        var data = {
+          NewPassword: this.newPwd,
+          OldPassword: this.oldPwd
+        };
+        data = JSON.stringify(data);
+        fetch("/api/updatePassword", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          },
+          body: data
+        }).then(result => result.json()).then(res => {
+          if (res.Code === 200) {
+            layer.msg("修改成功", { icon: 1, time: 2500 });
+            _this.closePwd();
+          } else {
+            layer.msg(res.Message, { icon: 0, time: 2500 });
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+      }
+    },
+    closePwd() {
+      layer.close(this.layer);
+      this.oldPwd = "";
+      this.newPwd = "";
+      this.confirmPwd = "";
     },
     //提交评价
     submitEvaluate() {
@@ -83,6 +343,8 @@ new Vue({
         if (res.Code === 200) {
           _this.UsrName = res.Nick;
           _this.getCart();
+          _this.getUserInfor();
+          _this.getOrder();
         } else {
           _this.UsrName = "";
         }
@@ -101,6 +363,7 @@ new Vue({
       }).then(result => result.json()).then(res => {
         if (res.Code === 200) {
           this.usrItem = res.Data;
+          this.initUsrItem = this.usrItem;
         } else {
           console.log(res.Message)
         }
@@ -134,10 +397,10 @@ new Vue({
         console.log(error)
       })
     },
-    getOrder(index, size) {
+    getOrder() {
       var data = {
-        Index: index,
-        Size: size,
+        Index: 0,
+        Size: 5,
       };
       data = JSON.stringify(data);
       fetch("/api/getOrderList", {
@@ -165,6 +428,266 @@ new Vue({
         layer.msg("服务器错误，请稍后再试")
         console.log(error)
       })
+    },
+    getOrderByStatus(status) {
+      fetch("/api/getOrderByStatus?Status=" + status, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.orderItem = res.Data;
+          for (var i = 0; i < this.orderItem.length; i++) {
+            this.orderItem[i].BuyInfor = JSON.parse(this.orderItem[i].BuyInfor);
+          }
+        } else {
+          console.log(res.Message)
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
+    },
+    uploadAvatarScucess(res, file) {
+      this.usrItem.Avatar = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
+    uploadAvatar(img) {
+      var data = {
+        Avatar: "http://yunhan723.top/image/" + img
+      };
+      data = JSON.stringify(data);
+      fetch("/api/uploadAvatar", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          layer.msg("上传成功", { icon: 1, time: 2500 });
+        } else {
+          layer.msg("上传失败，请稍后再试", { icon: 0, time: 2500 });
+          console.log(res.Message);
+        }
+      }).catch(function(error) {
+        console.log(error)
+      })
+    },
+    //确认收货
+    confirmReceived(index) {
+      var _this = this;
+      var confirm = layer.confirm('确定要确认收货吗？', {
+        btn: ['确定', '取消'] //按钮
+      }, function() {
+        var data = {
+          Id: _this.orderItem[index].Id,
+          Status: 3,
+        };
+        data = JSON.stringify(data);
+        fetch("/api/setOrderStatus", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          },
+          body: data
+        }).then(result => result.json()).then(res => {
+          if (res.Code === 200) {
+            layer.msg("确认成功", { icon: 1, time: 2500 });
+            Vue.set(_this.orderItem[index], "Status", 3);
+          } else {
+            console.log(res.Message)
+            layer.msg("确认失败，请稍后再试", { icon: 0, time: 2500 });
+          }
+        }).catch(function(error) {
+          console.log(error);
+        })
+        layer.close(confirm);
+      }, function() {
+        layer.close(confirm);
+      });
+    },
+    lookDetail(bookid) {
+      this.addClickCount(bookid);
+      sessionStorage.setItem("lookBookId", bookid);
+      location.href = "/book-detail";
+    },
+    //增加图书的点击次数
+    addClickCount(bookid) {
+      fetch("/api/addClickCount?Id=" + bookid, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then(result => result.json()).then(res => {
+        if (res.Code !== 200) {
+          console.log(res.Message);
+        }
+        // console.log(res);
+      }).catch(function(error) {
+        console.log(error)
+      })
+    },
+    orderDetail(index) {
+      this.orderDetailItem = this.orderItem[index];
+      // console.log(this.orderDetailItem)
+      // this.orderDetailItem.BuyInfor = JSON.parse(this.orderItem[index].BuyInfor);
+      // console.log(this.orderDetailItem.BuyInfor)
+      layer.open({
+        type: 1,
+        title: "订单详情",
+        content: $("#orderDetail"),
+        area: "400px",
+        skin: 'layui-layer-demo', //样式类名
+        anim: 2,
+        shadeClose: false, //开启遮罩关闭
+        end: function() {}
+      });
+    },
+    //打开评价对话框
+    openEvaluate(index) {
+      this.layer = layer.open({
+        type: 1,
+        title: "评价订单",
+        area: "540px",
+        content: $("#evaluateOrder"),
+        shadeClose: false,
+        closeBtn: 1,
+      });
+      this.orderIndex = index;
+      this.OrderId = this.orderItem[index].Id;
+      var buyinfor = this.orderItem[index].BuyInfor;
+      this.BookId = [];
+      for (var i = 0; i < buyinfor.length; i++) {
+        this.BookId.push(buyinfor[i].BookId);
+      }
+    },
+    //验证评价
+    checkEvaluate() {
+      var _this = this;
+      setTimeout(function() {
+        _this.errorInfor = "";
+      }, 3000);
+      if (this.QualityRate === 0) {
+        this.errorInfor = "请评价图书质量";
+        this.evaluateValid = false;
+        return this.evaluateValid;
+      }
+      if (this.DeliveryRate === 0) {
+        this.errorInfor = "请评价送货速度";
+        this.evaluateValid = false;
+        return this.evaluateValid;
+      }
+      if (this.ServiceRate === 0) {
+        this.errorInfor = "请评价服务态度";
+        this.evaluateValid = false;
+        return this.evaluateValid;
+      }
+      if (this.EvaluateMsg === "") {
+        this.errorInfor = "请填写购买心得";
+        this.evaluateValid = false;
+        return this.evaluateValid;
+      }
+    },
+    //提交评价
+    submitEvaluate() {
+      this.evaluateValid = true;
+      this.checkEvaluate();
+      if (this.evaluateValid) {
+        var success_count = 0;
+        var _this = this;
+        for (var id of this.BookId) {
+          var data = {
+            OrderId: this.OrderId,
+            BookId: id,
+            EvaluateMsg: this.EvaluateMsg,
+            QualityRate: this.QualityRate,
+            ServiceRate: this.ServiceRate,
+            DeliveryRate: this.DeliveryRate
+          };
+          data = JSON.stringify(data);
+          fetch("/api/addEvaluate", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              'Content-Type': "application/json"
+            },
+            body: data
+          }).then(result => result.json()).then(res => {
+            if (res.Code === 200) {
+              success_count = success_count + 1;
+              if (success_count === _this.BookId.length) {
+                layer.msg("评价成功", { icon: 1, time: 2500 });
+                _this.isEvaluated();
+                _this.closeEvaluate();
+              }
+            } else {
+              success_count = -1;
+              console.log(res.Message);
+              layer.msg("评价失败，稍后再试", { icon: 0, time: 2500 });
+            }
+          }).catch(function(error) {
+            success_count = -1;
+            console.log(error);
+            layer.msg("评价失败，稍后再试", { icon: 0, time: 2500 });
+          })
+        }
+      }
+    },
+    closeEvaluate() {
+      this.EvaluateMsg = "";
+      this.QualityRate = 0;
+      this.DeliveryRate = 0;
+      this.ServiceRate = 0;
+      layer.close(this.layer);
+    },
+    //评价成功后将订单状态改为已评价
+    isEvaluated() {
+      var _this = this;
+      var data = {
+        Id: this.OrderId,
+        Status: 6,
+      };
+      data = JSON.stringify(data);
+      fetch("/api/setOrderStatus", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          Vue.set(_this.orderItem[_this.orderIndex], "Status", 6);
+        } else {
+          console.log(res.Message)
+        }
+      }).catch(function(error) {
+        console.log(error);
+      })
+    },
+    //再次购买
+    againBuy(index) {
+      var bookid = this.orderItem[index].BuyInfor[0].BookId;
+      this.addClickCount(bookid);
+      sessionStorage.setItem("lookBookId", bookid);
+      location.href = "/book-detail";
     },
     toReg() {
       location.href = "/register";
