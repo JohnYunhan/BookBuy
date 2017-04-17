@@ -181,10 +181,10 @@ new Vue({
       this.checkName();
       this.checkAddress();
       if (this.completeValid) {
-        var confirm = layer.confirm('确定要确认收货吗？', {
+        var confirm = layer.confirm('确定要提交吗？', {
           btn: ['确定', '取消'] //按钮
         }, function() {
-          var data = JSON.stringify(this.usrItem);
+          var data = JSON.stringify(_this.usrItem);
           fetch("/api/editUser", {
             method: "POST",
             credentials: "include",
