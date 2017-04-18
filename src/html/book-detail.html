@@ -163,7 +163,7 @@
     <div id="note">
       <div class="note-content" flex="dir:top">
         <textarea class="form-control" placeholder="给卖家留言，说出想要的图书或改进的建议. . ." v-model.trim="noteMsg" cols="30" rows="7"></textarea>
-        <div>还能输入{{noteWordCount}}字</div>
+        <div>{{noteWordCount}}/140</div>
       </div>
       <div class="note-btn" flex="dir:right">
         <button class="btn submit-btn" @click="submitNote">提交</button>

@@ -563,12 +563,12 @@ new Vue({
     },
     noteCount() {
       var len = this.note.length;
-      var count = 140;
+      var count = 80;
       count = count - len;
       if (count < 0) {
         count = 0;
-        this.note = this.note.slice(0, 140);
-        layer.msg("最多只能输入140个字", { icon: 0, time: 2500 });
+        this.note = this.note.slice(0, 80);
+        layer.msg("最多只能输入80个字", { icon: 0, time: 2500 });
       }
       return count;
     },

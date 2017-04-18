@@ -79,27 +79,31 @@ new Vue({
         this.completeValid = false;
         return false;
       }
-      var _this = this;
-      var data = {
-        Nick: nick,
-        Mobile: ""
-      };
-      data = JSON.stringify(data);
-      fetch("/api/checkRegister", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: data
-      }).then(result => result.json()).then(res => {
-        if (res.Code === 200) {
-          _this.nickError = "昵称已被注册";
-          _this.completeValid = false;
-        } else {
-          _this.nickValid = true;
-        }
-      })
+      if (nick !== this.initUsrItem.Nick) {
+        var _this = this;
+        var data = {
+          Nick: nick,
+          Mobile: ""
+        };
+        data = JSON.stringify(data);
+        fetch("/api/checkRegister", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          },
+          body: data
+        }).then(result => result.json()).then(res => {
+          if (res.Code === 200) {
+            _this.nickError = "昵称已被注册";
+            _this.completeValid = false;
+          } else {
+            _this.nickValid = true;
+          }
+        })
+      } else {
+        this.nickValid = true;
+      }
     },
     checkMobile() {
       this.mobileValid = false;
@@ -116,27 +120,31 @@ new Vue({
         this.completeValid = false;
         return false;
       }
-      var _this = this;
-      var data = {
-        Nick: "",
-        Mobile: mobile
-      };
-      data = JSON.stringify(data);
-      fetch("/api/checkRegister", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: data
-      }).then(result => result.json()).then(res => {
-        if (res.Code === 200) {
-          _this.mobileError = "手机号已被注册";
-          _this.completeValid = false;
-        } else {
-          _this.mobileValid = true;
-        }
-      })
+      if (mobile !== this.initUsrItem.Mobile) {
+        var _this = this;
+        var data = {
+          Nick: "",
+          Mobile: mobile
+        };
+        data = JSON.stringify(data);
+        fetch("/api/checkRegister", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': "application/json"
+          },
+          body: data
+        }).then(result => result.json()).then(res => {
+          if (res.Code === 200) {
+            _this.mobileError = "手机号已被注册";
+            _this.completeValid = false;
+          } else {
+            _this.mobileValid = true;
+          }
+        })
+      } else {
+        this.mobileValid = true;
+      }
     },
     checkEmail() {
       this.emailValid = false;
@@ -403,7 +411,7 @@ new Vue({
     getOrder() {
       var data = {
         Index: 0,
-        Size: 5,
+        Size: 10,
       };
       data = JSON.stringify(data);
       fetch("/api/getOrderList", {

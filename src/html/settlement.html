@@ -120,8 +120,8 @@
         </div>
         <div class="detail-bottom" flex="main:justify cross:center">
           <div class="note">
-            <textarea class="form-control" placeholder="给卖家留言" v-model="note" cols="30" rows="3"></textarea>
-            <span>还能输入{{noteCount}}字</span>
+            <textarea class="form-control" placeholder="给卖家留言" v-model="note" cols="50" rows="3"></textarea>
+            <span>{{noteCount}}/40</span>
           </div>
           <div class="total-price">
             总计(含配送费)<b>￥{{totalPrice}}</b>
@@ -169,7 +169,7 @@
     <div id="note">
       <div class="note-content" flex="dir:top">
         <textarea class="form-control" placeholder="给卖家留言，说出想要的图书或改进的建议. . ." v-model.trim="noteMsg" cols="30" rows="7"></textarea>
-        <div>还能输入{{noteWordCount}}字</div>
+        <div>{{noteWordCount}}/140</div>
       </div>
       <div class="note-btn" flex="dir:right">
         <button class="btn submit-btn" @click="submitNote">提交</button>

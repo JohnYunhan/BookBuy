@@ -45,7 +45,7 @@
     <div class="account">
       <div class="account-infor" flex="dir:left">
         <div class="account-avatar">
-          <el-upload :headers="headers" class="avatar-uploader" action="http://yunhan723.top/image/" :show-file-list="false" :on-success="uploadAvatarScucess" :before-upload="beforeAvatarUpload">
+          <el-upload :headers="headers" class="avatar-uploader" action="ool0z2raq.bkt.clouddn.com" :show-file-list="false" :on-success="uploadAvatarScucess" :before-upload="beforeAvatarUpload">
             <img :src="usrItem.Avatar" alt="头像">
           </el-upload>
         </div>
@@ -82,7 +82,7 @@
               <label>{{item.Id | subDate}}</label>
               <span>订单号:{{item.Id}}</span>
             </div>
-            <div @click="toMyorder" class="order-header-right">全部订单</div>
+            <div @click="getOrder" class="order-header-right">全部订单</div>
           </div>
           <div class="order-main" flex="dir:left">
             <div flex="dir:top">
@@ -253,7 +253,7 @@
     <div id="note">
       <div class="note-content" flex="dir:top">
         <textarea class="form-control" placeholder="给卖家留言，说出想要的图书或改进的建议. . ." v-model.trim="noteMsg" cols="30" rows="7"></textarea>
-        <div>还能输入{{noteWordCount}}字</div>
+        <div>{{noteWordCount}}/140</div>
       </div>
       <div class="note-btn" flex="dir:right">
         <button class="btn submit-btn" @click="submitNote">提交</button>
