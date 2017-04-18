@@ -38,6 +38,11 @@ new Vue({
     confirmPwdError: "",
     orderDetailItem: {},
     headers: { "Access-Control-Allow-Origin": "*" },
+    QualityRate: 0,
+    DeliveryRate: 0,
+    ServiceRate: 0,
+    errInfor: "",
+    EvaluateMsg: "",
   },
   created() {
     this.checkLogin();
@@ -315,6 +320,10 @@ new Vue({
       this.newPwd = "";
       this.confirmPwd = "";
     },
+    //待回复
+    stayReply() {
+      layer.msg("暂无可回复消息", { icon: 0 });
+    },
     //提交评价
     submitEvaluate() {
       var data = {
@@ -362,6 +371,7 @@ new Vue({
       }).catch(error => {
         console.log(error)
       })
+      document.getElementById("account").style.visibility="visible";
     },
     //获取用户信息
     getUserInfor() {
@@ -592,25 +602,25 @@ new Vue({
     checkEvaluate() {
       var _this = this;
       setTimeout(function() {
-        _this.errorInfor = "";
+        _this.errInfor = "";
       }, 3000);
       if (this.QualityRate === 0) {
-        this.errorInfor = "请评价图书质量";
+        this.errInfor = "请评价图书质量";
         this.evaluateValid = false;
         return this.evaluateValid;
       }
       if (this.DeliveryRate === 0) {
-        this.errorInfor = "请评价送货速度";
+        this.errInfor = "请评价送货速度";
         this.evaluateValid = false;
         return this.evaluateValid;
       }
       if (this.ServiceRate === 0) {
-        this.errorInfor = "请评价服务态度";
+        this.errInfor = "请评价服务态度";
         this.evaluateValid = false;
         return this.evaluateValid;
       }
       if (this.EvaluateMsg === "") {
-        this.errorInfor = "请填写购买心得";
+        this.errInfor = "请填写购买心得";
         this.evaluateValid = false;
         return this.evaluateValid;
       }
@@ -868,14 +878,12 @@ new Vue({
   computed: {
     noteWordCount() {
       var len = this.noteMsg.length;
-      var count = 140;
-      count = count - len;
-      if (count < 0) {
-        count = 0;
+      if (len > 140) {
+        len = 140;
         this.noteMsg = this.noteMsg.slice(0, 140);
         layer.msg("最多只能输入140个字", { icon: 0, time: 2500 });
       }
-      return count;
+      return len;
     },
   },
   filters: {

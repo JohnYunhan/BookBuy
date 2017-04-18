@@ -573,15 +573,13 @@ new Vue({
       return count;
     },
     noteWordCount() {
-      var length = this.noteMsg.length;
-      var counts = 140;
-      counts = counts - length;
-      if (counts < 0) {
-        counts = 0;
+      var len = this.noteMsg.length;
+      if (len > 140) {
+        len = 140;
         this.noteMsg = this.noteMsg.slice(0, 140);
         layer.msg("最多只能输入140个字", { icon: 0, time: 2500 });
       }
-      return counts;
+      return len;
     },
   },
 })

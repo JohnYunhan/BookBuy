@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <div id="account">
+  <div id="account" style="visibility: hidden;">
     <header>
       <div class="header" flex="main:justify">
         <div class="header-left-logo">
@@ -45,7 +45,7 @@
     <div class="account">
       <div class="account-infor" flex="dir:left">
         <div class="account-avatar">
-          <el-upload :headers="headers" class="avatar-uploader" action="ool0z2raq.bkt.clouddn.com" :show-file-list="false" :on-success="uploadAvatarScucess" :before-upload="beforeAvatarUpload">
+          <el-upload :headers="headers" class="avatar-uploader" action="https://ool0z2raq.bkt.clouddn.com" :show-file-list="false" :on-success="uploadAvatarScucess" :before-upload="beforeAvatarUpload">
             <img :src="usrItem.Avatar" alt="头像">
           </el-upload>
         </div>
@@ -63,7 +63,7 @@
           <a @click="getOrderByStatus(2)" href="javascript:;"><span class="glyphicon glyphicon-inbox" aria-hidden="true"></span> 待收货</a>
           <a @click="getOrderByStatus(3)" href="javascript:;"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> 待确认</a>
           <a @click="getOrderByStatus(9)" href="javascript:;"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 待评价</a>
-          <a href="javascript:;"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> 待回复</a>
+          <a @click="stayReply" href="javascript:;"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> 待回复</a>
         </div>
       </div>
       <div class="account-order">
@@ -276,6 +276,37 @@
         <button class="login-btn" type="button" @click="login">登 录</button>
       </div>
       <div class="other-item" flex="main:justify"><span>没有账号？<a @click="toReg" href="javascript:;">注册</a></span><a href="javascript:;">忘记密码</a></div>
+    </div>
+    <!-- 评价订单 -->
+    <div id="evaluateOrder">
+      <div class="evaluate-rate box" flex="dir:left box:mean">
+        <div class="evaluate-quality">
+          <span>图书质量</span>
+          <el-rate v-model="QualityRate" show-text>
+          </el-rate>
+        </div>
+        <div class="evaluate-delivery">
+          <span>送货速度</span>
+          <el-rate v-model="DeliveryRate" show-text>
+          </el-rate>
+        </div>
+        <div class="evaluate-service">
+          <span>服务态度</span>
+          <el-rate v-model="ServiceRate" show-text>
+          </el-rate>
+        </div>
+      </div>
+      <div class="evaluate-text">
+        <textarea class="form-control" placeholder="图书是否给力，快写下您的购买心得吧~" v-model.trim="EvaluateMsg" cols="57" rows="4"></textarea>
+        <div>{{noteWordCount}}/140</div>
+      </div>
+      <div class="evaluate-btn" flex="main:justify">
+        <span>{{errInfor}}</span>
+        <div>
+          <button class="btn" @click="closeEvaluate">取消</button>
+          <button class="btn submit-btn" @click="submitEvaluate">提交</button>
+        </div>
+      </div>
     </div>
     <footer flex="main:center cross:center">
       <small>Copyright &copy; BookBuy图书网 2017, All Rights Reserved</small>
