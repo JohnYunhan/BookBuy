@@ -43,6 +43,7 @@ new Vue({
     ServiceRate: 0,
     errInfor: "",
     EvaluateMsg: "",
+    loading: true,
   },
   created() {
     this.checkLogin();
@@ -371,7 +372,7 @@ new Vue({
       }).catch(error => {
         console.log(error)
       })
-      document.getElementById("account").style.visibility="visible";
+      document.getElementById("account").style.visibility = "visible";
     },
     //获取用户信息
     getUserInfor() {

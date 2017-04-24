@@ -111,7 +111,6 @@ Book.statics.getNewBook = function(index, size) {
 Book.statics.getHotBook = function(index, size) {
   return new Promise((resolve, reject) => {
     let query = this.find({ ClickCount: { $gt: 0 } });
-    query.select("Name Id ClickCount");
     query.sort({ ClickCount: -1 }); //根据添加时间倒序
     query.skip(index * size); //跳过多少个数据
     query.limit(size); //限制Size条数据
@@ -175,9 +174,9 @@ Book.statics.getBookList = function(index, size, json) {
       query.limit(size); //限制Size条数据
     }
     query.exec((error, result) => {
-      if (result) {
+      if (!error) {
         total.exec((err, res) => {
-          if (res) {
+          if (!err) {
             resolve({
               Data: result,
               TotalCount: res

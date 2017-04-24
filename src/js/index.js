@@ -20,6 +20,7 @@ new Vue({
     hotSearch: "",
     noteMsg: "",
     locationHref: "/index",
+    loading: true,
   },
   created() {
     this.getCarousel();
@@ -42,7 +43,20 @@ new Vue({
   methods: {
     //搜索图书
     search() {
+      sessionStorage.setItem("searchHotBook", "no");
+      sessionStorage.setItem("searchType", "Name");
       sessionStorage.setItem("searchKey", this.searchKey);
+      location.href = "/book-list";
+    },
+    //根据图书分类搜索图书
+    getBookByCategory(category) {
+      sessionStorage.setItem("searchHotBook", "no");
+      sessionStorage.setItem("searchType", "Category");
+      sessionStorage.setItem("searchKey", category);
+      location.href = "/book-list";
+    },
+    getHotBooks() {
+      sessionStorage.setItem("searchHotBook", "is");
       location.href = "/book-list";
     },
     //验证是否登录
@@ -328,6 +342,7 @@ new Vue({
         layer.msg("服务器错误，请稍后再试")
         console.log(error)
       })
+      this.loading = false;
     },
     //畅销榜
     getHotBook() {

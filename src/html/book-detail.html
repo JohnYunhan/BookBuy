@@ -55,10 +55,9 @@
         </div>
         <nav>
           <ul flex="box:mean">
-            <li class="selected">首页</li>
-            <li>畅销榜</li>
-            <li v-for="item in categoryItem">{{item.Name}}</li>
-            <li>更多</li>
+            <li @click="toHome" class="selected">首页</li>
+            <li @click="getHotBooks">畅销榜</li>
+            <li @click="getBookByCategory(item.Name)" v-for="item in categoryItem">{{item.Name}}</li>
           </ul>
         </nav>
       </div>
@@ -80,8 +79,8 @@
           <div flex-box="1" class="infor-item">
             <h3 class="margin-b">{{bookItem.Name}}</h3>
             <div class="author margin-b">
-              <span>作者: <a href="javascript:;">{{bookItem.Author}}</a></span>
-              <span>出版社: <a href="javascript:;">{{bookItem.Press}}</a></span>
+              <span>作者: <a @click="getBookByAuthor(bookItem.Author)" href="javascript:;">{{bookItem.Author}}</a></span>
+              <span>出版社: <a @click="getBookByPress(bookItem.Press)" href="javascript:;">{{bookItem.Press}}</a></span>
             </div>
             <div class="publish margin-b">
               <span>出版日期: {{bookItem.PublishDate}}</span>

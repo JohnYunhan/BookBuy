@@ -372,7 +372,6 @@ new Vue({
     toMycount() {
       location.href = "/account";
     },
-    search() {},
     //验证是否登录
     checkLogin() {
       var _this = this;

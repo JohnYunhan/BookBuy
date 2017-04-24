@@ -14,6 +14,8 @@ new Vue({
     bookItem: [],
     cartItem: [],
     searchKey: sessionStorage.searchKey,
+    searchType: sessionStorage.searchType,
+    noResult: sessionStorage.searchKey,
     hotSearch: "",
     hotBook: [],
     noteMsg: "",
@@ -22,7 +24,11 @@ new Vue({
   created() {
     this.getCategory();
     this.checkLogin();
-    this.getBook();
+    if(sessionStorage.searchHotBook === "no"){
+      this.getBook();
+    }else{
+      this.getHotBooks();
+    }
     this.getHotBook();
   },
   methods: {
@@ -31,11 +37,30 @@ new Vue({
       var data = {
         Index: 0,
         Size: 10,
-        Name: this.searchKey,
+        Name: "",
         Author: "",
         Press: "",
         Category: "",
       };
+      if(this.searchType==="Name"){
+        data.Name = sessionStorage.searchKey;
+        this.noResult = sessionStorage.searchKey;
+      }
+      if(this.searchType==="Category"){
+        data.Category = sessionStorage.searchKey;
+        this.searchKey = "";
+        this.noResult = sessionStorage.searchKey;
+      }
+      if(this.searchType==="Author"){
+        data.Author = sessionStorage.searchKey;
+        this.searchKey = "";
+        this.noResult = sessionStorage.searchKey;
+      }
+      if(this.searchType==="Press"){
+        data.Press = sessionStorage.searchKey;
+        this.searchKey = "";
+        this.noResult = sessionStorage.searchKey;
+      }
       data = JSON.stringify(data);
       fetch("/api/getBookList", {
         method: "POST",
@@ -81,7 +106,33 @@ new Vue({
     },
     //搜索图书
     search() {
+      sessionStorage.setItem("searchHotBook", "no");
+      sessionStorage.setItem("searchType", "Name");
       sessionStorage.setItem("searchKey", this.searchKey);
+      this.getBook();
+    },
+    //根据图书分类搜索图书
+    getBookByCategory(category){
+      sessionStorage.setItem("searchHotBook", "no");
+      this.searchType = "Category";
+      sessionStorage.setItem("searchType", "Category");
+      sessionStorage.setItem("searchKey", category);
+      this.getBook();
+    },
+    //根据图书作者搜索图书
+    getBookByAuthor(author){
+      sessionStorage.setItem("searchHotBook", "no");
+      this.searchType = "Author";
+      sessionStorage.setItem("searchType", "Author");
+      sessionStorage.setItem("searchKey", author);
+      this.getBook();
+    },
+    //根据图书出版社搜索图书
+    getBookByPress(press){
+      sessionStorage.setItem("searchHotBook", "no");
+      this.searchType = "Press";
+      sessionStorage.setItem("searchType", "Press");
+      sessionStorage.setItem("searchKey", press);
       this.getBook();
     },
     // 获取图书分类
@@ -232,6 +283,30 @@ new Vue({
             }
           }
           this.carNum = count;
+        }
+      }).catch(error => {
+        layer.msg("服务器错误，请稍后再试")
+        console.log(error)
+      })
+    },
+    getHotBooks() {
+      var data = {
+        Index: 0,
+        Size: 10
+      };
+      data = JSON.stringify(data);
+      fetch("/api/getHotBook", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: data
+      }).then(result => result.json()).then(res => {
+        if (res.Code === 200) {
+          this.bookItem = res.Data;
+        } else {
+          layer.msg(res.Message)
         }
       }).catch(error => {
         layer.msg("服务器错误，请稍后再试")

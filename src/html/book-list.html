@@ -53,23 +53,22 @@
         </div>
         <nav>
           <ul flex="box:mean">
-            <li class="selected">首页</li>
-            <li>畅销榜</li>
-            <li v-for="item in categoryItem">{{item.Name}}</li>
-            <li>更多</li>
+            <li @click="toHome" class="selected">首页</li>
+            <li @click="getHotBooks">畅销榜</li>
+            <li @click="getBookByCategory(item.Name)" v-for="item in categoryItem">{{item.Name}}</li>
           </ul>
         </nav>
       </div>
     </div>
     <!-- 图书列表 -->
-    <div class="book-list" v-for="(item,index) in bookItem" flex="dir:left">
+    <div v-show="bookItem.length!==0" class="book-list" v-for="(item,index) in bookItem" flex="dir:left">
       <div @click="lookDetail(item.Id)" class="book-img"><img :src="item.Image[1]" :alt="item.Name"></div>
       <div class="book-infor" flex="dir:top">
         <div class="title mgb"><a @click="lookDetail(item.Id)" href="javascript:;">{{item.Name}}</a></div>
         <div class="price mgb"><b>￥{{item.SellPrice}} </b><span> 定价:</span>
           <del>￥{{item.ListPrice}}</del><span>({{(parseFloat(item.SellPrice)*10/parseFloat(item.ListPrice)).toFixed(2)}}折)</span>
         </div>
-        <div class="app mgb"><a href="javascript:;">{{item.Author}}</a> 著 <span class="date">/{{item.PublishDate.slice(0,10)}}/</span> <a href="javascript:;">{{item.Press}}</a></div>
+        <div class="app mgb"><a @click="getBookByAuthor(item.Author)" href="javascript:;">{{item.Author}}</a> 著 <span class="date">/{{item.PublishDate.slice(0,10)}}/</span> <a @click="getBookByPress(item.Press)" href="javascript:;">{{item.Press}}</a></div>
         <div class="self-sold mgb">BookBuy自营</div>
         <div class="abstract mgb">{{item.Abstract.slice(0,100)}}</div>
         <div class="book-btn">
@@ -78,6 +77,7 @@
         </div>
       </div>
     </div>
+    <div v-show="bookItem.length===0" class="no-book-list"><img src="./img/notice.png" alt="查询失败"><span>抱歉，图书分类下没有找到与“{{noResult}}”相关的图书</span></div>
     <!-- 留言 -->
     <div id="note">
       <div class="note-content" flex="dir:top">

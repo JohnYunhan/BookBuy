@@ -52,15 +52,14 @@
             <div class="hot-search">热搜:<a href="javascript:;" @click="lookDetail(item.Id)" v-for="(item,index) in hotBook" v-if="index<3">{{item.Name}}</a></div>
           </div>
           <div class="cart-order">
-            <a @click="toCart" href="javascript:;" class="cart"><span style="font-size: 18px;" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车 <b>{{carNum}}</b></a><a href="javascript:;" class="myorder">我的订单</a>
+            <a @click="toCart" href="javascript:;" class="cart"><span style="font-size: 18px;" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车 <b>{{carNum}}</b></a><a @click="toMyorder" href="javascript:;" class="myorder">我的订单</a>
           </div>
         </div>
         <nav>
           <ul flex="box:mean">
             <li class="selected">首页</li>
-            <li>畅销榜</li>
-            <li v-for="item in categoryItem">{{item.Name}}</li>
-            <li>更多</li>
+            <li @click="getHotBooks">畅销榜</li>
+            <li @click="getBookByCategory(item.Name)" v-for="item in categoryItem">{{item.Name}}</li>
           </ul>
         </nav>
       </div>
@@ -104,7 +103,7 @@
       </div>
       <!-- 畅销榜 -->
       <div class="hot-book">
-        <p flex="main:justify cross:center"><span>畅销榜</span><span class="more">More &gt;&gt;</span></p>
+        <p flex="main:justify cross:center"><span>畅销榜</span><span @click="getHotBooks" class="more">More &gt;&gt;</span></p>
         <ul>
           <li v-for="(item,index) in hotBook"><i :style="{'color': index<3 ?'#f86d0d':'#555'}">{{index+1}}</i><a href="javascript:;" @click="lookDetail(item.Id)">{{item.Name}}</a></li>
         </ul>

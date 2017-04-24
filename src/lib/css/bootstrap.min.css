@@ -2366,7 +2366,8 @@ select[multiple].input-lg {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none
+  user-select: none;
+  background-color: #a0a0a0;
 }
 
 .btn:focus,

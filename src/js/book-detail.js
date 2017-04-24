@@ -60,6 +60,20 @@ new Vue({
         console.log(error)
       })
     },
+    //根据图书作者搜索图书
+    getBookByAuthor(author){
+      sessionStorage.setItem("searchHotBook", "no");
+      sessionStorage.setItem("searchType", "Author");
+      sessionStorage.setItem("searchKey", author);
+      location.href = "/book-list";
+    },
+    //根据图书出版社搜索图书
+    getBookByPress(press){
+      sessionStorage.setItem("searchHotBook", "no");
+      sessionStorage.setItem("searchType", "Press");
+      sessionStorage.setItem("searchKey", press);
+      location.href = "/book-list";
+    },
     // 增加选购数量
     addNum() {
       if (this.selectNum <= this.storage) {
@@ -187,8 +201,22 @@ new Vue({
     //跳到指定图书类别
     toCategory() {},
     //搜索图书
+    //搜索图书
     search() {
+      sessionStorage.setItem("searchHotBook", "no");
+      sessionStorage.setItem("searchType", "Name");
       sessionStorage.setItem("searchKey", this.searchKey);
+      location.href = "/book-list";
+    },
+    //根据图书分类搜索图书
+    getBookByCategory(category){
+      sessionStorage.setItem("searchHotBook", "no");
+      sessionStorage.setItem("searchType", "Category");
+      sessionStorage.setItem("searchKey", category);
+      location.href = "/book-list";
+    },
+    getHotBooks(){
+      sessionStorage.setItem("searchHotBook", "is");
       location.href = "/book-list";
     },
     //验证是否登录

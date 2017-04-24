@@ -92,6 +92,7 @@ new Vue({
     },
     //搜索图书
     search() {
+      sessionStorage.setItem("searchType", "Name");
       sessionStorage.setItem("searchKey", this.searchKey);
       location.href = "/book-list";
     },
