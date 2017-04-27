@@ -84,7 +84,7 @@
               <span>出版社: <a @click="getBookByPress(bookItem.Press)" href="javascript:;">{{bookItem.Press}}</a></span>
             </div>
             <div class="publish margin-b">
-              <span>出版日期: {{bookItem.PublishDate}}</span>
+              <span>出版日期: {{bookItem.PublishDate.substring(0,10)}}</span>
               <span>ISBN: {{bookItem.ISBN}}</span>
             </div>
             <div class="price margin-b" flex="dir:top">
@@ -133,7 +133,7 @@
           <div class="base-infor">
             <ul>
               <li>版 次: {{bookItem.Edition}}</li>
-              <li>出版日期: {{bookItem.PublishDate}}</li>
+              <li>出版日期: {{bookItem.PublishDate.slice(0,10)}}</li>
               <li>ISBN: {{bookItem.ISBN}}</li>
               <li>类 别: {{bookItem.Category}}</li>
             </ul>

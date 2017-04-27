@@ -13,7 +13,7 @@ new Vue({
     carNum: 0, //用户购物车中图书的数量
     categoryItem: [],
     bookId: sessionStorage.lookBookId,
-    bookItem: {},
+    bookItem: { PublishDate: "" },
     cartItem: [],
     areaItem: ["1栋", "2栋", "3栋", "4栋", "5栋", "6栋", "7栋", "8栋", "9栋", "10栋", "11栋", "12栋", "13栋", "14栋", "15栋", "16栋"],
     selectNum: 1, //用户选购数量
@@ -61,14 +61,14 @@ new Vue({
       })
     },
     //根据图书作者搜索图书
-    getBookByAuthor(author){
+    getBookByAuthor(author) {
       sessionStorage.setItem("searchHotBook", "no");
       sessionStorage.setItem("searchType", "Author");
       sessionStorage.setItem("searchKey", author);
       location.href = "/book-list";
     },
     //根据图书出版社搜索图书
-    getBookByPress(press){
+    getBookByPress(press) {
       sessionStorage.setItem("searchHotBook", "no");
       sessionStorage.setItem("searchType", "Press");
       sessionStorage.setItem("searchKey", press);
@@ -209,13 +209,13 @@ new Vue({
       location.href = "/book-list";
     },
     //根据图书分类搜索图书
-    getBookByCategory(category){
+    getBookByCategory(category) {
       sessionStorage.setItem("searchHotBook", "no");
       sessionStorage.setItem("searchType", "Category");
       sessionStorage.setItem("searchKey", category);
       location.href = "/book-list";
     },
-    getHotBooks(){
+    getHotBooks() {
       sessionStorage.setItem("searchHotBook", "is");
       location.href = "/book-list";
     },
@@ -449,7 +449,7 @@ new Vue({
         }).then(res => res.json()).then(result => {
           if (result.Code === 200) {
             this.UsrName = result.Data;
-            layer.close(_this.layer);
+            layer.close(this.layer);
             location.href = this.locationHref;
           } else {
             this.errorInfor = result.Message;

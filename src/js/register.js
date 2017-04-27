@@ -19,6 +19,7 @@ new Vue({
     mobileValid: false,
     pwdValid: false,
     confirmPwdValid: false,
+    errorInfor: "",
   },
   created() {
 
@@ -252,6 +253,16 @@ new Vue({
           console.log(error)
         })
       }
+    },
+  },
+  watch: {
+    Mobile: function(val) {
+      val = val.toString();
+      if (val.length > 11) {
+        this.Mobile = val.substr(0, 11);
+        val = val.substr(0, 11);
+      }
+      return val;
     },
   }
 })

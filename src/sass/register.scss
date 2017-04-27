@@ -151,6 +151,47 @@ header {
   }
 }
 
+#loginbox {
+  display: none;
+  padding: 0 20px 20px;
+  .login-item {
+    margin-top: 20px;
+  }
+  .login-title {
+    height: 30px;
+    line-height: 30px;
+    font-size: 18px;
+    border-bottom: solid 1px #CAD2E1;
+    margin-bottom: 17px;
+    text-align: left;
+  }
+  .error-infor {
+    color: red;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+    // margin: 5px 0;
+  }
+  button.login-btn {
+    background-color: #f86d0d;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 20px;
+    height: 40px;
+    width: 100%;
+    outline: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:hover {
+      opacity: .8;
+    }
+  }
+  .other-item {
+    margin-top: 10px;
+  }
+}
+
 footer {
   width: 100%;
   height: 40px;
